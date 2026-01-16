@@ -1,0 +1,767 @@
+[
+	{
+		"arguments": [
+			"clang",
+			"-c",
+			"-g",
+			"-fPIC",
+			"-target",
+			"x86_64-unknown-linux-gnu",
+			"-o",
+			".fpc/x86_64-unknown-linux-gnu/cc/2786929065_main//mnt/rtt/funny_engine/appleauth//mnt/rtt/funny_engine/appleauth/build.cpp.o",
+			"/mnt/rtt/funny_engine/appleauth/build.cpp",
+			"-I",
+			"/mnt/rtt/funny_engine/build/tools/fpc/public"
+		],
+		"file": "/mnt/rtt/funny_engine/appleauth/build.cpp",
+		"directory": "/mnt/rtt/funny_engine/appleauth"
+	},
+	{
+		"arguments": [
+			"clang",
+			"-c",
+			"-g",
+			"-fPIC",
+			"-target",
+			"x86_64-unknown-linux-gnu",
+			"-o",
+			".fpc/x86_64-unknown-linux-gnu/cc/1357934556_something//mnt/rtt/funny_engine/appleauth//mnt/rtt/funny_engine/appleauth/../tier0/build.cpp.o",
+			"/mnt/rtt/funny_engine/appleauth/../tier0/build.cpp",
+			"-I",
+			"/mnt/rtt/funny_engine/build/tools/fpc/public"
+		],
+		"file": "/mnt/rtt/funny_engine/appleauth/../tier0/build.cpp",
+		"directory": "/mnt/rtt/funny_engine/appleauth"
+	},
+	{
+		"arguments": [
+			"clang",
+			"-c",
+			"-g",
+			"-fPIC",
+			"-target",
+			"x86_64-unknown-linux-gnu",
+			"-o",
+			".fpc/x86_64-unknown-linux-gnu/cc/3673160492_tier0//mnt/rtt/funny_engine/appleauth/lib.cpp.o",
+			"lib.cpp",
+			"-I",
+			"../public"
+		],
+		"file": "lib.cpp",
+		"directory": "/mnt/rtt/funny_engine/appleauth"
+	},
+	{
+		"arguments": [
+			"clang",
+			"-c",
+			"-g",
+			"-fPIC",
+			"-target",
+			"x86_64-unknown-linux-gnu",
+			"-o",
+			".fpc/x86_64-unknown-linux-gnu/cc/3673160492_tier0//mnt/rtt/funny_engine/appleauth/mem.cpp.o",
+			"mem.cpp",
+			"-I",
+			"../public"
+		],
+		"file": "mem.cpp",
+		"directory": "/mnt/rtt/funny_engine/appleauth"
+	},
+	{
+		"arguments": [
+			"clang",
+			"-c",
+			"-g",
+			"-fPIC",
+			"-target",
+			"x86_64-unknown-linux-gnu",
+			"-o",
+			".fpc/x86_64-unknown-linux-gnu/cc/3673160492_tier0//mnt/rtt/funny_engine/appleauth/platform.cpp.o",
+			"platform.cpp",
+			"-I",
+			"../public"
+		],
+		"file": "platform.cpp",
+		"directory": "/mnt/rtt/funny_engine/appleauth"
+	},
+	{
+		"arguments": [
+			"clang",
+			"-c",
+			"-g",
+			"-fPIC",
+			"-target",
+			"x86_64-unknown-linux-gnu",
+			"-o",
+			".fpc/x86_64-unknown-linux-gnu/cc/3673160492_tier0//mnt/rtt/funny_engine/appleauth/network.cpp.o",
+			"network.cpp",
+			"-I",
+			"../public"
+		],
+		"file": "network.cpp",
+		"directory": "/mnt/rtt/funny_engine/appleauth"
+	},
+	{
+		"arguments": [
+			"clang",
+			"-c",
+			"-g",
+			"-fPIC",
+			"-target",
+			"x86_64-unknown-linux-gnu",
+			"-o",
+			".fpc/x86_64-unknown-linux-gnu/cc/3673160492_tier0//mnt/rtt/funny_engine/appleauth/commandline.cpp.o",
+			"commandline.cpp",
+			"-I",
+			"../public"
+		],
+		"file": "commandline.cpp",
+		"directory": "/mnt/rtt/funny_engine/appleauth"
+	},
+	{
+		"arguments": [
+			"clang",
+			"-c",
+			"-g",
+			"-fPIC",
+			"-target",
+			"x86_64-unknown-linux-gnu",
+			"-o",
+			".fpc/x86_64-unknown-linux-gnu/cc/3116697504_something//mnt/rtt/funny_engine/appleauth//mnt/rtt/funny_engine/appleauth/../tier1/build.cpp.o",
+			"/mnt/rtt/funny_engine/appleauth/../tier1/build.cpp",
+			"-I",
+			"/mnt/rtt/funny_engine/build/tools/fpc/public"
+		],
+		"file": "/mnt/rtt/funny_engine/appleauth/../tier1/build.cpp",
+		"directory": "/mnt/rtt/funny_engine/appleauth"
+	},
+	{
+		"arguments": [
+			"clang",
+			"-c",
+			"-g",
+			"-fPIC",
+			"-target",
+			"x86_64-unknown-linux-gnu",
+			"-o",
+			".fpc/x86_64-unknown-linux-gnu/cc/2739538321_tier1//mnt/rtt/funny_engine/appleauth/interface.cpp.o",
+			"interface.cpp",
+			"-I",
+			"../public"
+		],
+		"file": "interface.cpp",
+		"directory": "/mnt/rtt/funny_engine/appleauth"
+	},
+	{
+		"arguments": [
+			"clang",
+			"-c",
+			"-g",
+			"-fPIC",
+			"-target",
+			"x86_64-unknown-linux-gnu",
+			"-o",
+			".fpc/x86_64-unknown-linux-gnu/cc/2739538321_tier1//mnt/rtt/funny_engine/appleauth/appinit.cpp.o",
+			"appinit.cpp",
+			"-I",
+			"../public"
+		],
+		"file": "appinit.cpp",
+		"directory": "/mnt/rtt/funny_engine/appleauth"
+	},
+	{
+		"arguments": [
+			"clang",
+			"-c",
+			"-g",
+			"-fPIC",
+			"-target",
+			"x86_64-unknown-linux-gnu",
+			"-o",
+			".fpc/x86_64-unknown-linux-gnu/cc/2739538321_tier1//mnt/rtt/funny_engine/appleauth/utlbuffer.cpp.o",
+			"utlbuffer.cpp",
+			"-I",
+			"../public"
+		],
+		"file": "utlbuffer.cpp",
+		"directory": "/mnt/rtt/funny_engine/appleauth"
+	},
+	{
+		"arguments": [
+			"clang",
+			"-c",
+			"-g",
+			"-fPIC",
+			"-target",
+			"x86_64-unknown-linux-gnu",
+			"-o",
+			".fpc/x86_64-unknown-linux-gnu/cc/2739538321_tier1//mnt/rtt/funny_engine/appleauth/utlmap.cpp.o",
+			"utlmap.cpp",
+			"-I",
+			"../public"
+		],
+		"file": "utlmap.cpp",
+		"directory": "/mnt/rtt/funny_engine/appleauth"
+	},
+	{
+		"arguments": [
+			"clang",
+			"-c",
+			"-g",
+			"-fPIC",
+			"-target",
+			"x86_64-unknown-linux-gnu",
+			"-o",
+			".fpc/x86_64-unknown-linux-gnu/cc/2739538321_tier1//mnt/rtt/funny_engine/appleauth/utlstring.cpp.o",
+			"utlstring.cpp",
+			"-I",
+			"../public"
+		],
+		"file": "utlstring.cpp",
+		"directory": "/mnt/rtt/funny_engine/appleauth"
+	},
+	{
+		"arguments": [
+			"clang",
+			"-c",
+			"-g",
+			"-fPIC",
+			"-target",
+			"x86_64-unknown-linux-gnu",
+			"-o",
+			".fpc/x86_64-unknown-linux-gnu/cc/2739538321_tier1//mnt/rtt/funny_engine/appleauth/utlvector.cpp.o",
+			"utlvector.cpp",
+			"-I",
+			"../public"
+		],
+		"file": "utlvector.cpp",
+		"directory": "/mnt/rtt/funny_engine/appleauth"
+	},
+	{
+		"arguments": [
+			"clang",
+			"-c",
+			"-g",
+			"-fPIC",
+			"-target",
+			"x86_64-unknown-linux-gnu",
+			"-o",
+			".fpc/x86_64-unknown-linux-gnu/cc/2395265444_something//mnt/rtt/funny_engine/appleauth//mnt/rtt/funny_engine/appleauth/../tier2/build.cpp.o",
+			"/mnt/rtt/funny_engine/appleauth/../tier2/build.cpp",
+			"-I",
+			"/mnt/rtt/funny_engine/build/tools/fpc/public"
+		],
+		"file": "/mnt/rtt/funny_engine/appleauth/../tier2/build.cpp",
+		"directory": "/mnt/rtt/funny_engine/appleauth"
+	},
+	{
+		"arguments": [
+			"clang",
+			"-c",
+			"-g",
+			"-fPIC",
+			"-target",
+			"x86_64-unknown-linux-gnu",
+			"-o",
+			".fpc/x86_64-unknown-linux-gnu/cc/2995547190_tier2//mnt/rtt/funny_engine/appleauth/fileformats/ini.cpp.o",
+			"fileformats/ini.cpp",
+			"-I",
+			"../public"
+		],
+		"file": "fileformats/ini.cpp",
+		"directory": "/mnt/rtt/funny_engine/appleauth"
+	},
+	{
+		"arguments": [
+			"clang",
+			"-c",
+			"-g",
+			"-fPIC",
+			"-target",
+			"x86_64-unknown-linux-gnu",
+			"-o",
+			".fpc/x86_64-unknown-linux-gnu/cc/2995547190_tier2//mnt/rtt/funny_engine/appleauth/fileformats/json.cpp.o",
+			"fileformats/json.cpp",
+			"-I",
+			"../public"
+		],
+		"file": "fileformats/json.cpp",
+		"directory": "/mnt/rtt/funny_engine/appleauth"
+	},
+	{
+		"arguments": [
+			"clang",
+			"-c",
+			"-g",
+			"-fPIC",
+			"-target",
+			"x86_64-unknown-linux-gnu",
+			"-o",
+			".fpc/x86_64-unknown-linux-gnu/cc/2995547190_tier2//mnt/rtt/funny_engine/appleauth/fileformats/xml.cpp.o",
+			"fileformats/xml.cpp",
+			"-I",
+			"../public"
+		],
+		"file": "fileformats/xml.cpp",
+		"directory": "/mnt/rtt/funny_engine/appleauth"
+	},
+	{
+		"arguments": [
+			"clang",
+			"-c",
+			"-g",
+			"-fPIC",
+			"-target",
+			"x86_64-unknown-linux-gnu",
+			"-o",
+			".fpc/x86_64-unknown-linux-gnu/cc/2995547190_tier2//mnt/rtt/funny_engine/appleauth/fileformats/plist.cpp.o",
+			"fileformats/plist.cpp",
+			"-I",
+			"../public"
+		],
+		"file": "fileformats/plist.cpp",
+		"directory": "/mnt/rtt/funny_engine/appleauth"
+	},
+	{
+		"arguments": [
+			"clang",
+			"-c",
+			"-g",
+			"-fPIC",
+			"-target",
+			"x86_64-unknown-linux-gnu",
+			"-o",
+			".fpc/x86_64-unknown-linux-gnu/cc/2995547190_tier2//mnt/rtt/funny_engine/appleauth/tokenizer.cpp.o",
+			"tokenizer.cpp",
+			"-I",
+			"../public"
+		],
+		"file": "tokenizer.cpp",
+		"directory": "/mnt/rtt/funny_engine/appleauth"
+	},
+	{
+		"arguments": [
+			"clang",
+			"-c",
+			"-g",
+			"-fPIC",
+			"-target",
+			"x86_64-unknown-linux-gnu",
+			"-o",
+			".fpc/x86_64-unknown-linux-gnu/cc/2995547190_tier2//mnt/rtt/funny_engine/appleauth/filesystem.cpp.o",
+			"filesystem.cpp",
+			"-I",
+			"../public"
+		],
+		"file": "filesystem.cpp",
+		"directory": "/mnt/rtt/funny_engine/appleauth"
+	},
+	{
+		"arguments": [
+			"clang",
+			"-c",
+			"-g",
+			"-fPIC",
+			"-target",
+			"x86_64-unknown-linux-gnu",
+			"-o",
+			".fpc/x86_64-unknown-linux-gnu/cc/1913678312_something//mnt/rtt/funny_engine/appleauth//mnt/rtt/funny_engine/appleauth/../http/build.cpp.o",
+			"/mnt/rtt/funny_engine/appleauth/../http/build.cpp",
+			"-I",
+			"/mnt/rtt/funny_engine/build/tools/fpc/public"
+		],
+		"file": "/mnt/rtt/funny_engine/appleauth/../http/build.cpp",
+		"directory": "/mnt/rtt/funny_engine/appleauth"
+	},
+	{
+		"arguments": [
+			"clang",
+			"-c",
+			"-g",
+			"-fPIC",
+			"-target",
+			"x86_64-unknown-linux-gnu",
+			"-o",
+			".fpc/x86_64-unknown-linux-gnu/cc/29412386_something//mnt/rtt/funny_engine/appleauth//mnt/rtt/funny_engine/appleauth/../http/../tier0/build.cpp.o",
+			"/mnt/rtt/funny_engine/appleauth/../http/../tier0/build.cpp",
+			"-I",
+			"/mnt/rtt/funny_engine/build/tools/fpc/public"
+		],
+		"file": "/mnt/rtt/funny_engine/appleauth/../http/../tier0/build.cpp",
+		"directory": "/mnt/rtt/funny_engine/appleauth"
+	},
+	{
+		"arguments": [
+			"clang",
+			"-c",
+			"-g",
+			"-fPIC",
+			"-target",
+			"x86_64-unknown-linux-gnu",
+			"-o",
+			".fpc/x86_64-unknown-linux-gnu/cc/1590256226_tier0//mnt/rtt/funny_engine/appleauth/lib.cpp.o",
+			"lib.cpp",
+			"-I",
+			"../public"
+		],
+		"file": "lib.cpp",
+		"directory": "/mnt/rtt/funny_engine/appleauth"
+	},
+	{
+		"arguments": [
+			"clang",
+			"-c",
+			"-g",
+			"-fPIC",
+			"-target",
+			"x86_64-unknown-linux-gnu",
+			"-o",
+			".fpc/x86_64-unknown-linux-gnu/cc/1590256226_tier0//mnt/rtt/funny_engine/appleauth/mem.cpp.o",
+			"mem.cpp",
+			"-I",
+			"../public"
+		],
+		"file": "mem.cpp",
+		"directory": "/mnt/rtt/funny_engine/appleauth"
+	},
+	{
+		"arguments": [
+			"clang",
+			"-c",
+			"-g",
+			"-fPIC",
+			"-target",
+			"x86_64-unknown-linux-gnu",
+			"-o",
+			".fpc/x86_64-unknown-linux-gnu/cc/1590256226_tier0//mnt/rtt/funny_engine/appleauth/platform.cpp.o",
+			"platform.cpp",
+			"-I",
+			"../public"
+		],
+		"file": "platform.cpp",
+		"directory": "/mnt/rtt/funny_engine/appleauth"
+	},
+	{
+		"arguments": [
+			"clang",
+			"-c",
+			"-g",
+			"-fPIC",
+			"-target",
+			"x86_64-unknown-linux-gnu",
+			"-o",
+			".fpc/x86_64-unknown-linux-gnu/cc/1590256226_tier0//mnt/rtt/funny_engine/appleauth/network.cpp.o",
+			"network.cpp",
+			"-I",
+			"../public"
+		],
+		"file": "network.cpp",
+		"directory": "/mnt/rtt/funny_engine/appleauth"
+	},
+	{
+		"arguments": [
+			"clang",
+			"-c",
+			"-g",
+			"-fPIC",
+			"-target",
+			"x86_64-unknown-linux-gnu",
+			"-o",
+			".fpc/x86_64-unknown-linux-gnu/cc/1590256226_tier0//mnt/rtt/funny_engine/appleauth/commandline.cpp.o",
+			"commandline.cpp",
+			"-I",
+			"../public"
+		],
+		"file": "commandline.cpp",
+		"directory": "/mnt/rtt/funny_engine/appleauth"
+	},
+	{
+		"arguments": [
+			"clang",
+			"-c",
+			"-g",
+			"-fPIC",
+			"-target",
+			"x86_64-unknown-linux-gnu",
+			"-o",
+			".fpc/x86_64-unknown-linux-gnu/cc/4129453382_something//mnt/rtt/funny_engine/appleauth//mnt/rtt/funny_engine/appleauth/../http/../tier1/build.cpp.o",
+			"/mnt/rtt/funny_engine/appleauth/../http/../tier1/build.cpp",
+			"-I",
+			"/mnt/rtt/funny_engine/build/tools/fpc/public"
+		],
+		"file": "/mnt/rtt/funny_engine/appleauth/../http/../tier1/build.cpp",
+		"directory": "/mnt/rtt/funny_engine/appleauth"
+	},
+	{
+		"arguments": [
+			"clang",
+			"-c",
+			"-g",
+			"-fPIC",
+			"-target",
+			"x86_64-unknown-linux-gnu",
+			"-o",
+			".fpc/x86_64-unknown-linux-gnu/cc/739588391_tier1//mnt/rtt/funny_engine/appleauth/interface.cpp.o",
+			"interface.cpp",
+			"-I",
+			"../public"
+		],
+		"file": "interface.cpp",
+		"directory": "/mnt/rtt/funny_engine/appleauth"
+	},
+	{
+		"arguments": [
+			"clang",
+			"-c",
+			"-g",
+			"-fPIC",
+			"-target",
+			"x86_64-unknown-linux-gnu",
+			"-o",
+			".fpc/x86_64-unknown-linux-gnu/cc/739588391_tier1//mnt/rtt/funny_engine/appleauth/appinit.cpp.o",
+			"appinit.cpp",
+			"-I",
+			"../public"
+		],
+		"file": "appinit.cpp",
+		"directory": "/mnt/rtt/funny_engine/appleauth"
+	},
+	{
+		"arguments": [
+			"clang",
+			"-c",
+			"-g",
+			"-fPIC",
+			"-target",
+			"x86_64-unknown-linux-gnu",
+			"-o",
+			".fpc/x86_64-unknown-linux-gnu/cc/739588391_tier1//mnt/rtt/funny_engine/appleauth/utlbuffer.cpp.o",
+			"utlbuffer.cpp",
+			"-I",
+			"../public"
+		],
+		"file": "utlbuffer.cpp",
+		"directory": "/mnt/rtt/funny_engine/appleauth"
+	},
+	{
+		"arguments": [
+			"clang",
+			"-c",
+			"-g",
+			"-fPIC",
+			"-target",
+			"x86_64-unknown-linux-gnu",
+			"-o",
+			".fpc/x86_64-unknown-linux-gnu/cc/739588391_tier1//mnt/rtt/funny_engine/appleauth/utlmap.cpp.o",
+			"utlmap.cpp",
+			"-I",
+			"../public"
+		],
+		"file": "utlmap.cpp",
+		"directory": "/mnt/rtt/funny_engine/appleauth"
+	},
+	{
+		"arguments": [
+			"clang",
+			"-c",
+			"-g",
+			"-fPIC",
+			"-target",
+			"x86_64-unknown-linux-gnu",
+			"-o",
+			".fpc/x86_64-unknown-linux-gnu/cc/739588391_tier1//mnt/rtt/funny_engine/appleauth/utlstring.cpp.o",
+			"utlstring.cpp",
+			"-I",
+			"../public"
+		],
+		"file": "utlstring.cpp",
+		"directory": "/mnt/rtt/funny_engine/appleauth"
+	},
+	{
+		"arguments": [
+			"clang",
+			"-c",
+			"-g",
+			"-fPIC",
+			"-target",
+			"x86_64-unknown-linux-gnu",
+			"-o",
+			".fpc/x86_64-unknown-linux-gnu/cc/739588391_tier1//mnt/rtt/funny_engine/appleauth/utlvector.cpp.o",
+			"utlvector.cpp",
+			"-I",
+			"../public"
+		],
+		"file": "utlvector.cpp",
+		"directory": "/mnt/rtt/funny_engine/appleauth"
+	},
+	{
+		"arguments": [
+			"clang",
+			"-c",
+			"-g",
+			"-fPIC",
+			"-target",
+			"x86_64-unknown-linux-gnu",
+			"-o",
+			".fpc/x86_64-unknown-linux-gnu/cc/3071721130_something//mnt/rtt/funny_engine/appleauth//mnt/rtt/funny_engine/appleauth/../http/../tier2/build.cpp.o",
+			"/mnt/rtt/funny_engine/appleauth/../http/../tier2/build.cpp",
+			"-I",
+			"/mnt/rtt/funny_engine/build/tools/fpc/public"
+		],
+		"file": "/mnt/rtt/funny_engine/appleauth/../http/../tier2/build.cpp",
+		"directory": "/mnt/rtt/funny_engine/appleauth"
+	},
+	{
+		"arguments": [
+			"clang",
+			"-c",
+			"-g",
+			"-fPIC",
+			"-target",
+			"x86_64-unknown-linux-gnu",
+			"-o",
+			".fpc/x86_64-unknown-linux-gnu/cc/1232648748_tier2//mnt/rtt/funny_engine/appleauth/fileformats/ini.cpp.o",
+			"fileformats/ini.cpp",
+			"-I",
+			"../public"
+		],
+		"file": "fileformats/ini.cpp",
+		"directory": "/mnt/rtt/funny_engine/appleauth"
+	},
+	{
+		"arguments": [
+			"clang",
+			"-c",
+			"-g",
+			"-fPIC",
+			"-target",
+			"x86_64-unknown-linux-gnu",
+			"-o",
+			".fpc/x86_64-unknown-linux-gnu/cc/1232648748_tier2//mnt/rtt/funny_engine/appleauth/fileformats/json.cpp.o",
+			"fileformats/json.cpp",
+			"-I",
+			"../public"
+		],
+		"file": "fileformats/json.cpp",
+		"directory": "/mnt/rtt/funny_engine/appleauth"
+	},
+	{
+		"arguments": [
+			"clang",
+			"-c",
+			"-g",
+			"-fPIC",
+			"-target",
+			"x86_64-unknown-linux-gnu",
+			"-o",
+			".fpc/x86_64-unknown-linux-gnu/cc/1232648748_tier2//mnt/rtt/funny_engine/appleauth/fileformats/xml.cpp.o",
+			"fileformats/xml.cpp",
+			"-I",
+			"../public"
+		],
+		"file": "fileformats/xml.cpp",
+		"directory": "/mnt/rtt/funny_engine/appleauth"
+	},
+	{
+		"arguments": [
+			"clang",
+			"-c",
+			"-g",
+			"-fPIC",
+			"-target",
+			"x86_64-unknown-linux-gnu",
+			"-o",
+			".fpc/x86_64-unknown-linux-gnu/cc/1232648748_tier2//mnt/rtt/funny_engine/appleauth/fileformats/plist.cpp.o",
+			"fileformats/plist.cpp",
+			"-I",
+			"../public"
+		],
+		"file": "fileformats/plist.cpp",
+		"directory": "/mnt/rtt/funny_engine/appleauth"
+	},
+	{
+		"arguments": [
+			"clang",
+			"-c",
+			"-g",
+			"-fPIC",
+			"-target",
+			"x86_64-unknown-linux-gnu",
+			"-o",
+			".fpc/x86_64-unknown-linux-gnu/cc/1232648748_tier2//mnt/rtt/funny_engine/appleauth/tokenizer.cpp.o",
+			"tokenizer.cpp",
+			"-I",
+			"../public"
+		],
+		"file": "tokenizer.cpp",
+		"directory": "/mnt/rtt/funny_engine/appleauth"
+	},
+	{
+		"arguments": [
+			"clang",
+			"-c",
+			"-g",
+			"-fPIC",
+			"-target",
+			"x86_64-unknown-linux-gnu",
+			"-o",
+			".fpc/x86_64-unknown-linux-gnu/cc/1232648748_tier2//mnt/rtt/funny_engine/appleauth/filesystem.cpp.o",
+			"filesystem.cpp",
+			"-I",
+			"../public"
+		],
+		"file": "filesystem.cpp",
+		"directory": "/mnt/rtt/funny_engine/appleauth"
+	},
+	{
+		"arguments": [
+			"clang",
+			"-c",
+			"-g",
+			"-fPIC",
+			"-target",
+			"x86_64-unknown-linux-gnu",
+			"-o",
+			".fpc/x86_64-unknown-linux-gnu/cc/2776506640_funnyhttp//mnt/rtt/funny_engine/appleauth/client.cpp.o",
+			"client.cpp",
+			"-I",
+			"../public"
+		],
+		"file": "client.cpp",
+		"directory": "/mnt/rtt/funny_engine/appleauth"
+	},
+	{
+		"arguments": [
+			"clang",
+			"-c",
+			"-g",
+			"-fPIC",
+			"-target",
+			"x86_64-unknown-linux-gnu",
+			"-o",
+			".fpc/x86_64-unknown-linux-gnu/cc/968805518_appleauth//mnt/rtt/funny_engine/appleauth/auth.cpp.o",
+			"auth.cpp",
+			"-I",
+			"../public"
+		],
+		"file": "auth.cpp",
+		"directory": "/mnt/rtt/funny_engine/appleauth"
+	},
+	{
+		"arguments": [
+			"clang",
+			"-c",
+			"-g",
+			"-fPIC",
+			"-target",
+			"x86_64-unknown-linux-gnu",
+			"-o",
+			".fpc/x86_64-unknown-linux-gnu/cc/3819218248_appleauth//mnt/rtt/funny_engine/appleauth/test.cpp.o",
+			"test.cpp",
+			"-I",
+			"../public"
+		],
+		"file": "test.cpp",
+		"directory": "/mnt/rtt/funny_engine/appleauth"
+	}
+]

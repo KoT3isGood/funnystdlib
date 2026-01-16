@@ -1,0 +1,584 @@
+[
+	{
+		"arguments": [
+			"clang",
+			"-c",
+			"-g",
+			"-fPIC",
+			"-target",
+			"x86_64-unknown-linux-gnu",
+			"-o",
+			".fpc/x86_64-unknown-linux-gnu/cc/2786929065_main//mnt/rtt/funny_engine/fpc/build.cpp.o",
+			"build.cpp",
+			"-I",
+			"/mnt/rtt/funny_engine/fpc/build/public",
+			"-I",
+			"/mnt/rtt/funny_engine/fpc/public",
+			"-I",
+			"/mnt/rtt/funny_engine/fpc/build/../public",
+			"-I",
+			"/mnt/rtt/funny_engine/fpc/../public"
+		],
+		"file": "build.cpp",
+		"directory": "/mnt/rtt/funny_engine/fpc"
+	},
+	{
+		"arguments": [
+			"clang",
+			"-c",
+			"-g",
+			"-fPIC",
+			"-target",
+			"x86_64-unknown-linux-gnu",
+			"-o",
+			".fpc/x86_64-unknown-linux-gnu/cc/1357934556_something//mnt/rtt/funny_engine/fpc/../tier0//build.cpp.o",
+			"../tier0//build.cpp",
+			"-I",
+			"/mnt/rtt/funny_engine/fpc/build/public",
+			"-I",
+			"/mnt/rtt/funny_engine/fpc/public",
+			"-I",
+			"/mnt/rtt/funny_engine/fpc/build/../public",
+			"-I",
+			"/mnt/rtt/funny_engine/fpc/../public"
+		],
+		"file": "../tier0//build.cpp",
+		"directory": "/mnt/rtt/funny_engine/fpc"
+	},
+	{
+		"arguments": [
+			"clang",
+			"-c",
+			"-g",
+			"-fPIC",
+			"-target",
+			"x86_64-unknown-linux-gnu",
+			"-o",
+			".fpc/x86_64-unknown-linux-gnu/cc/3673160492_tier0//mnt/rtt/funny_engine/fpc/lib.cpp.o",
+			"lib.cpp",
+			"-I",
+			"../public"
+		],
+		"file": "lib.cpp",
+		"directory": "/mnt/rtt/funny_engine/fpc"
+	},
+	{
+		"arguments": [
+			"clang",
+			"-c",
+			"-g",
+			"-fPIC",
+			"-target",
+			"x86_64-unknown-linux-gnu",
+			"-o",
+			".fpc/x86_64-unknown-linux-gnu/cc/3673160492_tier0//mnt/rtt/funny_engine/fpc/mem.cpp.o",
+			"mem.cpp",
+			"-I",
+			"../public"
+		],
+		"file": "mem.cpp",
+		"directory": "/mnt/rtt/funny_engine/fpc"
+	},
+	{
+		"arguments": [
+			"clang",
+			"-c",
+			"-g",
+			"-fPIC",
+			"-target",
+			"x86_64-unknown-linux-gnu",
+			"-o",
+			".fpc/x86_64-unknown-linux-gnu/cc/3673160492_tier0//mnt/rtt/funny_engine/fpc/platform.cpp.o",
+			"platform.cpp",
+			"-I",
+			"../public"
+		],
+		"file": "platform.cpp",
+		"directory": "/mnt/rtt/funny_engine/fpc"
+	},
+	{
+		"arguments": [
+			"clang",
+			"-c",
+			"-g",
+			"-fPIC",
+			"-target",
+			"x86_64-unknown-linux-gnu",
+			"-o",
+			".fpc/x86_64-unknown-linux-gnu/cc/3673160492_tier0//mnt/rtt/funny_engine/fpc/network.cpp.o",
+			"network.cpp",
+			"-I",
+			"../public"
+		],
+		"file": "network.cpp",
+		"directory": "/mnt/rtt/funny_engine/fpc"
+	},
+	{
+		"arguments": [
+			"clang",
+			"-c",
+			"-g",
+			"-fPIC",
+			"-target",
+			"x86_64-unknown-linux-gnu",
+			"-o",
+			".fpc/x86_64-unknown-linux-gnu/cc/3116697504_something//mnt/rtt/funny_engine/fpc/../tier1//build.cpp.o",
+			"../tier1//build.cpp",
+			"-I",
+			"/mnt/rtt/funny_engine/fpc/build/public",
+			"-I",
+			"/mnt/rtt/funny_engine/fpc/public",
+			"-I",
+			"/mnt/rtt/funny_engine/fpc/build/../public",
+			"-I",
+			"/mnt/rtt/funny_engine/fpc/../public"
+		],
+		"file": "../tier1//build.cpp",
+		"directory": "/mnt/rtt/funny_engine/fpc"
+	},
+	{
+		"arguments": [
+			"clang",
+			"-c",
+			"-g",
+			"-fPIC",
+			"-target",
+			"x86_64-unknown-linux-gnu",
+			"-o",
+			".fpc/x86_64-unknown-linux-gnu/cc/2739538321_tier1//mnt/rtt/funny_engine/fpc/interface.cpp.o",
+			"interface.cpp",
+			"-I",
+			"../public"
+		],
+		"file": "interface.cpp",
+		"directory": "/mnt/rtt/funny_engine/fpc"
+	},
+	{
+		"arguments": [
+			"clang",
+			"-c",
+			"-g",
+			"-fPIC",
+			"-target",
+			"x86_64-unknown-linux-gnu",
+			"-o",
+			".fpc/x86_64-unknown-linux-gnu/cc/2739538321_tier1//mnt/rtt/funny_engine/fpc/appinit.cpp.o",
+			"appinit.cpp",
+			"-I",
+			"../public"
+		],
+		"file": "appinit.cpp",
+		"directory": "/mnt/rtt/funny_engine/fpc"
+	},
+	{
+		"arguments": [
+			"clang",
+			"-c",
+			"-g",
+			"-fPIC",
+			"-target",
+			"x86_64-unknown-linux-gnu",
+			"-o",
+			".fpc/x86_64-unknown-linux-gnu/cc/2739538321_tier1//mnt/rtt/funny_engine/fpc/commandline.cpp.o",
+			"commandline.cpp",
+			"-I",
+			"../public"
+		],
+		"file": "commandline.cpp",
+		"directory": "/mnt/rtt/funny_engine/fpc"
+	},
+	{
+		"arguments": [
+			"clang",
+			"-c",
+			"-g",
+			"-fPIC",
+			"-target",
+			"x86_64-unknown-linux-gnu",
+			"-o",
+			".fpc/x86_64-unknown-linux-gnu/cc/2739538321_tier1//mnt/rtt/funny_engine/fpc/utlbuffer.cpp.o",
+			"utlbuffer.cpp",
+			"-I",
+			"../public"
+		],
+		"file": "utlbuffer.cpp",
+		"directory": "/mnt/rtt/funny_engine/fpc"
+	},
+	{
+		"arguments": [
+			"clang",
+			"-c",
+			"-g",
+			"-fPIC",
+			"-target",
+			"x86_64-unknown-linux-gnu",
+			"-o",
+			".fpc/x86_64-unknown-linux-gnu/cc/2739538321_tier1//mnt/rtt/funny_engine/fpc/utlmap.cpp.o",
+			"utlmap.cpp",
+			"-I",
+			"../public"
+		],
+		"file": "utlmap.cpp",
+		"directory": "/mnt/rtt/funny_engine/fpc"
+	},
+	{
+		"arguments": [
+			"clang",
+			"-c",
+			"-g",
+			"-fPIC",
+			"-target",
+			"x86_64-unknown-linux-gnu",
+			"-o",
+			".fpc/x86_64-unknown-linux-gnu/cc/2739538321_tier1//mnt/rtt/funny_engine/fpc/utlstring.cpp.o",
+			"utlstring.cpp",
+			"-I",
+			"../public"
+		],
+		"file": "utlstring.cpp",
+		"directory": "/mnt/rtt/funny_engine/fpc"
+	},
+	{
+		"arguments": [
+			"clang",
+			"-c",
+			"-g",
+			"-fPIC",
+			"-target",
+			"x86_64-unknown-linux-gnu",
+			"-o",
+			".fpc/x86_64-unknown-linux-gnu/cc/2739538321_tier1//mnt/rtt/funny_engine/fpc/utlvector.cpp.o",
+			"utlvector.cpp",
+			"-I",
+			"../public"
+		],
+		"file": "utlvector.cpp",
+		"directory": "/mnt/rtt/funny_engine/fpc"
+	},
+	{
+		"arguments": [
+			"clang",
+			"-c",
+			"-g",
+			"-fPIC",
+			"-target",
+			"x86_64-unknown-linux-gnu",
+			"-o",
+			".fpc/x86_64-unknown-linux-gnu/cc/2395265444_something//mnt/rtt/funny_engine/fpc/../tier2//build.cpp.o",
+			"../tier2//build.cpp",
+			"-I",
+			"/mnt/rtt/funny_engine/fpc/build/public",
+			"-I",
+			"/mnt/rtt/funny_engine/fpc/public",
+			"-I",
+			"/mnt/rtt/funny_engine/fpc/build/../public",
+			"-I",
+			"/mnt/rtt/funny_engine/fpc/../public"
+		],
+		"file": "../tier2//build.cpp",
+		"directory": "/mnt/rtt/funny_engine/fpc"
+	},
+	{
+		"arguments": [
+			"clang",
+			"-c",
+			"-g",
+			"-fPIC",
+			"-target",
+			"x86_64-unknown-linux-gnu",
+			"-o",
+			".fpc/x86_64-unknown-linux-gnu/cc/2995547190_tier2//mnt/rtt/funny_engine/fpc/fileformats/ini.cpp.o",
+			"fileformats/ini.cpp",
+			"-I",
+			"../public"
+		],
+		"file": "fileformats/ini.cpp",
+		"directory": "/mnt/rtt/funny_engine/fpc"
+	},
+	{
+		"arguments": [
+			"clang",
+			"-c",
+			"-g",
+			"-fPIC",
+			"-target",
+			"x86_64-unknown-linux-gnu",
+			"-o",
+			".fpc/x86_64-unknown-linux-gnu/cc/2995547190_tier2//mnt/rtt/funny_engine/fpc/fileformats/json.cpp.o",
+			"fileformats/json.cpp",
+			"-I",
+			"../public"
+		],
+		"file": "fileformats/json.cpp",
+		"directory": "/mnt/rtt/funny_engine/fpc"
+	},
+	{
+		"arguments": [
+			"clang",
+			"-c",
+			"-g",
+			"-fPIC",
+			"-target",
+			"x86_64-unknown-linux-gnu",
+			"-o",
+			".fpc/x86_64-unknown-linux-gnu/cc/2995547190_tier2//mnt/rtt/funny_engine/fpc/filesystem.cpp.o",
+			"filesystem.cpp",
+			"-I",
+			"../public"
+		],
+		"file": "filesystem.cpp",
+		"directory": "/mnt/rtt/funny_engine/fpc"
+	},
+	{
+		"arguments": [
+			"clang",
+			"-c",
+			"-g",
+			"-target",
+			"x86_64-unknown-linux-gnu",
+			"-o",
+			".fpc/x86_64-unknown-linux-gnu/cc/464173395_fpc//mnt/rtt/funny_engine/fpc/main.cpp.o",
+			"main.cpp",
+			"-I",
+			"public",
+			"-I",
+			"../public"
+		],
+		"file": "main.cpp",
+		"directory": "/mnt/rtt/funny_engine/fpc"
+	},
+	{
+		"arguments": [
+			"clang",
+			"-c",
+			"-g",
+			"-target",
+			"x86_64-unknown-linux-gnu",
+			"-o",
+			".fpc/x86_64-unknown-linux-gnu/cc/464173395_fpc//mnt/rtt/funny_engine/fpc/library/runner.cpp.o",
+			"library/runner.cpp",
+			"-I",
+			"public",
+			"-I",
+			"../public"
+		],
+		"file": "library/runner.cpp",
+		"directory": "/mnt/rtt/funny_engine/fpc"
+	},
+	{
+		"arguments": [
+			"clang",
+			"-c",
+			"-g",
+			"-target",
+			"x86_64-unknown-linux-gnu",
+			"-o",
+			".fpc/x86_64-unknown-linux-gnu/cc/464173395_fpc//mnt/rtt/funny_engine/fpc/library/helper.cpp.o",
+			"library/helper.cpp",
+			"-I",
+			"public",
+			"-I",
+			"../public"
+		],
+		"file": "library/helper.cpp",
+		"directory": "/mnt/rtt/funny_engine/fpc"
+	},
+	{
+		"arguments": [
+			"clang",
+			"-c",
+			"-g",
+			"-target",
+			"x86_64-unknown-linux-gnu",
+			"-o",
+			".fpc/x86_64-unknown-linux-gnu/cc/464173395_fpc//mnt/rtt/funny_engine/fpc/library/target.cpp.o",
+			"library/target.cpp",
+			"-I",
+			"public",
+			"-I",
+			"../public"
+		],
+		"file": "library/target.cpp",
+		"directory": "/mnt/rtt/funny_engine/fpc"
+	},
+	{
+		"arguments": [
+			"clang",
+			"-c",
+			"-g",
+			"-target",
+			"x86_64-unknown-linux-gnu",
+			"-o",
+			".fpc/x86_64-unknown-linux-gnu/cc/464173395_fpc//mnt/rtt/funny_engine/fpc/library/builder.cpp.o",
+			"library/builder.cpp",
+			"-I",
+			"public",
+			"-I",
+			"../public"
+		],
+		"file": "library/builder.cpp",
+		"directory": "/mnt/rtt/funny_engine/fpc"
+	},
+	{
+		"arguments": [
+			"clang",
+			"-c",
+			"-g",
+			"-target",
+			"x86_64-unknown-linux-gnu",
+			"-o",
+			".fpc/x86_64-unknown-linux-gnu/cc/464173395_fpc//mnt/rtt/funny_engine/fpc/library/winerunner.cpp.o",
+			"library/winerunner.cpp",
+			"-I",
+			"public",
+			"-I",
+			"../public"
+		],
+		"file": "library/winerunner.cpp",
+		"directory": "/mnt/rtt/funny_engine/fpc"
+	},
+	{
+		"arguments": [
+			"clang",
+			"-c",
+			"-g",
+			"-target",
+			"x86_64-unknown-linux-gnu",
+			"-o",
+			".fpc/x86_64-unknown-linux-gnu/cc/464173395_fpc//mnt/rtt/funny_engine/fpc/library/c.cpp.o",
+			"library/c.cpp",
+			"-I",
+			"public",
+			"-I",
+			"../public"
+		],
+		"file": "library/c.cpp",
+		"directory": "/mnt/rtt/funny_engine/fpc"
+	},
+	{
+		"arguments": [
+			"clang",
+			"-c",
+			"-g",
+			"-target",
+			"x86_64-unknown-linux-gnu",
+			"-o",
+			".fpc/x86_64-unknown-linux-gnu/cc/464173395_fpc//mnt/rtt/funny_engine/fpc/library/ld.cpp.o",
+			"library/ld.cpp",
+			"-I",
+			"public",
+			"-I",
+			"../public"
+		],
+		"file": "library/ld.cpp",
+		"directory": "/mnt/rtt/funny_engine/fpc"
+	},
+	{
+		"arguments": [
+			"clang",
+			"-c",
+			"-g",
+			"-target",
+			"x86_64-unknown-linux-gnu",
+			"-o",
+			".fpc/x86_64-unknown-linux-gnu/cc/464173395_fpc//mnt/rtt/funny_engine/fpc/library/android/apktool.cpp.o",
+			"library/android/apktool.cpp",
+			"-I",
+			"public",
+			"-I",
+			"../public"
+		],
+		"file": "library/android/apktool.cpp",
+		"directory": "/mnt/rtt/funny_engine/fpc"
+	},
+	{
+		"arguments": [
+			"clang",
+			"-c",
+			"-g",
+			"-target",
+			"x86_64-unknown-linux-gnu",
+			"-o",
+			".fpc/x86_64-unknown-linux-gnu/cc/464173395_fpc//mnt/rtt/funny_engine/fpc/library/clang/c.cpp.o",
+			"library/clang/c.cpp",
+			"-I",
+			"public",
+			"-I",
+			"../public"
+		],
+		"file": "library/clang/c.cpp",
+		"directory": "/mnt/rtt/funny_engine/fpc"
+	},
+	{
+		"arguments": [
+			"clang",
+			"-c",
+			"-g",
+			"-target",
+			"x86_64-unknown-linux-gnu",
+			"-o",
+			".fpc/x86_64-unknown-linux-gnu/cc/464173395_fpc//mnt/rtt/funny_engine/fpc/library/clang/ld.cpp.o",
+			"library/clang/ld.cpp",
+			"-I",
+			"public",
+			"-I",
+			"../public"
+		],
+		"file": "library/clang/ld.cpp",
+		"directory": "/mnt/rtt/funny_engine/fpc"
+	},
+	{
+		"arguments": [
+			"clang",
+			"-c",
+			"-g",
+			"-target",
+			"x86_64-unknown-linux-gnu",
+			"-o",
+			".fpc/x86_64-unknown-linux-gnu/cc/464173395_fpc//mnt/rtt/funny_engine/fpc/library/windows/c.cpp.o",
+			"library/windows/c.cpp",
+			"-I",
+			"public",
+			"-I",
+			"../public"
+		],
+		"file": "library/windows/c.cpp",
+		"directory": "/mnt/rtt/funny_engine/fpc"
+	},
+	{
+		"arguments": [
+			"clang",
+			"-c",
+			"-g",
+			"-target",
+			"x86_64-unknown-linux-gnu",
+			"-o",
+			".fpc/x86_64-unknown-linux-gnu/cc/464173395_fpc//mnt/rtt/funny_engine/fpc/library/windows/ld.cpp.o",
+			"library/windows/ld.cpp",
+			"-I",
+			"public",
+			"-I",
+			"../public"
+		],
+		"file": "library/windows/ld.cpp",
+		"directory": "/mnt/rtt/funny_engine/fpc"
+	},
+	{
+		"arguments": [
+			"clang",
+			"-c",
+			"-g",
+			"-target",
+			"x86_64-unknown-linux-gnu",
+			"-o",
+			".fpc/x86_64-unknown-linux-gnu/cc/464173395_fpc//mnt/rtt/funny_engine/fpc/library/clang/c_libclang.cpp.o",
+			"library/clang/c_libclang.cpp",
+			"-I",
+			"public",
+			"-I",
+			"../public"
+		],
+		"file": "library/clang/c_libclang.cpp",
+		"directory": "/mnt/rtt/funny_engine/fpc"
+	}
+]
