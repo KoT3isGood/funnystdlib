@@ -1,0 +1,34 @@
+		funny project compiler
+
+fpc is a simple project manager written in C++ without usage of STL.
+Instead it uses C++ files for building stuff with quite simple API.
+It also generates compile_commands.json.
+
+		basics cheat sheet
+
+With this toolset it should be sufficient enough to build any simple application.
+
+DECLARE_BUILD_STAGE( stage_name, function ) - Declares build stage
+
+CProject - compiler output base;
+CShaderProject - shader compiler output base (NOT IMPLEMENTED)
+
+CCProject - C, C++, Objective-C, Objective-C++ compiler
+CLDProject - linker
+
+IFileSystem2 - simple filesystem for creating, deleting and copying stuff
+
+		usage parameters cheat sheet
+
+-os - sets target kernel
+	windows
+	linux
+	macos
+	ios
+	android
+
+-arch - sets target arch
+	x86_64
+	aarch64
+
+-fpcdebug - shows shell command used to run the command

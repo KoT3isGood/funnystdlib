@@ -1,0 +1,2 @@
+[aarch64-apple-ios]
+sysroot = "/home/kotofyt/clones/yay/xcode/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk"

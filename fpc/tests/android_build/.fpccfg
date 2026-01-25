@@ -1,0 +1,6 @@
+[x86_64-linux-android]
+sysroot = "/home/kotofyt/Android/Sdk/ndk/29.0.13599879/toolchains/llvm/prebuilt/linux-x86_64/sysroot"
+CLANG_LINKER_INTERFACE_NAME = "/home/kotofyt/Android/Sdk/ndk/29.0.13599879/toolchains/llvm/prebuilt/linux-x86_64/bin/clang++"
+
+[Android_Build_Tools]
+path = "/home/kotofyt/Android/Sdk/build-tools/36.0.0"

@@ -1,3 +1,5 @@
 **/.fpc/
 **/.cache/
+**/build/
 **/*.o
+**/*.jks
