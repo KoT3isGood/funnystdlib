@@ -93,16 +93,15 @@ int main(int c, char **v)
 
 	char path[1024];
 
-	CUtlString buildcppDir = Plat_GetWorkingDir();
-	owndir = buildcppDir;
-	char *szBuildcppDir = buildcppDir.GetString();
+	CUtlString szBuildcppDir = Plat_GetWorkingDir();
+	owndir = szBuildcppDir;
 	
 findbuild:
 	FILE* file = V_fopen("build.cpp", "rb");
 	if (!file)
 	{
-		buildcppDir = buildcppDir.GetDirectory();
-		if (buildcppDir=="/")
+		szBuildcppDir = szBuildcppDir.GetDirectory();
+		if (szBuildcppDir=="/")
 		{
 			V_printf("build.cpp not found\n");
 			return 0;

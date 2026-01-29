@@ -3,3 +3,4 @@
 **/build/
 **/*.o
 **/*.jks
+**/compile_commands.json
