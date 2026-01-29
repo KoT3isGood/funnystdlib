@@ -73,6 +73,7 @@ inline CUtlString::CUtlString( const CUtlString &sz )
 	m_data = sz.m_data;
 };
 
+
 inline void CUtlString::AppendTail( const char *psz )
 {
 	m_data.Resize(V_strlen(m_data.GetData()));
@@ -84,6 +85,8 @@ inline void CUtlString::AppendTail( const char *psz )
 inline void CUtlString::AppendHead( const char *psz )
 {
 	m_data.AppendHead(psz,V_strlen(psz));
+	m_data.Reserve(m_data.GetSize()+1);
+	m_data[m_data.GetSize()] = 0;
 }
 
 inline void CUtlString::AppendTail( char ch )
@@ -97,6 +100,8 @@ inline void CUtlString::AppendTail( char ch )
 inline void CUtlString::AppendHead( char ch )
 {
 	m_data.AppendHead(ch);
+	m_data.Reserve(m_data.GetSize()+1);
+	m_data[m_data.GetSize()] = 0;
 }
 inline void CUtlString::AppendAt( size_t nPosition, const char *psz )
 {

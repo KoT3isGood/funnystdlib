@@ -6,7 +6,7 @@
 // These functions copy over libc memory functions
 //-----------------------------------------------------------------------------
 
-void* V_malloc(int nSize)
+PLATFORM_INTERFACE void* V_malloc(int nSize)
 {
 	void *pMemory = malloc(nSize);
 	if (!pMemory)
@@ -14,12 +14,12 @@ void* V_malloc(int nSize)
 	return pMemory;
 }
 
-void V_free(void *pMem)
+PLATFORM_INTERFACE void V_free(void *pMem)
 {
 	return free(pMem);
 }
 
-void* V_realloc(void *pMem, int nSize)
+PLATFORM_INTERFACE void* V_realloc(void *pMem, int nSize)
 {
 	return realloc(pMem, nSize);
 }
