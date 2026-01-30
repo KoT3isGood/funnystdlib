@@ -66,13 +66,21 @@ CUtlVector<CUtlString> CMSVCCompiler::BuildCommandLine( CProject_t *pProject, co
 
 const char *CMSVCCompiler::GetCompilerExecutable( CProject_t *pProject )
 {
+	IINISection *pSection = NULL;
+	const char *szLinker = "cl.exe";
 	if (!g_pConfig)
-		Plat_FatalErrorFunc(".fpccfg was not found\n");
-	static IINISection *pSection = g_pConfig->GetSection("MSVC_C_COMPILER_INTERFACE_NAME");
+		return szLinker;
+
+
+	pSection = g_pConfig->GetSection(pProject->m_target.GetTriplet());
 	if (!pSection)
-		Plat_FatalErrorFunc("MSVC_C_COMPILER_INTERFACE_NAME was not found in .fpccfg\n");
-	static CUtlString szExePath = pSection->GetStringValue("exe");
-	return szExePath;
+		return szLinker;
+
+
+	szLinker = pSection->GetStringValue("MSVC_LINKER_INTERFACE_NAME");
+	if (szLinker == NULL)
+		return "cl.exe";
+	return szLinker;
 }
 
 

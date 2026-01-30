@@ -1,10 +1,10 @@
 #include "target.h"
 #include "tier0/commandline.h"
 #include "tier1/utlstring.h"
-#include "sys/utsname.h"
 
 // see Target_t::HostTarget
 #if defined(__i386__) && defined(POSIX)
+#include "sys/utsname.h"
 static utsname s_uname;
 static int s_iuNameRes = uname(&s_uname);
 #endif
@@ -66,7 +66,7 @@ const char *Target_t::GetDynamicLibraryFileFormat()
 	if (kernel & TARGET_KERNEL_APPLE_DEVICES)
 		return "lib%s.dylib";
 	if (kernel & TARGET_KERNEL_WINDOWS_DEVICES)
-		return "lib%s.dylib";
+		return "%s.dll";
 	return NULL;
 }
 //----------------------------------------------------------------------------
@@ -77,10 +77,13 @@ const char *Target_t::GetDynamicLibraryFileFormat()
 Target_t Target_t::HostTarget()
 {
 	ETargetKernel kernel = TARGET_KERNEL_UNDEFINED;
+	ETargetABI abi = TARGET_ABI_GNU;
 #if defined(__linux__)
 	kernel = TARGET_KERNEL_LINUX;
 #elif defined(__APPLE__)
-	kernel TARGET_KERNEL_DARWIN;
+	kernel = TARGET_KERNEL_DARWIN;
+#elif defined(__WIN32__)
+	kernel = TARGET_KERNEL_WINDOWS;
 #endif
 ETargetCPU cpu = TARGET_CPU_UNDEFINED;
 #if defined(__x86_64__)
@@ -99,7 +102,6 @@ ETargetCPU cpu = TARGET_CPU_UNDEFINED;
 	if (!V_strcmp("i686", s_uname.machine))
 		cpu = TARGET_CPU_80686;
 #endif
-	ETargetABI abi = TARGET_ABI_GNU;
 
 #ifdef FPC_ARCH
 	cpu = CPUFromString(FPC_ARCH);
@@ -189,6 +191,7 @@ const char *Target_t::StringFromKernel( ETargetKernel kernel )
 		return "unknown-wasi";
 	if ( kernel == TARGET_KERNEL_EMSCRIPTEN )
 		return "unknown-emscripten";
+	V_printf("not cool?\n");
 	return NULL;
 }
 
@@ -226,7 +229,7 @@ ETargetKernel Target_t::KernelFromString( const char *szName )
 	CUtlString szUtlName = szName;
 	if ( szUtlName == "unknown" )
 		return TARGET_KERNEL_UNKNOWN;
-	else if ( szUtlName == "windows" )
+	else if ( szUtlName == "pc-windows" )
 		return TARGET_KERNEL_WINDOWS;
 	else if ( szUtlName == "linux" )
 		return TARGET_KERNEL_LINUX;

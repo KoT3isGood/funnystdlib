@@ -93,32 +93,64 @@ char *CPOSIXFileSystem2::BuildDirectory()
 	
 void CPOSIXFileSystem2::CopyFile( const char *szDestination, const char *szOrigin )
 {
+#ifdef POSIX
 	CUtlVector<CUtlString> args = {
 		szOrigin,
 		szDestination,
 	};
 	runner->Run(CUtlString("cp"), args);
 	runner->Wait();	
+#endif
+#ifdef __WIN32__
+	CUtlVector<CUtlString> args = {
+		"/Y",
+		szOrigin,
+		szDestination,
+	};
+	runner->Run(CUtlString("xcopy"), args);
+	runner->Wait();	
+#endif
 }
 void CPOSIXFileSystem2::CopyDirectory( const char *szDestination, const char *szOrigin )
 {
+#ifdef POSIX
 	CUtlVector<CUtlString> args = {
 		"-r",
 		szOrigin,
 		szDestination,
 	};
-	runner->Run("cp", args);
+	runner->Run(CUtlString("cp"), args);
 	runner->Wait();	
+#endif
+#ifdef __WIN32__
+	CUtlVector<CUtlString> args = {
+		"/Y",
+		"/E",
+		szOrigin,
+		szDestination,
+	};
+	runner->Run(CUtlString("xcopy"), args);
+	runner->Wait();	
+#endif
 }
 
 void CPOSIXFileSystem2::MakeDirectory( const char *psz )
 {
+#ifdef POSIX
 	CUtlVector<CUtlString> args = {
 		"-p",
-		CUtlString(psz),
+		psz
 	};
 	runner->Run("mkdir", args);
 	runner->Wait();	
+#endif
+#ifdef __WIN32__
+	CUtlVector<CUtlString> args = {
+		psz
+	};
+	runner->Run("mkdir", args);
+	runner->Wait();	
+#endif
 };
 
 bool CPOSIXFileSystem2::ShouldRecompile(const char *szSource, const char *szOutput)

@@ -4,34 +4,17 @@
 #include "tier1/interface.h"
 #include "tier1/utlstring.h"
 #include "tier1/utlvector.h"
-#include "unistd.h"
-#include "sys/wait.h"
-#include "tier0/commandline.h"
 
 class CWineRunner: public IWineRunner
 {
 public:
-	CWineRunner();
-	~CWineRunner();
-
 	virtual int Run( CUtlString szName, CUtlVector<CUtlString>& args ) override;
 	virtual int Run( CUtlString szName, CUtlString szDirectory, CUtlVector<CUtlString>& args ) override;
 	virtual int Run( CUtlString szName, CUtlString szDirectory, CUtlVector<CUtlString>& args, CUtlVector<CUtlString>& environment ) override;
 	virtual int Wait( void ) override;
-private:
-	pid_t m_wineServerPID;
 };
 
 EXPOSE_INTERFACE(CWineRunner, IWineRunner, WINE_RUNNER_INTERFACE_NAME);
-
-CWineRunner::CWineRunner()
-{	
-
-}
-CWineRunner::~CWineRunner()
-{
-
-}
 
 int CWineRunner::Run(CUtlString szName, CUtlVector<CUtlString>& args)
 {

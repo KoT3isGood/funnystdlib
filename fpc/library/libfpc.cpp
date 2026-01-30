@@ -13,8 +13,7 @@ void *LibFpcInit()
 	ccompiler = (ICCompiler*)CreateInterface(CLANG_C_COMPILER_INTERFACE_NAME, NULL);
 	linker = (ILinker*)CreateInterface(CLANG_LINKER_INTERFACE_NAME, NULL);
 
-	void *pFilesystem = Plat_LoadLibrary("libfilesystem_std.so");
-	CreateInterfaceFn pFilesystemFactory = Sys_GetFactory(pFilesystem);
+	CreateInterfaceFn pFilesystemFactory = Sys_GetFactory("filesystem_std");
 	filesystem = (IFileSystem*)pFilesystemFactory(FILESYSTEM_INTERFACE_VERSION, NULL);
 	filesystem->Init();
 	return NULL;

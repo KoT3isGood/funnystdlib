@@ -7,6 +7,7 @@
 ADD_DEPENDENCY_BUILD_FILE(tier0, "../tier0/build.cpp");
 ADD_DEPENDENCY_BUILD_FILE(tier1, "../tier1/build.cpp");
 ADD_DEPENDENCY_BUILD_FILE(tier2, "../tier2/build.cpp");
+ADD_DEPENDENCY_BUILD_FILE(stdfilesystems, "../stdfilesystems/build.cpp");
 ADD_DEPENDENCY_BUILD_FILE(appleauth, "../appleauth/build.cpp");
 
 
@@ -70,10 +71,12 @@ DECLARE_BUILD_STAGE(libfpcbuild)
 }
 DECLARE_BUILD_STAGE(libfpc)
 {
+	/*
 	if (linker->IsLibraryExists("clang"))
 		g_libFpcFiles.AppendTail("library/clang/c_libclang.cpp");
 	else
 		V_printf("Warning: to support included files libclang must be installed.\n");
+	*/
 	CProject_t compileProject = {};
 	LinkProject_t ldProject = {};
 
@@ -94,8 +97,10 @@ DECLARE_BUILD_STAGE(libfpc)
 		 GET_PROJECT_LIBRARY(tier2, "tier2"),
 	};
 
+	/*
 	if (linker->IsLibraryExists("clang"))
 		ldProject.libraries.AppendTail("clang");
+	*/
 
 	CUtlString outputProject = linker->Link(&ldProject);
 
@@ -144,11 +149,30 @@ DECLARE_BUILD_STAGE(install)
 	CUtlString szTier2 = GET_PROJECT_LIBRARY(tier2, "tier2");
 	CUtlString szHttp = GET_PROJECT_LIBRARY(funnyhttp, "funnyhttp");
 	CUtlString szAppleAuth = GET_PROJECT_LIBRARY(appleauth, "appleauth");
+	CUtlString szFilesystem = GET_PROJECT_LIBRARY(filesystem_std, "fs");
 	
-	filesystem2->CopyFile("build/fpc_temp", szExe);
-	filesystem2->CopyFile("build/libfpc_temp.so", szLibFpc);
+	if (!V_strcmp(Target_t::DefaultTarget().GetTriplet().GetString(), Target_t::HostTarget().GetTriplet().GetString()))
+	{
+		CUtlString szOutputTempTier0 = CUtlString(Target_t::DefaultTarget().GetDynamicLibraryFileFormat(), "tier0_temp");
+		CUtlString szOutputTempExe = CUtlString(Target_t::DefaultTarget().GetExecutableFileFormat(), "fpc_temp");
+		CUtlString szOutputTempLib = CUtlString(Target_t::DefaultTarget().GetDynamicLibraryFileFormat(), "fpc_temp");
+		CUtlString szOutputTempFilesystem = CUtlString(Target_t::DefaultTarget().GetDynamicLibraryFileFormat(), "filesystem_std");
+		filesystem2->CopyFile(CUtlString("build/%s",szOutputTempExe.GetString()), szExe);
+		filesystem2->CopyFile(CUtlString("build/%s",szOutputTempLib.GetString()), szLibFpc);
+		filesystem2->CopyFile(CUtlString("build/%s",szOutputTempTier0.GetString()), szTier0);
+		filesystem2->CopyFile(CUtlString("build/%s",szOutputTempFilesystem.GetString()), szFilesystem);
+	}
+	else
+	{
+		filesystem2->CopyFile("build", szExe);
+		filesystem2->CopyFile("build", szTier0);
+		filesystem2->CopyFile("build", szLibFpc);
+		filesystem2->CopyFile("build", szFilesystem);
+	}
 	filesystem2->CopyFile("build", szHttp);
 	filesystem2->CopyFile("build", szAppleAuth);
+	filesystem2->CopyFile("build", szTier1);
+	filesystem2->CopyFile("build", szTier2);
 
 	/*
 	filesystem2->CopyFile("build/libtier1.a", szTier1);

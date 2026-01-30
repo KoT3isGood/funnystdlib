@@ -21,10 +21,15 @@ endif
 CCFLAGS = $(REAL_TARGET) -g -I../public -Ipublic
 
 UNAME_S := $(shell uname -s)
+ifneq ($(FPC_ARCH),)
+ifneq ($(FPC_OS),)
 ifeq ($(UNAME_S),Darwin)
-CCFLAGS += -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -std=c++11 -Wl,-export_dynamic
+
 endif
 ifeq ($(UNAME_S),Linux)
+
+endif
+endif
 endif
 
 recompile: ../build/tools/fpc
@@ -58,7 +63,7 @@ build/libfpcbuild.a: buildfile/interfaces.o builddir
 	ar rcs build/libfpcbuild.a buildfile/interfaces.o
 
 build/libfpc.so: $(FPC_FILES) builddir build/libfpcbuild.a build/libtier1.a build/libtier2.a
-	$(CC) $(CCFLAGS) $(FPC_FILES) library/libfpc.cpp -fPIC -shared -o build/libfpc.so build/libtier1.a build/libtier2.a
+	$(CC) $(CCFLAGS) $(FPC_FILES) library/libfpc.cpp -fPIC -shared -o build/libfpc.so build/libtier1.a build/libtier2.a -ltier0 -Lbuild
 
 builddir:
 	mkdir -p build

@@ -1,7 +1,6 @@
 #include "tier1/interface.h"
 #include "tier1/utlvector.h"
 #include "tier1/utlstring.h"
-#include "dlfcn.h"
 
 static CInterfaceRegistry *s_pInterfaceRegistries;
 
@@ -11,9 +10,6 @@ CInterfaceRegistry::CInterfaceRegistry( InstantiateInterfaceFn fn, const char *s
 	m_CreateFn = fn;
 	m_pNext = s_pInterfaceRegistries;
 	s_pInterfaceRegistries = this;  
-	Dl_info info = {};
-	dladdr((void *)&s_pInterfaceRegistries, &info);
-	//printf("%p: %s in %s\n",&s_pInterfaceRegistries, m_szName, info.dli_fname);
 };
 
 DLL_EXPORT void *CreateInterface( const char *szName, int *pReturnCode )
@@ -42,8 +38,12 @@ CreateInterfaceFn Sys_GetFactory( const char *szLibrary )
 {
 	void *pLib = NULL;
 	CUtlString szLib = szLibrary;
-#if defined(__linux)
+#if defined(__linux__)
 	szLib = CUtlString("lib%s.so", szLib.GetFileName().GetString());
+	pLib = Plat_LoadLibrary(szLib);
+#endif
+#if defined(__WIN32__)
+	szLib = CUtlString("%s.dll", szLib.GetFileName().GetString());
 	pLib = Plat_LoadLibrary(szLib);
 #endif
 	if ( !pLib )

@@ -20,14 +20,17 @@
 CUtlString owndir;
 static char **pszBuildDir;
 
-void build_tier0()
+void query()
 {
-
-};
+	if (CommandLine()->CheckParam("triplet"))
+	{
+		V_printf("%s", Target_t::HostTarget().GetTriplet().GetString());
+	}
+}
 
 int build()
 {
-	BuildFile_t *pBuildFile = ProjectBuilder()->BuildProject("main",CUtlString("%s/build.cpp",*pszBuildDir));
+	BuildFile_t *pBuildFile = ProjectBuilder()->BuildProject("main", CUtlString("%s/build.cpp",*pszBuildDir));
 
 	/*
 
@@ -96,20 +99,24 @@ int main(int c, char **v)
 	CUtlString szBuildcppDir = Plat_GetWorkingDir();
 	owndir = szBuildcppDir;
 	
-findbuild:
-	FILE* file = V_fopen("build.cpp", "rb");
-	if (!file)
+	if (CommandLine()->CheckParam("build"))
 	{
-		szBuildcppDir = szBuildcppDir.GetDirectory();
-		if (szBuildcppDir=="/")
+	findbuild:
+		FILE* file = V_fopen("build.cpp", "rb");
+		if (!file)
 		{
-			V_printf("build.cpp not found\n");
-			return 0;
+			szBuildcppDir = szBuildcppDir.GetDirectory();
+			if (szBuildcppDir=="/")
+			{
+				V_printf("build.cpp not found\n");
+				return 0;
+			}
+			Plat_SetWorkingDir(szBuildcppDir);
+			goto findbuild;
+		} else {
+			V_fclose(file);
 		}
-		Plat_SetWorkingDir(szBuildcppDir);
-		goto findbuild;
-	} else {
-		V_fclose(file);
+
 	}
 
 	#ifdef __linux
@@ -126,28 +133,30 @@ findbuild:
 	#endif
 	
 
-	void *pLibFPC = Plat_LoadLibrary("libfpc.so");
-	CreateInterfaceFn pLibFPCFactory = Sys_GetFactory(pLibFPC);
+	CreateInterfaceFn pLibFPCFactory = Sys_GetFactory("fpc");
 	
 	filesystem2 = (IFileSystem2*)pLibFPCFactory(FILE_SYSTEM_2_INTERFACE_NAME, NULL);
 	pszBuildDir = (char**)pLibFPCFactory(FILE_SYSTEM_2_BUILD_DIRECTORY_INTERFACE_VERSION, NULL);
 	*pszBuildDir = szBuildcppDir;
 	runner = (IRunner*)pLibFPCFactory(RUNNER_INTERFACE_NAME, NULL);
 	winerunner = (IWineRunner*)pLibFPCFactory(WINE_RUNNER_INTERFACE_NAME, NULL);
+#ifdef __WIN32__
+	ccompiler = (ICCompiler*)pLibFPCFactory(MSVC_C_COMPILER_INTERFACE_NAME, NULL);
+	linker = (ILinker*)pLibFPCFactory(MSVC_LINKER_INTERFACE_NAME, NULL);
+#else
 	ccompiler = (ICCompiler*)pLibFPCFactory(CLANG_C_COMPILER_INTERFACE_NAME, NULL);
 	linker = (ILinker*)pLibFPCFactory(CLANG_LINKER_INTERFACE_NAME, NULL);
+#endif
 	
 
 
 	pLibFPCFactory(LIBFPC_INIT_INTERFACE_VERSION, NULL);
 
 	
-	void *pFilesystem = Plat_LoadLibrary("libfilesystem_std.so");
-	CreateInterfaceFn pFilesystemFactory = Sys_GetFactory(pFilesystem);
+	CreateInterfaceFn pFilesystemFactory = Sys_GetFactory("filesystem_std");
 
 	filesystem = (IFileSystem*)pFilesystemFactory(FILESYSTEM_INTERFACE_VERSION, NULL);
 	filesystem->Init();
-
 	g_pConfig = INIManager()->ReadFile(".fpccfg");
 
 	IINIFile **ppConfig = (IINIFile**)pLibFPCFactory(LIBFPC_CONFIG_INTERFACE_VERSION, NULL);
@@ -166,6 +175,8 @@ findbuild:
 
 	if (CommandLine()->CheckParam("build"))
 		build();
+	if (CommandLine()->CheckParam("query"))
+		query();
 	const char *szDeployDevice = CommandLine()->ParamValue("deploy");
 	Plat_ShutdownRandom();
 	return 0;

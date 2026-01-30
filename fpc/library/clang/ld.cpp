@@ -112,7 +112,7 @@ void CClangLinker::SetOutputFile( CUtlVector<CUtlString> &cmd, const char *szNam
 
 void CClangLinker::SetDefaultLibraryPaths( CUtlVector<CUtlString> &cmd, LinkProject_t *pProject )
 {
-	if (pProject->m_target.kernel & TARGET_KERNEL_LINUX)
+	if (pProject->m_target.kernel & TARGET_KERNEL_LINUX_DEVICES)
 	{
 		cmd.AppendTail("-Wl,--disable-new-dtags");
 		cmd.AppendTail("-Wl,-rpath,$ORIGIN");
@@ -156,12 +156,16 @@ void CClangLinker::LinkLibraryObject( CUtlVector<CUtlString> &cmd, const char *s
 {
 	CUtlString szDir = CUtlString(szName).GetDirectory();
 	CUtlString szFileName = CUtlString(szName).GetFileName();
+	
 	if (!V_strncmp(szFileName, "lib",3))
 		szFileName.RemoveHead(3);
 	if (!V_strncmp(szFileName.GetFileExtension(), "so",2))
 		szFileName.RemoveTail(3);
 	if (!V_strncmp(szFileName.GetFileExtension(), "a",1))
 		szFileName.RemoveTail(2);
+	if (!V_strncmp(szFileName.GetFileExtension(), "dll",1))
+		szFileName.RemoveTail(4);
+
 	cmd.AppendTail("-L");
 	cmd.AppendTail(szDir);
 	cmd.AppendTail("-l");
