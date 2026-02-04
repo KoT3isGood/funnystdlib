@@ -70,7 +70,8 @@ const char *CClangLinker::GetCompilerExecutable( LinkProject_t *pProject )
 void CClangLinker::SetTarget( CUtlVector<CUtlString> &cmd, LinkProject_t *pProject )
 {	
 	if (pProject->linkType == ELINK_DYNAMIC_LIBRARY)
-		cmd.AppendTail("-shared");
+		if ( pProject->m_target.cpu != TARGET_CPU_WASM32 )
+			cmd.AppendTail("-shared");
 
 	if (pProject->m_target.kernel == TARGET_KERNEL_IOS)
 		cmd.AppendTail("-fuse-ld=lld");
@@ -163,8 +164,12 @@ void CClangLinker::LinkLibraryObject( CUtlVector<CUtlString> &cmd, const char *s
 		szFileName.RemoveTail(3);
 	if (!V_strncmp(szFileName.GetFileExtension(), "a",1))
 		szFileName.RemoveTail(2);
-	if (!V_strncmp(szFileName.GetFileExtension(), "dll",1))
+	if (!V_strncmp(szFileName.GetFileExtension(), "dll",3))
 		szFileName.RemoveTail(4);
+	if (!V_strncmp(szFileName.GetFileExtension(), "wasm", 4))
+	{
+		return;
+	}
 
 	cmd.AppendTail("-L");
 	cmd.AppendTail(szDir);

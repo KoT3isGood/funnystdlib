@@ -81,6 +81,7 @@ public:
 CUtlString CAppleAuth::FetchADIPB()
 {
 
+	/*
 	CUtlString szProvisionExpectedInputRaw = NULL;
 	IJSONObject *pObject = NULL;
 	IJSONObject *pPlistObject = NULL;
@@ -207,9 +208,11 @@ CUtlString CAppleAuth::FetchADIPB()
 	}
 	g_pHttpClientMgr->Disconnect(m_pANIClient);
 	return szAdiPb;
+	*/
 }
 void CAppleAuth::FetchHeaders( CUtlString szAdiPb )
 {
+	/*
 	// Get header
 	HTTPHeaderParam_t params[] = {
 		"Content-Type", "application/json",
@@ -234,6 +237,7 @@ void CAppleAuth::FetchHeaders( CUtlString szAdiPb )
 		JSONManager()->FreeObject(pHeader);
 	}
 	g_pHttpClientMgr->Disconnect(m_pANIClient);
+	*/
 }
 
 void CAppleAuth::Init()

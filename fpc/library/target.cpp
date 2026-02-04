@@ -34,17 +34,18 @@ const char *Target_t::GetExecutableFileFormat()
 {
 	if (kernel & TARGET_KERNEL_POSIX)
 		return "%s";
-
+	if (kernel & TARGET_KERNEL_WEB_DEVICES)
+		return "%s.wasm";
 	if (kernel & TARGET_KERNEL_WINDOWS_DEVICES)
-	{
 		return "%s.exe";
-	}
 	return NULL;
 }
 
 const char *Target_t::GetStaticLibraryFileFormat()
 {
 	if (kernel & TARGET_KERNEL_POSIX)
+		return "lib%s.a";
+	if (kernel & TARGET_KERNEL_WEB_DEVICES)
 		return "lib%s.a";
 
 	if (kernel & TARGET_KERNEL_WINDOWS_DEVICES)
@@ -63,6 +64,8 @@ const char *Target_t::GetDynamicLibraryFileFormat()
 {
 	if (kernel & TARGET_KERNEL_LINUX_DEVICES)
 		return "lib%s.so";
+	if (kernel & TARGET_KERNEL_WEB_DEVICES)
+		return "%s.wasm";
 	if (kernel & TARGET_KERNEL_APPLE_DEVICES)
 		return "lib%s.dylib";
 	if (kernel & TARGET_KERNEL_WINDOWS_DEVICES)
@@ -77,7 +80,7 @@ const char *Target_t::GetDynamicLibraryFileFormat()
 Target_t Target_t::HostTarget()
 {
 	ETargetKernel kernel = TARGET_KERNEL_UNDEFINED;
-	ETargetABI abi = TARGET_ABI_GNU;
+	ETargetABI abi = TARGET_ABI_DEFAULT;
 #if defined(__linux__)
 	kernel = TARGET_KERNEL_LINUX;
 #elif defined(__APPLE__)
@@ -231,6 +234,8 @@ ETargetKernel Target_t::KernelFromString( const char *szName )
 		return TARGET_KERNEL_UNKNOWN;
 	else if ( szUtlName == "pc-windows" )
 		return TARGET_KERNEL_WINDOWS;
+	else if ( szUtlName == "windows" )
+		return TARGET_KERNEL_WINDOWS;
 	else if ( szUtlName == "linux" )
 		return TARGET_KERNEL_LINUX;
 	else if ( szUtlName == "unknown-linux" )
@@ -241,17 +246,29 @@ ETargetKernel Target_t::KernelFromString( const char *szName )
 		return TARGET_KERNEL_ALPINE_LINUX;
 	else if ( szUtlName == "macos" )
 		return TARGET_KERNEL_DARWIN;
+	else if ( szUtlName == "apple-darwin" )
+		return TARGET_KERNEL_DARWIN;
 	else if ( szUtlName == "ios" )
 		return TARGET_KERNEL_IOS;
+	else if ( szUtlName == "apple-ios" )
+		return TARGET_KERNEL_DARWIN;
 	else if ( szUtlName == "android" )
 		return TARGET_KERNEL_ANDROID;
+	else if ( szUtlName == "linux-android" )
+		return TARGET_KERNEL_ANDROID;
+	else if ( szUtlName == "unknown-wasi" )
+		return TARGET_KERNEL_WASI;
+	else if ( szUtlName == "unknown-emscripten" )
+		return TARGET_KERNEL_EMSCRIPTEN;
 	return TARGET_KERNEL_UNDEFINED;
 }
 
 ETargetABI Target_t::ABIFromString( const char *szName )
 {
 	CUtlString szUtlName = szName;
-	if ( szUtlName == "gnu" )
+	if ( szUtlName == "default" )
+		return TARGET_ABI_DEFAULT;
+	else if ( szUtlName == "gnu" )
 		return TARGET_ABI_GNU;
 	else if ( szUtlName == "musl" )
 		return TARGET_ABI_MUSL;

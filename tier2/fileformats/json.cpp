@@ -65,7 +65,7 @@ public:
 	virtual void CopyTo( IJSONValue *pObject ) override;
 	virtual void Free() override;
 
-	EJSONParameterType m_eType;
+	EJSONParameterType m_eType = JSON_PARAMETER_NULL;
 	CUtlString m_szString;
 	float m_fValue;
 	bool m_bValue;

@@ -68,6 +68,8 @@ int build()
 
 void IEngine_Signal(int sig)
 {
+	V_printf("RECIEVED SIGNAL %i\n", sig);
+	/*
 	switch (sig)
 	{
 	case SIGSEGV:
@@ -82,6 +84,7 @@ void IEngine_Signal(int sig)
 	default:
 		break;
 	};
+	*/
 	Plat_Exit(0);
 };
 
