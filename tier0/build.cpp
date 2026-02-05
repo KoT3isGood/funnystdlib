@@ -24,7 +24,10 @@ DECLARE_BUILD_STAGE(tier0)
 	compileProject.bFPIC = true;
 	ldProject = ccompiler->Compile(&compileProject);
 
-	ldProject.linkType = ELINK_DYNAMIC_LIBRARY;
+	if (Target_t::DefaultTarget().cpu == TARGET_CPU_WASM32)
+		ldProject.linkType = ELINK_STATIC_LIBRARY;
+	else
+		ldProject.linkType = ELINK_DYNAMIC_LIBRARY;
 	szOutputProject = linker->Link(&ldProject);
 
 	ADD_OUTPUT_OBJECT("tier0", szOutputProject);

@@ -175,7 +175,7 @@ public:
 	size_t GetRealSize() const;
 	void Resize( size_t nSize, size_t nDataOffset = 0 );
 	void* GetMemory(void) const;
-	
+
 	operator T*( void ) const;
 	T& operator []( const size_t nIndex );
 	T operator []( const size_t nIndex ) const;
@@ -266,14 +266,17 @@ void CUtlResizableBuffer<T>::Resize( size_t nSize, size_t nDataOffset )
 	{
 		size_t nAllocationSize = CalculateMemorySize(nSize);
 		T *pData = (T*)V_malloc(nAllocationSize*sizeof(T));
-		for (size_t i = 0; i < m_nSize; i++)
+		if (m_pData)
 		{
-			new (&pData[i+nDataOffset]) T(m_pData[i]);
-			m_pData[i].~T();
+			for (size_t i = 0; i < m_nSize; i++)
+			{
+				new (&pData[i+nDataOffset]) T(m_pData[i]);
+				m_pData[i].~T();
+			}
+			V_free(m_pData);
 		}
-		V_free(m_pData);
 		m_pData = pData;
-		m_nAllocatedSize = nAllocationSize;		
+		m_nAllocatedSize = nAllocationSize;
 	}
 	for ( size_t i = m_nSize+nDataOffset; i < nSize; ++i )
 		new (&m_pData[i]) T();
@@ -348,7 +351,7 @@ CUtlResizableBuffer<T>& CUtlResizableBuffer<T>::operator=(const CUtlResizableBuf
 }
 
 //-----------------------------------------------------------------------------
-// Calculates memory size that is 
+// Calculates memory size that is
 //-----------------------------------------------------------------------------
 template <typename T>
 size_t CUtlResizableBuffer<T>::CalculateMemorySize(size_t nSize)

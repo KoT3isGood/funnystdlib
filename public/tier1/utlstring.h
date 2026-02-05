@@ -146,6 +146,9 @@ inline CUtlString CUtlString::GetFileName()
 
 inline CUtlString CUtlString::GetFileExtension()
 {
+	if (GetLenght() == 0)
+		return 0;
+
 	CUtlString szFileName = GetString();
 
 	char *pLast = &m_data[GetLenght()-1];	

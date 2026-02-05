@@ -23,7 +23,7 @@ public:
 	static CInterfaceRegistry __Create##className##_registry( __Create##className##_interface, versionName );
 
 #define EXPOSE_INTERFACE_FN( functionName, interfaceName, versionName ) \
-	static CInterfaceRegistry __Create##interfaceName##_registry( functionName, versionName );
+	static CInterfaceRegistry __Create##interfaceName##_registry( (InstantiateInterfaceFn)functionName, versionName );
 
 #define EXPOSE_INTERFACE_GLOBALVAR( className, interfaceName, versionName, globalVarName ) \
 	static void *__Create##className##_interface() { return ( interfaceName* )( &globalVarName ); }; \

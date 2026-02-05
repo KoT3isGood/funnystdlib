@@ -5,7 +5,9 @@
 #include "sys/stat.h"
 #include "dirent.h"
 #include "time.h"
+#ifndef __wasi__
 #include "signal.h"
+#endif
 
 #ifdef __linux__
 #include "dlfcn.h"

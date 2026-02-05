@@ -10,10 +10,13 @@
 #include "tier0/minmax_on.h"
 
 #include "stdint.h"
-#include "string.h"
-#include "stdio.h"
-#include "stdlib.h"
+#ifdef __wasm32__
+#else
 #include "ctype.h"
+#include "stdlib.h"
+#include "stdio.h"
+#include "string.h"
+#endif
 
 //-----------------------------------------------------------------------------
 // string.h

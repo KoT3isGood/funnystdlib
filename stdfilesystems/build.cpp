@@ -25,8 +25,8 @@ DECLARE_BUILD_STAGE(filesystem_std)
 	ldProject.linkType = ELINK_DYNAMIC_LIBRARY;
 	ldProject.libraryObjects = {
 		 GET_PROJECT_LIBRARY(tier0, "tier0"),
-		 GET_PROJECT_LIBRARY(tier1, "tier1"),
 	};
+	ldProject.objects.AppendTail({GET_PROJECT_LIBRARY(tier1, "tier1")});
 	szOutputProject = linker->Link(&ldProject);
 
 	ADD_OUTPUT_OBJECT("fs", szOutputProject);
