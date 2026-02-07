@@ -16,6 +16,7 @@
 struct ClangFile_t
 {
 	CUtlString m_szName;
+	CUtlString m_szDir;
 	CUtlVector<CUtlString> m_szArguments;
 };
 
@@ -244,6 +245,7 @@ skipcompile:
 
 		ClangFile_t cfile = {};
 		cfile.m_szName = file;
+		cfile.m_szDir = Plat_GetWorkingDir();
 		cfile.m_szArguments = args;
 		cfile.m_szArguments.AppendHead(GetCompilerExecutable(pProject));
 
@@ -276,7 +278,7 @@ void CClangCompiler::GenerateLinterData()
 		pArgumentFiles->SetArray(values.GetSize(), values.GetData());
 		pArgumentsValue->SetArrayValue(pArgumentFiles);
 		pFileNameValue->SetStringValue(f.m_szName.GetString());
-		pDirectoryValue->SetStringValue(filesystem2->BuildDirectory());
+		pDirectoryValue->SetStringValue(f.m_szDir.GetString());
 		pFileObject->SetValue("arguments", pArgumentsValue);
 		pFileObject->SetValue("file", pFileNameValue);
 		pFileObject->SetValue("directory", pDirectoryValue);

@@ -26,10 +26,9 @@ CUtlString ILinker::GetOutputObjectName( LinkProject_t *pProject, unsigned int h
 	}
 
 	return  CUtlString(
-			"%s/%s/ld/%u_%s/%s",
+			"%s/%s/ld/%s/%s",
 			FPC_TEMPORAL_DIRNAME,
 			szTarget.GetString(),
-			hash,
 			pProject->m_szName.GetString(),
 			szFileNameFormat.GetString());
 }

@@ -103,7 +103,10 @@ BuildFile_t *CProjectBuilder::BuildProject( const char *szProjectName, const cha
 	*pfnGetProjectObject = FPC_GetProjectObject;
 	for (auto a: stBuildFileInfo.m_dependantFiles)
 	{
-		BuildProject("something", CUtlString("%s/%s",szWd.GetString(),a));
+		BuildProject(
+				CUtlString("build_%s", CUtlString(a).GetDirectory().GetFileName().GetString()), 
+				CUtlString("%s/%s",szWd.GetString(),a)
+				);
 	}
 	
 	Plat_SetWorkingDir(szWd);
@@ -115,6 +118,8 @@ BuildFile_t *CProjectBuilder::BuildProject( const char *szProjectName, const cha
 		build->m_pMainFn();
 		for ( auto &o: build->m_outputs)
 		{
+			if (o.m_szPath.BIsAbsolute())
+				continue;
 			o.m_szPath.AppendHead("/");
 			o.m_szPath.AppendHead(Plat_GetWorkingDir());
 		};

@@ -32,5 +32,6 @@ DECLARE_BUILD_STAGE(tier0)
 
 	ADD_OUTPUT_OBJECT("tier0", szOutputProject);
 
+
 	return 0;
 };

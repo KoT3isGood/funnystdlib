@@ -29,6 +29,7 @@ public:
 	CUtlString GetFileExtension();
 	CUtlString GetDirectory();
 	CUtlString RemoveHeadFile();
+	bool BIsAbsolute();
 
 	char *GetString( void );
 	size_t GetLenght( void );
@@ -188,6 +189,16 @@ inline CUtlString CUtlString::GetDirectory()
 
 	return szDirectory;
 }
+inline bool CUtlString::BIsAbsolute()
+{
+	if (GetLenght() == 0)
+		return false;
+#ifdef POSIX
+	if (m_data[0] == '/')
+		return true;
+#endif
+	return false;
+};
 
 inline CUtlString CUtlString::RemoveHeadFile()
 {

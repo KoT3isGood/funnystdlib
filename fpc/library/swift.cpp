@@ -5,10 +5,9 @@ CUtlString ISwiftCompiler::GetOutputObjectName( SwiftProject_t *pProject, unsign
 	CUtlString szTarget = pProject->m_target.GetTriplet();
 
 	return CUtlString(
-			"%s/%s/swift/%u_%s/%s/%s%s",
+			"%s/%s/swift/%s/%s/%s%s",
 			FPC_TEMPORAL_DIRNAME, 
 			szTarget.GetString(), 
-			hash, 
 			pProject->m_szName.GetString(), 
 			filesystem2->BuildDirectory(), 
 			szFileName.GetString(), 
