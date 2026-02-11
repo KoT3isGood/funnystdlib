@@ -128,6 +128,9 @@ protected:
 	virtual void LinkLibrary( CUtlVector<CUtlString> &cmd, const char *szName ) = 0;
 	virtual void LinkLibraryPath( CUtlVector<CUtlString> &cmd, const char *szName ) = 0;
 
+	virtual void LinkFramework( CUtlVector<CUtlString> &cmd, const char *szName ) = 0;
+	virtual void LinkFrameworkPath( CUtlVector<CUtlString> &cmd, const char *szName ) = 0;
+
 };
 
 extern ILinker *linker;

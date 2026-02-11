@@ -128,6 +128,14 @@ CUtlVector<CUtlString> ILinker::BuildLinkCommandLine( LinkProject_t *pProject, c
 	{
 		LinkLibraryPath(cmd, o);
 	};
+	for (auto &o: pProject->frameworks)
+	{
+		LinkFramework(cmd, o);
+	};
+	for (auto &o: pProject->frameworkDirectories)
+	{
+		LinkFrameworkPath(cmd, o);
+	};
 	return cmd;
 
 }

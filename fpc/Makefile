@@ -112,14 +112,14 @@ endif
 
 
 recompile: ../build/tools/fpc
-	build/fpc build
+	-build/fpc build
 
 install: ../build/tools/fpc build/libfpcbuild.a build/libfpc.so build/libtier0.so build/libtier1.a build/libtier2.a build/libfilesystem_std.so install_temp builddir
-	$(CC) -fPIC $(FPC_FILES) -lc -lstdc++ $(CCFLAGS) -o build/fpc -ltier0 -Lbuild build/libtier1.a build/libtier2.a -Wl,--disable-new-dtags -Wl,-rpath,'$$ORIGIN'
-	build/fpc build -fpcdebug
+	$(CC) -fPIC $(FPC_FILES) $(CCFLAGS) -o build/fpc -ltier0 -Lbuild build/libtier1.a build/libtier2.a -Wl,--disable-new-dtags -Wl,-rpath,'$$ORIGIN'
+	-build/fpc build
 	mv build/fpc_temp build/fpc
 	mv build/libfpc_temp.so build/libfpc.so
-	build/fpc build -fpcdebug
+	-build/fpc build
 	mv build/fpc_temp build/fpc
 	mv build/libfpc_temp.so build/libfpc.so
 

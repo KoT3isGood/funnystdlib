@@ -40,6 +40,9 @@ protected:
 	virtual void LinkLibraryObject( CUtlVector<CUtlString> &cmd, const char *szName ) override;
 	virtual void LinkLibrary( CUtlVector<CUtlString> &cmd, const char *szName ) override;
 	virtual void LinkLibraryPath( CUtlVector<CUtlString> &cmd, const char *szName ) override;
+
+	virtual void LinkFramework( CUtlVector<CUtlString> &cmd, const char *szName ) override;
+	virtual void LinkFrameworkPath( CUtlVector<CUtlString> &cmd, const char *szName ) override;
 };
 
 const char *CMSVCLinker::GetCompilerExecutable( LinkProject_t *pProject )
@@ -143,8 +146,18 @@ void CMSVCLinker::LinkLibrary( CUtlVector<CUtlString> &cmd, const char *szName )
 void CMSVCLinker::LinkLibraryPath( CUtlVector<CUtlString> &cmd, const char *szName )
 {
 	cmd.AppendTail(CUtlString("/libpath:%s", szName));
+}
+
+void CMSVCLinker::LinkFramework( CUtlVector<CUtlString> &cmd, const char *szName )
+{
 
 }
+
+void CMSVCLinker::LinkFrameworkPath( CUtlVector<CUtlString> &cmd, const char *szName )
+{
+
+}
+
 
 EXPOSE_INTERFACE(CMSVCLinker, ILinker, MSVC_LINKER_INTERFACE_NAME);
 

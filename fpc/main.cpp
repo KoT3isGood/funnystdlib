@@ -92,7 +92,7 @@ IRunner *runner;
 IWineRunner *winerunner;
 ICCompiler *ccompiler;
 ILinker *linker;
-
+IFileSystem *filesystem;
 
 int main(int c, char **v)
 {	
@@ -122,19 +122,6 @@ int main(int c, char **v)
 
 	}
 
-	#ifdef __linux
-	signal(SIGHUP, IEngine_Signal);
-	signal(SIGINT, IEngine_Signal);
-	signal(SIGQUIT, IEngine_Signal);
-	signal(SIGILL, IEngine_Signal);
-	signal(SIGTRAP, IEngine_Signal);
-	signal(SIGIOT, IEngine_Signal);
-	signal(SIGBUS, IEngine_Signal);
-	signal(SIGFPE, IEngine_Signal);
-	signal(SIGSEGV, IEngine_Signal);
-	signal(SIGTERM, IEngine_Signal);
-	#endif
-	
 
 	CreateInterfaceFn pLibFPCFactory = Sys_GetFactory("fpc");
 	
@@ -160,7 +147,13 @@ int main(int c, char **v)
 
 	filesystem = (IFileSystem*)pFilesystemFactory(FILESYSTEM_INTERFACE_VERSION, NULL);
 	filesystem->Init();
-	g_pConfig = INIManager()->ReadFile(".fpccfg");
+
+	IFileHandle *pFile;
+	const char *szData;
+	pFile = filesystem->Open(".fpccfg", FILEMODE_READ);
+	szData = filesystem->ReadString(pFile);
+	filesystem->Close(pFile);
+	g_pConfig = INIManager()->ReadString(szData);
 
 	IINIFile **ppConfig = (IINIFile**)pLibFPCFactory(LIBFPC_CONFIG_INTERFACE_VERSION, NULL);
 	*ppConfig = g_pConfig;

@@ -74,7 +74,7 @@ public:
 
 private:
 	size_t m_nSize = 0;
-	CUtlResizableBuffer<T> m_data;
+	CUtlResizableBuffer<T> m_data = {};
 };
 
 //----------------------------------------------------------------------------

@@ -9,6 +9,7 @@ ADD_DEPENDENCY_BUILD_FILE(tier1, "../tier1/build.cpp");
 ADD_DEPENDENCY_BUILD_FILE(tier2, "../tier2/build.cpp");
 ADD_DEPENDENCY_BUILD_FILE(stdfilesystems, "../stdfilesystems/build.cpp");
 ADD_DEPENDENCY_BUILD_FILE(appleauth, "../appleauth/build.cpp");
+ADD_DEPENDENCY_BUILD_FILE(xtool, "apple/build.cpp");
 
 
 CUtlVector<CUtlString> g_fpcFiles = {
@@ -96,6 +97,35 @@ DECLARE_BUILD_STAGE(libfpc)
 		 GET_PROJECT_LIBRARY(tier1, "tier1"),
 		 GET_PROJECT_LIBRARY(tier2, "tier2"),
 	};
+
+	IINISection *pSection = g_pConfig->GetSection("config");
+	if (pSection)
+	{
+		ldProject.libraries = {
+			"FoundationInternationalization",
+			"Foundation",
+			"swiftRuntime",
+			"swift_Concurrency",
+			"FoundationEssentials",
+			"swiftDispatch",
+			"swiftSynchronization",
+			"swiftGlibc",
+			"swift_StringProcessing",
+			"swiftCore",
+			"swift_RegexParser",
+			"BlocksRuntime",
+			"FoundationEssentials",
+			"dispatch",
+			"swiftSwiftOnoneSupport",
+			"_FoundationICU",
+			"z",
+			"xadi",
+		};
+		
+		ldProject.libraryDirectories = {
+			pSection->GetStringValue("SWIFT_LIB_DIR")
+		};
+	}
 
 	/*
 	if (linker->IsLibraryExists("clang"))

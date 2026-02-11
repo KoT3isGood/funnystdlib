@@ -42,6 +42,9 @@ protected:
 	virtual void LinkLibraryObject( CUtlVector<CUtlString> &cmd, const char *szName ) override;
 	virtual void LinkLibrary( CUtlVector<CUtlString> &cmd, const char *szName ) override;
 	virtual void LinkLibraryPath( CUtlVector<CUtlString> &cmd, const char *szName ) override;
+
+	virtual void LinkFramework( CUtlVector<CUtlString> &cmd, const char *szName ) override;
+	virtual void LinkFrameworkPath( CUtlVector<CUtlString> &cmd, const char *szName ) override;
 };
 
 
@@ -113,10 +116,16 @@ void CClangLinker::SetOutputFile( CUtlVector<CUtlString> &cmd, const char *szNam
 
 void CClangLinker::SetDefaultLibraryPaths( CUtlVector<CUtlString> &cmd, LinkProject_t *pProject )
 {
-	if (pProject->m_target.kernel & TARGET_KERNEL_LINUX_DEVICES)
+	V_printf("Target: %X %X\n", pProject->m_target.kernel,TARGET_KERNEL_LINUX_DEVICES );
+	switch (pProject->m_target.kernel )
 	{
+	case TARGET_KERNEL_LINUX:
+	case TARGET_KERNEL_PC_LINUX:
+	case TARGET_KERNEL_ALPINE_LINUX:
 		cmd.AppendTail("-Wl,--disable-new-dtags");
 		cmd.AppendTail("-Wl,-rpath,$ORIGIN");
+		break;
+	default:
 	}
 }
 
@@ -188,6 +197,18 @@ void CClangLinker::LinkLibraryPath( CUtlVector<CUtlString> &cmd, const char *szN
 	cmd.AppendTail("-L");
 	cmd.AppendTail(szName);
 }
+void CClangLinker::LinkFramework( CUtlVector<CUtlString> &cmd, const char *szName )
+{
+	cmd.AppendTail("-framework");
+	cmd.AppendTail(szName);
+}
+
+void CClangLinker::LinkFrameworkPath( CUtlVector<CUtlString> &cmd, const char *szName )
+{
+	cmd.AppendTail("-F");
+	cmd.AppendTail(szName);
+}
+
 
 EXPOSE_INTERFACE(CClangLinker, ILinker, CLANG_LINKER_INTERFACE_NAME);
 /*

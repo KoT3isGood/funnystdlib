@@ -110,6 +110,7 @@ void CClangCompiler::SetTarget( CUtlVector<CUtlString> &cmd, CProject_t *pProjec
 		break;
 
 	}
+	cmd.AppendTail("-fobjc-arc");
 }
 
 void CClangCompiler::CompileFile( CUtlVector<CUtlString> &cmd, const char *szName )
@@ -290,6 +291,7 @@ void CClangCompiler::GenerateLinterData()
 	IJSONValue *pRoot = JSONManager()->CreateValue();
 	pRoot->SetArrayValue(pArray);
 	CUtlString szCommands = JSONManager()->WriteString(pRoot);
-	V_fprintf(f, szCommands.GetString());
+	JSONManager()->FreeValue(pRoot);
+	V_fwrite(szCommands.GetString(), 1, szCommands.GetLenght(), f);
 	V_fclose(f);
 };

@@ -99,11 +99,13 @@ IINIFile *CINIManager::ReadFile( const char *psz )
 	IFileHandle *pFile;
 	const char *szData;
 	
+	/*
 	pFile = filesystem->Open(psz, FILEMODE_READ);
 	if (!pFile)
 		return NULL;
 	szData = filesystem->ReadString(pFile);
 	filesystem->Close(pFile);
+	*/
 
 	return ReadString(szData);
 }

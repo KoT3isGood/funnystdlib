@@ -2,6 +2,7 @@
 #include "helper.h"
 #include "runner.h"
 #include "appleauth/iauth.h"
+#include "../apple/xtool.h"
 
 void AppleManifest_t::SetPackageID( CUtlString szPackageID )
 {
@@ -23,7 +24,7 @@ CUtlString AppleManifest_t::BuildManifest()
 	CPUProject_t project = {};
 	project.m_szName = m_szPackageName;
 	unsigned int hash = project.GenerateProjectHash();
-	CUtlString szOutputDir = CUtlString("%s/apple/%u_%s/app/",FPC_TEMPORAL_DIRNAME, hash, m_szPackageID.GetString());
+	CUtlString szOutputDir = CUtlString("%s/apple/%u_%s/Payload/%s.app/",FPC_TEMPORAL_DIRNAME, hash, m_szPackageID.GetString(), m_szPackageExecutable.GetFileName().GetString());
 	filesystem2->MakeDirectory(szOutputDir);
 	filesystem2->CopyFile(szOutputDir, m_szPackageExecutable);
 	CUtlString szInfoPlist = CUtlString("%s/Info.plist", szOutputDir.GetString());
@@ -55,6 +56,7 @@ CUtlString AppleManifest_t::BuildManifest()
 	V_fprintf(pInfoPlistFile, "<integer>2</integer>\n");
 	V_fprintf(pInfoPlistFile, "</array>\n");
 	V_fprintf(pInfoPlistFile, "</dict>\n");
+	V_fprintf(pInfoPlistFile, "</plist>\n");
 
 	V_fclose(pInfoPlistFile);
 	return szOutputDir;
@@ -64,36 +66,39 @@ CUtlString AppleManifest_t::BuildManifest()
 class CAppleTool: public IAppleTool
 {
 public:
+	CAppleTool();
 	virtual CUtlString BuildPackage( AppleManifest_t manifest, CUtlString szManifestDir ) override;
 	virtual CUtlString SignPackage( const char *szIpa, const char *szPassword ) override;
+};
+CAppleTool::CAppleTool()
+{
 };
 
 CUtlString CAppleTool::BuildPackage( AppleManifest_t manifest, CUtlString szManifestDir )
 {
+
 	CUtlVector<CUtlString> args = {};
 	args = {
 		"-r",
-		CUtlString("../%s.ipa", manifest.m_szPackageName.GetString()),
-		CUtlString("."),
+		CUtlString("%s.ipa", manifest.m_szPackageName.GetString()),
+		CUtlString("Payload"),
 	};
-	runner->Run("zip",szManifestDir, args);
+	V_printf("%s\n", szManifestDir.GetString());
+	runner->Run("zip",szManifestDir.GetDirectory().GetDirectory().GetDirectory(), args);
 	runner->Wait();
-	return CUtlString("../%s.ipa", manifest.m_szPackageName.GetString());
+	return CUtlString("%s.ipa", manifest.m_szPackageName.GetString());
 }
 
-static IAppleAuth *g_pAppleAuth;
 CUtlString CAppleTool::SignPackage( const char *szIpa, const char *szPassword )
 {
-	CreateInterfaceFn fnFactory = Sys_GetFactory("appleauth");
-	if (fnFactory == NULL)
-		Plat_FatalErrorFunc("Couldn't get xtool\n");
-
+	/*
 	g_pAppleAuth = (IAppleAuth*)fnFactory(APPLE_AUTH_INTERFACE_VERSION, NULL);
 	g_pAppleAuth->Init();
 	char *szGSAEmail = CommandLine()->ParamValue("-apple-login");
 	char *szGSAPassword = CommandLine()->ParamValue("-apple-password");
 	if (szGSAEmail && szGSAPassword)
 		g_pAppleAuth->SubmitLoginData(szGSAEmail, szGSAPassword);
+	*/
 	return szIpa;
 }
 

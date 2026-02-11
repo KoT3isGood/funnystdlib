@@ -173,6 +173,11 @@ inline CUtlString CUtlString::GetDirectory()
 		return NULL;
 	size_t iNumDeleted = 0;
 	char *pLast = &m_data[GetLenght()-1];
+	if ( *pLast == '/' )
+	{
+		pLast--;
+		iNumDeleted++;
+	}
 	CUtlString szDirectory = GetString();
 	while (pLast != m_data.GetData())
 	{

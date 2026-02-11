@@ -13,9 +13,16 @@ DECLARE_BUILD_STAGE(ios_build)
 	compileProject.m_target.kernel = TARGET_KERNEL_IOS;
 	compileProject.m_target.cpu = TARGET_CPU_AARCH64;
 	compileProject.files = {
-		"main.c",
+		"main.m",
 	};
 	LinkProject_t ldProject = ccompiler->Compile(&compileProject);
+	ldProject.libraries = {
+		"objc",
+	};
+	ldProject.frameworks = {
+		"Foundation",
+		"UIKit",
+	};
 	CUtlString szOutput = linker->Link(&ldProject);
 
 	AppleManifest_t manifest = {};
@@ -23,7 +30,6 @@ DECLARE_BUILD_STAGE(ios_build)
 	manifest.SetPackageID("com.example.testfpc");
 	manifest.SetPackageExecutable(szOutput);
 	CUtlString szIpa = AppleTool()->BuildPackage( manifest, manifest.BuildManifest() );
-	CUtlString szPackage = AppleTool()->SignPackage(szIpa, NULL);
 
 	return 0;
 }
