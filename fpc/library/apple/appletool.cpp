@@ -2,7 +2,6 @@
 #include "helper.h"
 #include "runner.h"
 #include "appleauth/iauth.h"
-#include "../apple/xtool.h"
 
 void AppleManifest_t::SetPackageID( CUtlString szPackageID )
 {

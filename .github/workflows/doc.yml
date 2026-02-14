@@ -1,0 +1,42 @@
+name: Build Website on Release
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up environment
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y clang 
+
+    - name: Build FPC 
+      run: |
+        cd fpc
+        make auto
+        pwd
+
+    - name: Build website
+      run: |
+        cd docs
+        ../build/tools/fpc/fpc build
+
+    - name: Upload build artifact
+      uses: actions/upload-artifact@v6
+      with:
+        name: website-build
+        path: build/docs/fpc
+
+    - name: Deploy to GitHub Pages
+      if: github.event.release.prerelease == false
+      uses: peaceiris/actions-gh-pages@v4
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: build/docs/fpc

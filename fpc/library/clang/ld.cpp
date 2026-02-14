@@ -116,7 +116,6 @@ void CClangLinker::SetOutputFile( CUtlVector<CUtlString> &cmd, const char *szNam
 
 void CClangLinker::SetDefaultLibraryPaths( CUtlVector<CUtlString> &cmd, LinkProject_t *pProject )
 {
-	V_printf("Target: %X %X\n", pProject->m_target.kernel,TARGET_KERNEL_LINUX_DEVICES );
 	switch (pProject->m_target.kernel )
 	{
 	case TARGET_KERNEL_LINUX:
