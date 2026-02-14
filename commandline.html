@@ -32,9 +32,9 @@ a:hover {
 	color: #c5c5c5;
 }
 hr {
-	background-color: white;
-	color: white;
-	height: 2px;
+	background-color: #282727;
+	color: #282727;
+	height: 1px;
 }
 
 .fancy_name
@@ -45,24 +45,102 @@ hr {
 </style>
 </head>
 <body>
-<h1>Using <span class="fancy_name">fpc</span> command line</h1>
+<h1><span class="fancy_name">fpc</span> command line reference</h1>
 
 <p>
-Here are some of commands that you will use:
+You can find every single command it uses
 <ul>
 <li>
 	<code>fpc build</code>
-	<ul>
+	&mdash;
+	Builds your project
+
+	<h4>Procedures</h4>
+	<ol>
 	<li>builds a project</li>
 	<li>goes down current working directory until finds build.cpp</li>
 	<li>compiles and runs it's dependencies recursively</li>
-	<li></li>
+	<li>returns all the modules</li>
+	</ol>
+
+	<h4>Arguments</h4>
+	<ul>
+	<li>-fpcdebug &mdash; prints all commands used </li>
+	<li>-arch &mdash; sets target <a href="#CPUS">CPU.</a></li>
+	<li>-os &mdash; sets target <a href="#OSS">OS.</a></li>
+	<li>-abi &mdash; sets target <a href="#ABIS">ABI.</a></li>
 	</ul>
+</li>
+<hr/>
+<li>
+	<code>fpc target query</code>
+	&mdash;
+	Returns ABI it was compiled for.
+</li>
+<hr/>
+<li>
+	<code>fpc --version</code>
+	&mdash;
+	Tells information about the version.
+</li>
+<li>
+	<code>fpc -v</code>
+	&mdash;
+	Same as <code>fpc --version</code>
 </li>
 
 
 </ul>
 
+</p>
+<hr/>
+<p id="CPUS">
+Available CPUs/Arches
+<ul>
+<li>x86_64</li>
+<li>i386</li>
+<li>i486</li>
+<li>i586</li>
+<li>i686</li>
+<li>aarch64</li>
+<li>wasm32</li>
+</ul>
+</p>
+<hr/>
+<p id="OSS">
+Available operating systems
+<ul>
+<li>linux (unknown-linux)</li>
+<li>unknown-linux</li>
+<li>pc-linux</li>
+<li>alpine-linux</li>
+<hr/>
+
+<li>macos (apple-darwin)</li>
+<li>apple-darwin</li>
+<li>ios (apple-ios)</li>
+<li>apple-ios</li>
+<hr/>
+
+<li>windows (pc-windows)</li>
+<li>pc-windows</li>
+<hr/>
+
+<li>android (linux-android)</li>
+<li>linux-android</li>
+
+<li>unknown-wasi</li>
+<li>unknown-emscripten</li>
+</ul>
+</p>
+<hr/>
+<p id="ABIS">
+Available ABIs 
+<ul>
+<li>default</li>
+<li>gnu</li>
+<li>musl</li>
+</ul>
 </p>
 </body>
 </html>

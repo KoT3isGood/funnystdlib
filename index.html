@@ -45,27 +45,11 @@ hr {
 </style>
 </head>
 <body>
-<h1>Compiling <span class="fancy_name">fpc</span></h1>
-
-<h2>How to compile:</h2>
-
-<code><pre>
-git clone https://github.com/KoT3isGood/funnystdlib
-cd funnygame
-make auto
-</pre></code>
-We rely on Makefile to bootstrap, configure and deploy it
-<br>
-I don't think it was hard, was it?
-<br>
-Now you can add <code>build/tools/fpc</code> to your <var>PATH</var> environment variable
-
-<h2>Cross-compilation</h2>
-You can cross-compile via <var>FPC_ARCH</var>, <var>FPC_OS</var> and <var>FPC_ABI</var> variables.
-<br>
-Example for iSH Shell, as it comes with sysroot for i586-alpine-linux-musl:
-<br>
-<code>make auto FPC_ARCH=i586 FPC_OS=alpine-linux FPC_ABI=musl</code>
-
+<h1 class="fancy_name">funny project compiler</h1>
+<ol>
+<li><a href="compiling.html">Compiling <span class="fancy_name">fpc</span></a></li>
+<li><a href="commandline.html"><span class="fancy_name">fpc</span> command line reference</a></li>
+<li><a href="buildfile.html"><span class="fancy_name">fpc</span> build file reference</a></li>
+</ol>
 </body>
 </html>
