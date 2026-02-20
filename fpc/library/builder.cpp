@@ -43,6 +43,26 @@ CUtlString FPC_GetProjectObject( const char *szName, const char *szObjectName )
 	return NULL;
 }
 
+CUtlString FPC_GetProjectValue( const char *szName, const char *szObjectName )
+{
+	for (auto b: buildFileInfos)
+	{
+		for (auto s: b.m_stages)
+		{
+			if (strcmp(s->m_psz, szName))
+				continue;
+			for (auto o: s->m_outputValues)
+			{
+				if (strcmp(o.m_szName, szObjectName))
+					continue;
+
+				return o.m_szPath;
+			}
+		}
+	}
+	return NULL;
+}
+
 BuildFile_t *CProjectBuilder::BuildProject( const char *szProjectName, const char *szPath )
 {
 	CProject_t stCompileProject = {};
@@ -55,6 +75,7 @@ BuildFile_t *CProjectBuilder::BuildProject( const char *szProjectName, const cha
 	BuildFile_t *pBuildFile = NULL;
 	CBuildStage **ppExecutedBuildStage = NULL;
 	GetProjectObjectFn *pfnGetProjectObject = NULL;
+	GetProjectObjectFn *pfnGetProjectValue = NULL;
 	CUtlString szWd = CUtlString(szPath).GetDirectory();
 
 	Plat_SetWorkingDir(szWd);
@@ -92,7 +113,8 @@ BuildFile_t *CProjectBuilder::BuildProject( const char *szProjectName, const cha
 	pBuildFileInfo = (BuildFileInfo_t*)pBuildFactory(BUILD_FILE_INFO_INTERFACE_VERSION, NULL);
 	ppExecutedBuildStage = (CBuildStage**)pBuildFactory(BUILD_CURRENT_STAGE_INTERFACE_VERSION, NULL);
 	pfnGetProjectObject = (GetProjectObjectFn*)pBuildFactory(BUILD_GET_PROJECT_OBJECT_INTERFACE_VERSION, NULL);
-	if (!pBuildFileInfo || !ppExecutedBuildStage || !pfnGetProjectObject)
+	pfnGetProjectValue = (GetProjectObjectFn*)pBuildFactory(BUILD_GET_PROJECT_VALUE_INTERFACE_VERSION, NULL);
+	if (!pBuildFileInfo || !ppExecutedBuildStage || !pfnGetProjectObject || !pfnGetProjectValue)
 	{
 		V_printf("Required interfaces are not present\n");
 		Plat_UnloadLibrary(szBuildLibrary);
@@ -101,6 +123,7 @@ BuildFile_t *CProjectBuilder::BuildProject( const char *szProjectName, const cha
 	stBuildFileInfo = *pBuildFileInfo;
 	buildFileInfos.AppendTail(stBuildFileInfo);
 	*pfnGetProjectObject = FPC_GetProjectObject;
+	*pfnGetProjectValue = FPC_GetProjectValue;
 	for (auto a: stBuildFileInfo.m_dependantFiles)
 	{
 		BuildProject(

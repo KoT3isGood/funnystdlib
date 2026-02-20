@@ -102,6 +102,7 @@ public:
 	const char *m_psz;
 	CUtlString m_szPath;
 	CUtlVector<StageOutput_t> m_outputs;
+	CUtlVector<StageOutput_t> m_outputValues;
 	int(*m_pMainFn)();
 };
 
@@ -130,6 +131,8 @@ static CBuildDependentFile __##name##DependencyFile(path);
 
 #define ADD_OUTPUT_OBJECT(sz, path) \
 	g_pCurrentStage->m_outputs.AppendTail((StageOutput_t){sz, path});
+#define ADD_OUTPUT_VALUE(sz, path) \
+	g_pCurrentStage->m_outputValues.AppendTail((StageOutput_t){sz, path});
 
 #define DEPEND_ON_PROJECT(sz) \
 
@@ -138,6 +141,9 @@ static CBuildDependentFile __##name##DependencyFile(path);
 
 #define GET_PROJECT_OBJECT(sz, szLib) \
 	FPC_GetProjectObject(#sz, szLib)
+
+#define GET_PROJECT_VALUE(sz, szLib) \
+	FPC_GetProjectValue(#sz, szLib)
 	
 
 struct BuildFileInfo_t
@@ -150,13 +156,13 @@ BuildFileInfo_t *GetBuildFileInfo();
 extern CBuildStage *g_pCurrentStage;
 
 CUtlString FPC_GetProjectObject( const char *szName, const char *szObjectName );
-
-
+CUtlString FPC_GetProjectValue( const char *szName, const char *szValueName );
 #define BUILD_FILE_INFO_INTERFACE_VERSION "BuildFileInfo001"
 #define BUILD_CURRENT_STAGE_INTERFACE_VERSION "BuildCurrentStage001"
 
 typedef CUtlString(*GetProjectObjectFn)( const char *szName, const char *szObjectName );
 #define BUILD_GET_PROJECT_OBJECT_INTERFACE_VERSION "GetProjectObject001"
+#define BUILD_GET_PROJECT_VALUE_INTERFACE_VERSION "GetProjectValue001"
 
 #define LIBFPC_INIT_INTERFACE_VERSION "LibFPCInit001"
 

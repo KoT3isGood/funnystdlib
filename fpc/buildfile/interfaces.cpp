@@ -4,6 +4,7 @@
 static BuildFileInfo_t buildfileinfo = {};
 CBuildStage *g_pCurrentStage = NULL;
 GetProjectObjectFn g_pfnGetProjectObject = NULL;
+GetProjectObjectFn g_pfnGetProjectValue = NULL;
 
 BuildFileInfo_t *GetBuildFileInfo()
 {
@@ -35,7 +36,14 @@ CUtlString FPC_GetProjectObject( const char *szName, const char *szObjectName )
 	return szOutputString;
 }
 
+CUtlString FPC_GetProjectValue( const char *szName, const char *szObjectName )
+{
+	CUtlString szOutputString;
+	szOutputString = g_pfnGetProjectValue(szName, szObjectName);
+	return szOutputString;
+}
 
 EXPOSE_INTERFACE_GLOBALVAR(BuildFileInfo_t, BuildFileInfo_t, BUILD_FILE_INFO_INTERFACE_VERSION, buildfileinfo);
 EXPOSE_INTERFACE_GLOBALVAR(CBuildStage, CBuildStage, BUILD_CURRENT_STAGE_INTERFACE_VERSION, g_pCurrentStage);
 EXPOSE_INTERFACE_GLOBALVAR(GetProjectObjectFn, GetProjectObjectFn, BUILD_GET_PROJECT_OBJECT_INTERFACE_VERSION, g_pfnGetProjectObject);
+EXPOSE_INTERFACE_GLOBALVAR(FPC_GetProjectValue, GetProjectObjectFn, BUILD_GET_PROJECT_VALUE_INTERFACE_VERSION, g_pfnGetProjectValue);
