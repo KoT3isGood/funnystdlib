@@ -58,7 +58,7 @@ const char *CMSVCLinker::GetCompilerExecutable( LinkProject_t *pProject )
 		return szLinker;
 
 
-	szLinker = pSection->GetStringValue("MSVC_LINKER_INTERFACE_NAME");
+	szLinker = pSection->GetStringValue("link");
 	if (szLinker == NULL)
 		return "link";
 	return szLinker;

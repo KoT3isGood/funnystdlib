@@ -1,0 +1,23 @@
+<h1>Configuring compilers</h1>
+For such cases when compiler or sysroot is required to build a project but 
+cannot be found globally we have introduced configuration of the build system.
+To start configuring one create <code>.fpccfg</code>, which is a ini configuration file.
+We generally recommend to include it to ignore files (<code>.gitignore</code>).
+
+<h4>Compiler executable</h4>
+We do not provide some of the compilers, eg. cl.exe, swiftc, etc. 
+But they are still required to compile stuff.
+To solve this issue we have introduced configuration of executables.
+Most of compilers follow such syntaxis:
+<code-embed src="config/syntaxis1.ini" lang="ini"></code-embed>
+
+<h5>example:</h5>
+<code-embed src="config/example1.ini" lang="ini"></code-embed>
+
+<h4>Sysroots</h4>
+Sysroots allow compilers to find headers and libraries by <i>emulating</i> filesystem for operating system.
+All the compilers follow such syntaxis:
+<code-embed src="config/syntaxis2.ini" lang="ini"></code-embed>
+
+<h5>example:</h5>
+<code-embed src="config/example2.ini" lang="ini"></code-embed>

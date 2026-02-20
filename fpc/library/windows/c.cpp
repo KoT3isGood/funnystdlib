@@ -77,7 +77,7 @@ const char *CMSVCCompiler::GetCompilerExecutable( CProject_t *pProject )
 		return szLinker;
 
 
-	szLinker = pSection->GetStringValue("MSVC_LINKER_INTERFACE_NAME");
+	szLinker = pSection->GetStringValue("cl");
 	if (szLinker == NULL)
 		return "cl.exe";
 	return szLinker;

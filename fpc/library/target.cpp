@@ -134,23 +134,27 @@ Target_t Target_t::DefaultTarget()
 	CUtlString szOS = CommandLine()->ParamValue("-os");
 	CUtlString szArch = CommandLine()->ParamValue("-arch");
 	CUtlString szAbi = CommandLine()->ParamValue("-abi");
+	bool bRelease = CommandLine()->CheckParam("--release");
 
 	ETargetKernel kernel = KernelFromString(szOS);
 	ETargetCPU cpu = CPUFromString(szArch);
 	ETargetABI abi = ABIFromString(szAbi);
+	ETargetOptimization optimization = TARGET_DEBUG;
 	if (cpu == TARGET_CPU_UNDEFINED)
 		cpu = HostTarget().cpu;
 	if (kernel == TARGET_KERNEL_UNDEFINED)
 		kernel = HostTarget().kernel;
 	if (abi == TARGET_ABI_UNDEFINED)
 		abi = HostTarget().abi;
+	if (bRelease)
+		optimization = TARGET_RELEASE_SPEED;
 
 	
 	return {
 		.kernel = kernel,
 		.cpu = cpu,
 		.abi = abi,
-		.optimization = TARGET_DEBUG,
+		.optimization = optimization,
 	};
 }
 const char *Target_t::StringFromCPU( ETargetCPU cpu )

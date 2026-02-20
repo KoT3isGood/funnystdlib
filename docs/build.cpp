@@ -8,7 +8,13 @@ void BuildPage( const char *szFakeFile )
 	V_printf("%s\n", szFakeFile);
 	CUtlString szFile = szFakeFile;
 	if (szFile.GetFileExtension() != "html")
+	{
+		CUtlString szOutputDir = CUtlString("../build/docs/%s", szFile.GetDirectory().GetString());
+		CUtlString szOutputFile = CUtlString("../build/docs/%s", szFile.GetString());
+		filesystem2->MakeDirectory(szOutputDir);
+		filesystem2->CopyFile(szOutputFile, szFile);
 		return;
+	}
 
 	CUtlString szOutputDir = CUtlString("../build/docs/%s", szFile.GetDirectory().GetString());
 	CUtlString szOutputFile = CUtlString("../build/docs/%s", szFile.GetString());

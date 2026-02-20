@@ -62,7 +62,7 @@ const char *CClangLinker::GetCompilerExecutable( LinkProject_t *pProject )
 		return szLinker;
 
 
-	szLinker = pSection->GetStringValue("CLANG_LINKER_INTERFACE_NAME");
+	szLinker = pSection->GetStringValue("clang++");
 	if (szLinker == NULL)
 		return "clang++";
 	return szLinker;
