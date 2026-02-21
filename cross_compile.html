@@ -75,27 +75,12 @@ class CodeEmbed extends HTMLElement
 }
 customElements.define("code-embed", CodeEmbed);
 </script>
-<h1>Compiling <span class="fancy_name">fpc</span></h1>
+<h4>Windows</h4>
+For cross-compilation to Windows you may use wine-msvc or mingw.
 
-<h2>How to compile:</h2>
 
-<pre><code class="language-bash">
-git clone https://github.com/KoT3isGood/funnystdlib
-cd funnygame
-make auto
-</code></pre>
-I don't think it was hard, was it?
-<br>
-We rely on Makefile to bootstrap, configure and deploy it
-<br>
-Now you can add <code>build/tools/fpc</code> to your <var>PATH</var> environment variable
 
-<h2>Cross-compilation</h2>
-You can cross-compile via <var>FPC_ARCH</var>, <var>FPC_OS</var> and <var>FPC_ABI</var> variables.
-<br>
-Example for iSH Shell, as it comes with sysroot for i586-alpine-linux-musl:
-<br>
-<code>make auto FPC_ARCH=i586 FPC_OS=alpine-linux FPC_ABI=musl</code>
+<h4>iOS</h4>
 
 </body>
 </html>
