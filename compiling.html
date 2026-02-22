@@ -43,6 +43,7 @@ hr {
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Playwrite+CA:wght@100..400&display=swap" rel="stylesheet">
+<meta name="darkreader-lock">
 </head>
 <body>
 <!-- Code embedding blocks -->
@@ -81,8 +82,8 @@ customElements.define("code-embed", CodeEmbed);
 
 <pre><code class="language-bash">
 git clone https://github.com/KoT3isGood/funnystdlib
-cd funnygame
-make auto
+cd fpc
+make
 </code></pre>
 I don't think it was hard, was it?
 <br>
@@ -95,7 +96,7 @@ You can cross-compile via <var>FPC_ARCH</var>, <var>FPC_OS</var> and <var>FPC_AB
 <br>
 Example for iSH Shell, as it comes with sysroot for i586-alpine-linux-musl:
 <br>
-<code>make auto FPC_ARCH=i586 FPC_OS=alpine-linux FPC_ABI=musl</code>
+<code>make FPC_ARCH=i586 FPC_OS=alpine-linux FPC_ABI=musl</code>
 
 </body>
 </html>
