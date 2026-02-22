@@ -26,7 +26,7 @@ jobs:
     - name: Build website
       run: |
         cd docs
-        ../build/tools/fpc/fpc build
+        ../build/tools/fpc/x86_64-unknown-linux/fpc build
 
     - name: Upload build artifact
       uses: actions/upload-artifact@v6
