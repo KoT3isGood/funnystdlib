@@ -23,9 +23,9 @@ public:
 	CUtlVector( const CUtlVector &vector );
 	~CUtlVector();
 
-	void AppendHead( const T &data );
+	void AppendHead( const T data );
 	void AppendHead( const T *pData, size_t n );
-	void AppendTail( const T &data );
+	void AppendTail( const T data );
 	void AppendTail( const T *data, size_t n );
 	void AppendAt( size_t nIndex, const T &data );
 	void AppendAt( size_t nIndex, const T *data, size_t n );
@@ -121,7 +121,7 @@ CUtlVector<T>::~CUtlVector()
 }
 
 template<typename T>
-void CUtlVector<T>::AppendHead( const T &data )
+void CUtlVector<T>::AppendHead( const T data )
 {
 	AppendHead(&data,1);
 }
@@ -144,7 +144,7 @@ void CUtlVector<T>::AppendHead( const T *pData, size_t n )
 }
 
 template<typename T>
-void CUtlVector<T>::AppendTail( const T &data )
+void CUtlVector<T>::AppendTail( const T data )
 {
 	AppendTail(&data,1);
 }

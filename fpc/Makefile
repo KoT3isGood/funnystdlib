@@ -10,7 +10,8 @@ CC = clang++
 LINK = clang++
 AR = ar rcs
 
-TEMPORAL_DIR = .make
+TEMPORAL_DIRECTORY = .make
+OUTPUT_DIRECTORY = ../build/tools/fpc
 
 SYSROOT = 
 
@@ -59,21 +60,23 @@ else ifeq ($(shell uname -s),Darwin)
 FPC_LIBRARY_NAMING = apple
 endif
 
-ifeq ($(FPC_LIBRARY_NAMIN),minix)
+ifeq ($(FPC_LIBRARY_NAMING),minix)
 
 TIER0 = libtier0.so
 LIBFPC = libfpc.so
 FILESYSTEM_STD = libfilesystem_std.so
 FPC = fpc
+EXECUTABLE_FLAGS := -Wl,--disable-new-dtags -Wl,-rpath,'$$ORIGIN'
 
-else ifeq ($(FPC_LIBRARY_NAMIN),apple)
+else ifeq ($(FPC_LIBRARY_NAMING),apple)
 
 TIER0 = libtier0.dylib
 LIBFPC = libfpc.dylib
 FILESYSTEM_STD = libfilesystem_std.dylib
 FPC = fpc
+EXECUTABLE_FLAGS := -Wl,-rpath,'@loader_path'
 
-else ifeq ($(FPC_LIBRARY_NAMIN),windows)
+else ifeq ($(FPC_LIBRARY_NAMING),windows)
 
 TIER0 = tier0.dll
 LIBFPC = fpc.dll
@@ -102,62 +105,63 @@ REAL_TARGET := --sysroot $(SYSROOT)
 endif
 
 
-CCFLAGS = $(REAL_TARGET) -g -I../public -Ipublic
+CCFLAGS := $(REAL_TARGET) -g -I../public -Ipublic -fPIC
 
 ifeq ($(OS),Windows_NT)
-CREATEDIR = mkdir
+MKDIR = mkdir
 else
-CREATEDIR = mkdir -p
+MKDIR = mkdir -p
 endif
 
+.PHONY: all build install install_headers
 
-recompile: ../build/tools/fpc
-	-build/fpc build
+all: install
 
-install: ../build/tools/fpc build/libfpcbuild.a build/libfpc.so build/libtier0.so build/libtier1.a build/libtier2.a build/libfilesystem_std.so install_temp builddir
-	$(CC) -fPIC $(FPC_FILES) $(CCFLAGS) -o build/fpc -ltier0 -Lbuild build/libtier1.a build/libtier2.a -Wl,--disable-new-dtags -Wl,-rpath,'$$ORIGIN'
-	-build/fpc build
-	mv build/fpc_temp build/fpc
-	mv build/libfpc_temp.so build/libfpc.so
-	-build/fpc build
-	mv build/fpc_temp build/fpc
-	mv build/libfpc_temp.so build/libfpc.so
+build: install_headers \
+		$(TEMPORAL_DIRECTORY) \
+		$(TEMPORAL_DIRECTORY)/libfpcbuild.a \
+		$(TEMPORAL_DIRECTORY)/$(LIBFPC) \
+		$(TEMPORAL_DIRECTORY)/$(TIER0) \
+		$(TEMPORAL_DIRECTORY)/libtier1.a \
+		$(TEMPORAL_DIRECTORY)/libtier2.a \
+		$(TEMPORAL_DIRECTORY)/$(FILESYSTEM_STD)
+	$(CC) $(FPC_FILES) $(CCFLAGS) $(EXECUTABLE_FLAGS) -o $(TEMPORAL_DIRECTORY)/$(FPC) -ltier0 -L$(TEMPORAL_DIRECTORY) $(TEMPORAL_DIRECTORY)/libtier1.a $(TEMPORAL_DIRECTORY)/libtier2.a
+	-$(TEMPORAL_DIRECTORY)/$(FPC) build
 
-build/libtier0.so: $(TIER0_FILES) builddir
-	$(CC) $(CCFLAGS) -fPIC -shared -o build/libtier0.so $(TIER0_FILES)
+install: build
+	-$(TEMPORAL_DIRECTORY)/$(FPC) build --install $(OUTPUT_DIRECTORY)
+
+
+$(TEMPORAL_DIRECTORY)/$(TIER0): $(TIER0_FILES) $(TEMPORAL_DIRECTORY)
+	$(CC) $(CCFLAGS) -shared -o $@ $(TIER0_FILES)
 
 %.o: %.cpp
-	$(CC) $(CCFLAGS) -fPIC -c $< -o $@
+	$(CC) $(CCFLAGS) -c $< -o $@
 
-build/libtier1.a: $(TIER1_OBJS) builddir build/libtier0.so
-	ar rcs build/libtier1.a $(TIER1_OBJS)
+$(TEMPORAL_DIRECTORY)/libtier1.a: $(TIER1_OBJS) $(TEMPORAL_DIRECTORY) $(TEMPORAL_DIRECTORY)/$(TIER0)
+	ar rcs $@ $(TIER1_OBJS)
 
-build/libtier2.a: $(TIER2_OBJS) builddir build/libtier1.a
-	ar rcs build/libtier2.a $(TIER2_OBJS)
+$(TEMPORAL_DIRECTORY)/libtier2.a: $(TIER2_OBJS) $(TEMPORAL_DIRECTORY) $(TEMPORAL_DIRECTORY)/libtier1.a
+	ar rcs $@ $(TIER2_OBJS)
 
-build/libfilesystem_std.so: $(FILESYSTEM_FILES) build/libtier1.a build/libtier0.so builddir
-	$(CC) $(CCFLAGS) -fPIC -shared -o build/libfilesystem_std.so $(FILESYSTEM_FILES) build/libtier1.a -ltier0 -Lbuild
+$(TEMPORAL_DIRECTORY)/$(FILESYSTEM_STD): $(FILESYSTEM_FILES) $(TEMPORAL_DIRECTORY)/libtier1.a $(TEMPORAL_DIRECTORY)/$(TIER0) $(TEMPORAL_DIRECTORY)
+	$(CC) $(CCFLAGS) -fPIC -shared -o $@ $(FILESYSTEM_FILES) $(TEMPORAL_DIRECTORY)/libtier1.a -ltier0 -L$(TEMPORAL_DIRECTORY)
 
-build/libfpcbuild.a: buildfile/interfaces.o builddir
-	ar rcs build/libfpcbuild.a buildfile/interfaces.o
+$(TEMPORAL_DIRECTORY)/libfpcbuild.a: buildfile/interfaces.o $(TEMPORAL_DIRECTORY)
+	ar rcs $@ buildfile/interfaces.o
 
-build/libfpc.so: $(LIBFPC_FILES) builddir build/libfpcbuild.a build/libtier1.a build/libtier2.a
-	$(CC) $(CCFLAGS) $(LIBFPC_FILES) library/libfpc.cpp -fPIC -shared -o build/libfpc.so build/libtier1.a build/libtier2.a -ltier0 -Lbuild
+$(TEMPORAL_DIRECTORY)/$(LIBFPC): $(LIBFPC_FILES) $(TEMPORAL_DIRECTORY) $(TEMPORAL_DIRECTORY)/libfpcbuild.a $(TEMPORAL_DIRECTORY)/libtier1.a $(TEMPORAL_DIRECTORY)/libtier2.a
+	$(CC) $(CCFLAGS) $(LIBFPC_FILES) library/libfpc.cpp -shared -o $@ $(TEMPORAL_DIRECTORY)/libtier1.a $(TEMPORAL_DIRECTORY)/libtier2.a -ltier0 -L$(TEMPORAL_DIRECTORY)
 
-builddir:
-	mkdir -p build
+$(TEMPORAL_DIRECTORY):
+	$(MKDIR) $(TEMPORAL_DIRECTORY)
 
-../build/tools/fpc:
-	mkdir -p ../build/tools/fpc
+$(OUTPUT_DIRECTORY):
+	$(MKDIR) $(OUTPUT_DIRECTORY)
 
-install_fpc: ../build/tools/fpc
-	cp -r build/* ../build/tools/fpc
-
-install_temp: builddir
-	cp -r public build 
-	cp -r ../public/tier0 build/public
-	cp -r ../public/tier1 build/public
-	cp -r ../public/tier2 build/public
-
-auto: install install_fpc
+install_headers: $(TEMPORAL_DIRECTORY)
+	cp -r public $(TEMPORAL_DIRECTORY) 
+	cp -r ../public/tier0 $(TEMPORAL_DIRECTORY)/public
+	cp -r ../public/tier1 $(TEMPORAL_DIRECTORY)/public
+	cp -r ../public/tier2 $(TEMPORAL_DIRECTORY)/public
 

@@ -1,7 +1,9 @@
+#include "tier0/platform.h"
 #include "tier1/interface.h"
 #include "tier1/utlvector.h"
 #include "tier1/utlstring.h"
 //#include "dlfcn.h"
+
 
 static CInterfaceRegistry *s_pInterfaceRegistries;
 
@@ -49,12 +51,16 @@ CreateInterfaceFn Sys_GetFactory( const char *szLibrary )
 {
 	void *pLib = NULL;
 	CUtlString szLib = szLibrary;
-#if defined(__linux__)
+#ifdef LINUX 
 	szLib = CUtlString("lib%s.so", szLib.GetFileName().GetString());
 	pLib = Plat_LoadLibrary(szLib);
 #endif
 #if defined(__WIN32__)
 	szLib = CUtlString("%s.dll", szLib.GetFileName().GetString());
+	pLib = Plat_LoadLibrary(szLib);
+#endif
+#ifdef MACOS
+	szLib = CUtlString("lib%s.dylib", szLib.GetFileName().GetString());
 	pLib = Plat_LoadLibrary(szLib);
 #endif
 	if ( !pLib )

@@ -93,9 +93,12 @@ BuildFile_t *CProjectBuilder::BuildProject( const char *szProjectName, const cha
 	stLinkProject.linkType = ELINK_DYNAMIC_LIBRARY;
 	stLinkProject.m_target = Target_t::HostTarget();
 	stLinkProject.objects.AppendHead({CUtlString("%s/libfpcbuild.a",filesystem2->OwnDirectory())});
-	stLinkProject.libraryObjects.AppendHead({CUtlString("%s/libfpc.so",filesystem2->OwnDirectory())});
-	stLinkProject.libraryObjects.AppendHead({CUtlString("%s/libtier2.a",filesystem2->OwnDirectory())});
-	stLinkProject.libraryObjects.AppendHead({CUtlString("%s/libtier1.a",filesystem2->OwnDirectory())});
+	stLinkProject.objects.AppendHead({CUtlString("%s/libtier2.a",filesystem2->OwnDirectory())});
+	stLinkProject.objects.AppendHead({CUtlString("%s/libtier1.a",filesystem2->OwnDirectory())});
+	CUtlString szTier0 = CUtlString(Target_t::DefaultTarget().GetDynamicLibraryFileFormat(), "tier0");
+	CUtlString szFPC = CUtlString(Target_t::DefaultTarget().GetDynamicLibraryFileFormat(), "fpc");
+	stLinkProject.libraryObjects.AppendHead({CUtlString("%s/%s",filesystem2->OwnDirectory(), szTier0.GetString())});
+	stLinkProject.libraryObjects.AppendHead({CUtlString("%s/%s",filesystem2->OwnDirectory(), szFPC.GetString())});
 	szBuildLibrary = linker->Link(&stLinkProject);
 
 	pLibrary = Plat_LoadLibrary(szBuildLibrary);

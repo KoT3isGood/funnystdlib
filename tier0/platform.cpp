@@ -17,6 +17,7 @@
 #endif
 #ifdef __APPLE__
 #include "dlfcn.h"
+#include "mach-o/dyld.h"
 #endif
 #ifdef __WIN32__
 #include "windows.h"
@@ -190,13 +191,13 @@ PLATFORM_INTERFACE void *Plat_LoadLibrary( const char *psz )
 #ifdef __linux__
 	void *lib = dlopen(psz, RTLD_NOW);
 	if (!lib)
-		V_printf("Failed to open %s\n\t%s\n", psz, dlerror());
+		V_printf("Failed to open %s\n\t%s\n (trying from %s)\n", psz, dlerror(), Plat_GetWorkingDir());
 	return lib;
 #endif
 #ifdef __APPLE__
-	void *lib = dlopen(psz, RTLD_GLOBAL | RTLD_NOW);
+	void *lib = dlopen(psz, RTLD_NOW);
 	if (!lib)
-		V_printf("Failed to open %s\n\t%s\n", psz, dlerror());
+		V_printf("Failed to open %s\n\t%s\n (trying from %s)\n", psz, dlerror(), Plat_GetWorkingDir());
 	return lib;
 #endif
 #ifdef __WIN32__
@@ -249,8 +250,12 @@ PLATFORM_INTERFACE const char *Plat_GetWorkingDir( void )
 
 
 static char s_szExecutablePath[MAX_PATH];
-#ifdef __linux__
+#ifdef LINUX
 static ssize_t s_iExecutablePathSize = readlink("/proc/self/exe", s_szExecutablePath, MAX_PATH);
+#endif
+#ifdef APPLE
+static uint32_t pathSize = MAX_PATH;
+static int pathResult = _NSGetExecutablePath(s_szExecutablePath, &pathSize);
 #endif
 
 PLATFORM_INTERFACE const char *Plat_GetExecutablePath( void )

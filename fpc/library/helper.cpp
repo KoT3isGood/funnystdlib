@@ -84,7 +84,9 @@ IFileSystem2 *filesystem2;
 
 char *CPOSIXFileSystem2::OwnDirectory()
 {
-	return szPathDir;
+	static CUtlString s_szExecutable = Plat_GetExecutablePath();
+	static CUtlString s_szParent = s_szExecutable.GetDirectory();
+	return s_szParent;
 };
 char *CPOSIXFileSystem2::BuildDirectory()
 {

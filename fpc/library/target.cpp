@@ -32,23 +32,23 @@ CUtlString Target_t::GetTriplet()
 
 const char *Target_t::GetExecutableFileFormat()
 {
-	if (kernel & TARGET_KERNEL_POSIX)
+	if (kernel & TARGET_POSIX_MASK)
 		return "%s";
-	if (kernel & TARGET_KERNEL_WEB_DEVICES)
+	if (kernel & TARGET_WEB_MASK)
 		return "%s.wasm";
-	if (kernel & TARGET_KERNEL_WINDOWS_DEVICES)
+	if (kernel & TARGET_WINDOWS_MASK)
 		return "%s.exe";
 	return NULL;
 }
 
 const char *Target_t::GetStaticLibraryFileFormat()
 {
-	if (kernel & TARGET_KERNEL_POSIX)
+	if (kernel & TARGET_POSIX_MASK)
 		return "lib%s.a";
-	if (kernel & TARGET_KERNEL_WEB_DEVICES)
+	if (kernel & TARGET_WEB_MASK)
 		return "lib%s.a";
 
-	if (kernel & TARGET_KERNEL_WINDOWS_DEVICES)
+	if (kernel & TARGET_WINDOWS_MASK)
 	{
 		switch(abi)
 		{
@@ -62,13 +62,13 @@ const char *Target_t::GetStaticLibraryFileFormat()
 }
 const char *Target_t::GetDynamicLibraryFileFormat()
 {
-	if (kernel & TARGET_KERNEL_LINUX_DEVICES)
+	if (kernel & TARGET_LINUX_MASK)
 		return "lib%s.so";
-	if (kernel & TARGET_KERNEL_WEB_DEVICES)
-		return "%s.wasm";
-	if (kernel & TARGET_KERNEL_APPLE_DEVICES)
+	if (kernel & TARGET_APPLE_MASK)
 		return "lib%s.dylib";
-	if (kernel & TARGET_KERNEL_WINDOWS_DEVICES)
+	if (kernel & TARGET_WEB_MASK)
+		return "%s.wasm";
+	if (kernel & TARGET_WINDOWS_MASK)
 		return "%s.dll";
 	return NULL;
 }
@@ -192,6 +192,8 @@ const char *Target_t::StringFromKernel( ETargetKernel kernel )
 		return "apple-darwin";
 	if ( kernel == TARGET_KERNEL_IOS )
 		return "apple-ios";
+	if ( kernel == TARGET_KERNEL_IOS_SIMULATOR )
+		return "apple-ios-simulator";
 	if ( kernel == TARGET_KERNEL_ANDROID )
 		return "linux-android";
 	if ( kernel == TARGET_KERNEL_WASI )
@@ -255,7 +257,11 @@ ETargetKernel Target_t::KernelFromString( const char *szName )
 	else if ( szUtlName == "ios" )
 		return TARGET_KERNEL_IOS;
 	else if ( szUtlName == "apple-ios" )
-		return TARGET_KERNEL_DARWIN;
+		return TARGET_KERNEL_IOS;
+	else if ( szUtlName == "ios-simulator" )
+		return TARGET_KERNEL_IOS_SIMULATOR;
+	else if ( szUtlName == "apple-ios-simulator" )
+		return TARGET_KERNEL_IOS_SIMULATOR;
 	else if ( szUtlName == "android" )
 		return TARGET_KERNEL_ANDROID;
 	else if ( szUtlName == "linux-android" )

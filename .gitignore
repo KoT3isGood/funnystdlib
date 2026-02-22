@@ -3,4 +3,6 @@
 **/build/
 **/*.o
 **/*.jks
+**/*.DS_Store
+**/.make
 **/compile_commands.json

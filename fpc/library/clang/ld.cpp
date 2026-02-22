@@ -76,8 +76,19 @@ void CClangLinker::SetTarget( CUtlVector<CUtlString> &cmd, LinkProject_t *pProje
 		if ( pProject->m_target.cpu != TARGET_CPU_WASM32 )
 			cmd.AppendTail("-shared");
 
-	if (pProject->m_target.kernel == TARGET_KERNEL_IOS)
+	if (pProject->m_target.kernel & TARGET_APPLE_MASK)
+	{
+#ifndef APPLE
 		cmd.AppendTail("-fuse-ld=lld");
+#endif
+		if (pProject->linkType == ELINK_DYNAMIC_LIBRARY)
+		{
+			CUtlString szInstallName = CUtlString(pProject->m_target.GetDynamicLibraryFileFormat(), pProject->m_szName.GetString());
+			cmd.AppendTail("-install_name");
+			cmd.AppendTail(CUtlString("@rpath/%s",szInstallName.GetString()));
+
+		}
+	}
 
 	cmd.AppendTail("-target");
 	cmd.AppendTail(pProject->m_target.GetTriplet());
@@ -116,15 +127,17 @@ void CClangLinker::SetOutputFile( CUtlVector<CUtlString> &cmd, const char *szNam
 
 void CClangLinker::SetDefaultLibraryPaths( CUtlVector<CUtlString> &cmd, LinkProject_t *pProject )
 {
-	switch (pProject->m_target.kernel )
+	if (pProject->m_target.kernel & TARGET_LINUX_MASK )
 	{
-	case TARGET_KERNEL_LINUX:
-	case TARGET_KERNEL_PC_LINUX:
-	case TARGET_KERNEL_ALPINE_LINUX:
 		cmd.AppendTail("-Wl,--disable-new-dtags");
 		cmd.AppendTail("-Wl,-rpath,$ORIGIN");
-		break;
-	default:
+		return;
+	}
+
+	if (pProject->m_target.kernel & TARGET_APPLE_MASK )
+	{
+		cmd.AppendTail("-Wl,-rpath,@loader_path");
+		return;
 	}
 }
 
@@ -144,15 +157,32 @@ void CClangLinker::UseDynamicLookup( CUtlVector<CUtlString> &cmd, bool bUse )
 
 void CClangLinker::UseFullFile( CUtlVector<CUtlString> &cmd, LinkProject_t *pProject )
 {
-	if (pProject->m_target.kernel != TARGET_KERNEL_IOS)
+	switch (pProject->m_target.kernel)
+	{
+	case TARGET_KERNEL_DARWIN:
+	case TARGET_KERNEL_IOS:
+	case TARGET_KERNEL_IOS_SIMULATOR:
+		cmd.AppendTail("-Wl,-all_load");
+		break;
+	default:
 		cmd.AppendTail("-Wl,--whole-archive");
+		break;
+	}
 }
 
 
 void CClangLinker::UsePartialFile( CUtlVector<CUtlString> &cmd, LinkProject_t *pProject )
 {
-	if (pProject->m_target.kernel != TARGET_KERNEL_IOS)
+	switch (pProject->m_target.kernel)
+	{
+	case TARGET_KERNEL_DARWIN:
+	case TARGET_KERNEL_IOS:
+	case TARGET_KERNEL_IOS_SIMULATOR:
+		break;
+	default:
 		cmd.AppendTail("-Wl,--no-whole-archive");
+		break;
+	}
 }
 
 
@@ -170,6 +200,8 @@ void CClangLinker::LinkLibraryObject( CUtlVector<CUtlString> &cmd, const char *s
 		szFileName.RemoveHead(3);
 	if (!V_strncmp(szFileName.GetFileExtension(), "so",2))
 		szFileName.RemoveTail(3);
+	if (!V_strncmp(szFileName.GetFileExtension(), "dylib",5))
+		szFileName.RemoveTail(6);
 	if (!V_strncmp(szFileName.GetFileExtension(), "a",1))
 		szFileName.RemoveTail(2);
 	if (!V_strncmp(szFileName.GetFileExtension(), "dll",3))

@@ -18,7 +18,9 @@
 
 #define  DLL_GLOBAL_EXPORT   extern
 #define  DLL_GLOBAL_IMPORT   extern
+
 #else
+
 #define  DLL_EXPORT   extern "C" __attribute__ ((visibility("default")))
 #define  DLL_IMPORT   extern "C"
 
@@ -52,6 +54,18 @@
 
 #if defined(__linux__)
 #define POSIX
+#define LINUX 
+#endif
+
+#if defined(__APPLE__) && defined(__MACH__)
+#include "TargetConditionals.h"
+#define POSIX
+#define APPLE
+#if TARGET_OS_IPHONE
+#define IOS 
+#else
+#define MACOS 
+#endif
 #endif
 
 #define SWAP16(x) (uint16_t)((((x) >> 8) & 0x00FF) | \

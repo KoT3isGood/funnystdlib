@@ -83,7 +83,7 @@ CUtlString CAppleTool::BuildPackage( AppleManifest_t manifest, CUtlString szMani
 		CUtlString("Payload"),
 	};
 	V_printf("%s\n", szManifestDir.GetString());
-	runner->Run("zip",szManifestDir.GetDirectory().GetDirectory().GetDirectory(), args);
+	runner->Run("zip",szManifestDir.GetDirectory().GetDirectory(), args);
 	runner->Wait();
 	return CUtlString("%s.ipa", manifest.m_szPackageName.GetString());
 }

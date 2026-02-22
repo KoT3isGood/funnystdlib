@@ -57,7 +57,7 @@ DECLARE_BUILD_STAGE(libfpcbuild)
 	LinkProject_t ldProject = {};
 
 	compileProject.m_szName = "fpcbuild";
-	compileProject.files = g_libFpcFiles;
+	compileProject.files = {"buildfile/interfaces.cpp"};
 	compileProject.includeDirectories = g_IncludeDirectories;
 	compileProject.bFPIC = true;
 	ldProject = ccompiler->Compile(&compileProject);
@@ -171,46 +171,42 @@ DECLARE_BUILD_STAGE(fpc)
 	return 0;
 };
 
-
 DECLARE_BUILD_STAGE(install)
 {
 	CUtlString szExe = GET_PROJECT_LIBRARY(fpc, "fpc");
 	CUtlString szLibFpc = GET_PROJECT_LIBRARY(libfpc, "fpc");
+	CUtlString szFpcBuild = GET_PROJECT_LIBRARY(libfpcbuild, "fpcbuild");
 	CUtlString szTier0 = GET_PROJECT_LIBRARY(tier0, "tier0");
 	CUtlString szTier1 = GET_PROJECT_LIBRARY(tier1, "tier1");
 	CUtlString szTier2 = GET_PROJECT_LIBRARY(tier2, "tier2");
 	CUtlString szHttp = GET_PROJECT_LIBRARY(funnyhttp, "funnyhttp");
 	CUtlString szAppleAuth = GET_PROJECT_LIBRARY(appleauth, "appleauth");
 	CUtlString szFilesystem = GET_PROJECT_LIBRARY(filesystem_std, "fs");
-	
-	if (!V_strcmp(Target_t::DefaultTarget().GetTriplet().GetString(), Target_t::HostTarget().GetTriplet().GetString()))
-	{
-		CUtlString szOutputTempTier0 = CUtlString(Target_t::DefaultTarget().GetDynamicLibraryFileFormat(), "tier0_temp");
-		CUtlString szOutputTempExe = CUtlString(Target_t::DefaultTarget().GetExecutableFileFormat(), "fpc_temp");
-		CUtlString szOutputTempLib = CUtlString(Target_t::DefaultTarget().GetDynamicLibraryFileFormat(), "fpc_temp");
-		CUtlString szOutputTempFilesystem = CUtlString(Target_t::DefaultTarget().GetDynamicLibraryFileFormat(), "filesystem_std");
-		filesystem2->CopyFile(CUtlString("build/%s",szOutputTempExe.GetString()), szExe);
-		filesystem2->CopyFile(CUtlString("build/%s",szOutputTempLib.GetString()), szLibFpc);
-		filesystem2->CopyFile(CUtlString("build/%s",szOutputTempTier0.GetString()), szTier0);
-		filesystem2->CopyFile(CUtlString("build/%s",szOutputTempFilesystem.GetString()), szFilesystem);
-	}
-	else
-	{
-		filesystem2->CopyFile("build", szExe);
-		filesystem2->CopyFile("build", szTier0);
-		filesystem2->CopyFile("build", szLibFpc);
-		filesystem2->CopyFile("build", szFilesystem);
-	}
-	filesystem2->CopyFile("build", szHttp);
-	filesystem2->CopyFile("build", szAppleAuth);
-	filesystem2->CopyFile("build", szTier1);
-	filesystem2->CopyFile("build", szTier2);
 
-	/*
-	filesystem2->CopyFile("build/libtier1.a", szTier1);
-	filesystem2->CopyFile("build/libtier2.a", szTier2);
-	filesystem2->CopyFile("build/libtier0_temp.so", szTier0);
-	*/
+	if (!CommandLine()->CheckParam("--install"))
+		return 0;
+	if (!CommandLine()->ParamValue("--install", NULL))
+	{
+		V_printf("--install expects directory\n");
+		return 0;
+	}
+	CUtlString szOutputDirectory = CUtlString("%s/%s/",CommandLine()->ParamValue("--install"), Target_t::DefaultTarget().GetTriplet().GetString());
+	CUtlString szHeaderDirectory = CUtlString("%s/%s/public",CommandLine()->ParamValue("--install"), Target_t::DefaultTarget().GetTriplet().GetString());
+	filesystem2->MakeDirectory(szOutputDirectory);
+	filesystem2->MakeDirectory(szHeaderDirectory);
+
+	
+	filesystem2->CopyFile(szOutputDirectory, szExe);
+	filesystem2->CopyFile(szOutputDirectory, szLibFpc);
+	filesystem2->CopyFile(szOutputDirectory, szFpcBuild);
+	filesystem2->CopyFile(szOutputDirectory, szTier0);
+	filesystem2->CopyFile(szOutputDirectory, szTier1);
+	filesystem2->CopyFile(szOutputDirectory, szTier2);
+	filesystem2->CopyFile(szOutputDirectory, szFilesystem);
+	filesystem2->CopyDirectory(szOutputDirectory, "public");
+	filesystem2->CopyDirectory(szHeaderDirectory, "../public/tier0");
+	filesystem2->CopyDirectory(szHeaderDirectory, "../public/tier1");
+	filesystem2->CopyDirectory(szHeaderDirectory, "../public/tier2");
 
 	return 0;
 };

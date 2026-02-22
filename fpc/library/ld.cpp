@@ -116,17 +116,18 @@ CUtlVector<CUtlString> ILinker::BuildLinkCommandLine( LinkProject_t *pProject, c
 	}
 	UsePartialFile(cmd, pProject);
 
-	for (auto &o: pProject->libraryObjects)
+	for (auto &o: pProject->libraryDirectories)
 	{
-		LinkLibraryObject(cmd, o);
+		LinkLibraryPath(cmd, o);
 	};
 	for (auto &o: pProject->libraries)
 	{
 		LinkLibrary(cmd, o);
 	};
-	for (auto &o: pProject->libraryDirectories)
+
+	for (auto &o: pProject->libraryObjects)
 	{
-		LinkLibraryPath(cmd, o);
+		LinkLibraryObject(cmd, o);
 	};
 	for (auto &o: pProject->frameworks)
 	{
