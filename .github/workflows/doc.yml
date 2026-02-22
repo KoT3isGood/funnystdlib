@@ -21,8 +21,7 @@ jobs:
     - name: Build FPC 
       run: |
         cd fpc
-        make auto
-        pwd
+        make
 
     - name: Build website
       run: |
