@@ -101,7 +101,7 @@ BuildFile_t *CProjectBuilder::BuildProject( const char *szProjectName, const cha
 	stLinkProject.libraryObjects.AppendHead({CUtlString("%s/%s",filesystem2->OwnDirectory(), szFPC.GetString())});
 	szBuildLibrary = linker->Link(&stLinkProject);
 
-	pLibrary = Plat_LoadLibrary(szBuildLibrary);
+	pLibrary = Plat_LoadLibrary(szBuildLibrary.GetAbsolute());
 	if ( !pLibrary )
 		return NULL;
 
@@ -130,7 +130,7 @@ BuildFile_t *CProjectBuilder::BuildProject( const char *szProjectName, const cha
 	for (auto a: stBuildFileInfo.m_dependantFiles)
 	{
 		BuildProject(
-				CUtlString("build_%s", CUtlString(a).GetDirectory().GetFileName().GetString()), 
+				CUtlString("build_%s", CUtlString(a).GetFileNameWithoutExtension().GetString()), 
 				CUtlString("%s/%s",szWd.GetString(),a)
 				);
 	}

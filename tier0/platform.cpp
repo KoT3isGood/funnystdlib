@@ -24,6 +24,10 @@
 #include "direct.h"
 #endif
 
+#ifdef POSIX
+#define MAX_PATH PATH_MAX
+#endif
+
 PLATFORM_INTERFACE void Plat_FatalErrorFunc(const char* szFormat, ...)
 {
 	va_list list;
@@ -237,9 +241,6 @@ PLATFORM_INTERFACE void Plat_SetWorkingDir(  const char *psz )
 {
 	chdir(psz);
 }
-#ifndef MAX_PATH
-#define MAX_PATH 4096
-#endif
 
 PLATFORM_INTERFACE const char *Plat_GetWorkingDir( void )
 {
@@ -264,6 +265,13 @@ PLATFORM_INTERFACE const char *Plat_GetExecutablePath( void )
 }
 PLATFORM_INTERFACE const char *Plat_GetParentDir( const char *psz )
 {
+}
+PLATFORM_INTERFACE const char *Plat_GetAbsoluteFileName( const char *psz )
+{
+	static char s_szPath[MAX_PATH];
+#ifdef POSIX
+	return realpath(psz, s_szPath);
+#endif
 }
 
 PLATFORM_INTERFACE void Plat_UnloadLibrary( void *lib )

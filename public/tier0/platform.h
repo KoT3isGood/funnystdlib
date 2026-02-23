@@ -112,6 +112,7 @@ PLATFORM_INTERFACE const char *Plat_GetWorkingDir( void );
 
 PLATFORM_INTERFACE const char *Plat_GetExecutablePath( void );
 PLATFORM_INTERFACE const char *Plat_GetParentDir( const char *psz );
+PLATFORM_INTERFACE const char *Plat_GetAbsoluteFileName( const char *psz );
 
 PLATFORM_INTERFACE const char *Plat_GetUNIXExecutable( const char *psz );
 PLATFORM_INTERFACE const char *Plat_GetWindowsExecutable( const char *psz );

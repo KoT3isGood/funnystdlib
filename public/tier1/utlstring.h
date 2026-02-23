@@ -27,7 +27,9 @@ public:
 
 	CUtlString GetFileName();
 	CUtlString GetFileExtension();
+	CUtlString GetFileNameWithoutExtension();
 	CUtlString GetDirectory();
+	CUtlString GetAbsolute();
 	CUtlString RemoveHeadFile();
 	bool BIsAbsolute();
 
@@ -145,6 +147,14 @@ inline CUtlString CUtlString::GetFileName()
 	return pLast;
 }
 
+inline CUtlString CUtlString::GetFileNameWithoutExtension()
+{
+	CUtlString szName = GetFileName();
+	CUtlString szExtension = GetFileExtension();
+	szName.RemoveTail(szExtension.GetLenght()+1);
+	return szName;
+}
+
 inline CUtlString CUtlString::GetFileExtension()
 {
 	if (GetLenght() == 0)
@@ -193,6 +203,13 @@ inline CUtlString CUtlString::GetDirectory()
 	szDirectory.RemoveTail(iNumDeleted);
 
 	return szDirectory;
+}
+inline CUtlString CUtlString::GetAbsolute()
+{
+	if (BIsAbsolute())
+		return GetString();
+	
+	return Plat_GetAbsoluteFileName(GetString());
 }
 inline bool CUtlString::BIsAbsolute()
 {
