@@ -8,6 +8,7 @@ CUtlVector<CUtlString> tier1_CompiledFiles = {
 	"appinit.cpp",
 	"utlbuffer.cpp",
 	"utlmap.cpp",
+	"utlmutex.cpp",
 	"utlstring.cpp",
 	"utlvector.cpp",
 };

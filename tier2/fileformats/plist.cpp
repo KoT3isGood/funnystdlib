@@ -10,7 +10,7 @@ public:
 
 IJSONObject *CPropertyListManager::ReadString( const char *psz )
 {
-	XMLFile_t file = XMLManager()->ReadString(psz);
+	XMLFile_t file = XMLManager()->ReadString(psz, {});
 	IJSONObject *pObject;
 
 	IXMLObject *pList = file.m_pRoot->FindFirstTag(file.m_szRootObjectName);

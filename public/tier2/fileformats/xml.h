@@ -54,11 +54,16 @@ struct XMLFile_t
 	CUtlString m_szURI;
 };
 
+struct XMLConfig
+{
+	bool m_bHTML;
+};
+
 abstract_class IXMLManager
 {
 public:
-	virtual XMLFile_t ReadString( const char *szData ) = 0;
-	virtual CUtlString WriteString( IXMLObject *pObject ) = 0;
+	virtual XMLFile_t ReadString( const char *szData, XMLConfig config ) = 0;
+	virtual CUtlString WriteString( IXMLObject *pObject, XMLConfig config ) = 0;
 
 	virtual IXMLObject *CreateObject() = 0;
 	virtual void FreeObject( IXMLObject *pObject ) = 0;

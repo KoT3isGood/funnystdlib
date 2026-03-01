@@ -58,8 +58,8 @@ void CXMLObject::Free()
 class CXMLManager: public IXMLManager
 {
 public:
-	virtual XMLFile_t ReadString( const char *szData ) override;
-	virtual CUtlString WriteString( IXMLObject *pObject ) override;
+	virtual XMLFile_t ReadString( const char *szData, XMLConfig config ) override;
+	virtual CUtlString WriteString( IXMLObject *pObject, XMLConfig config ) override;
 
 	virtual IXMLObject *CreateObject() override;
 	virtual void FreeObject( IXMLObject *pObject ) override;
@@ -80,7 +80,7 @@ static char XML_DOCTYPE[] = "<!DOCTYPE";
 static char XML_PREPROCESSOR_BEGIN[] = "<?";
 static char XML_PREPROCESSOR_END[] = "?>";
 
-XMLFile_t CXMLManager::ReadString( const char *szString )
+XMLFile_t CXMLManager::ReadString( const char *szString, XMLConfig config )
 {
 	CUtlString szTagStack = {};
 	CUtlString szRootObjectName;
@@ -249,7 +249,7 @@ XMLFile_t CXMLManager::ReadString( const char *szString )
 	stFile.m_pRoot = pRootObject;
 	return stFile;
 }
-CUtlString CXMLManager::WriteString( IXMLObject *pObject )
+CUtlString CXMLManager::WriteString( IXMLObject *pObject, XMLConfig config )
 {
 };
 
