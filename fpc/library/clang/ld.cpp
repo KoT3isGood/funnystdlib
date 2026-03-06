@@ -164,6 +164,8 @@ void CClangLinker::UseFullFile( CUtlVector<CUtlString> &cmd, LinkProject_t *pPro
 	case TARGET_KERNEL_IOS_SIMULATOR:
 		cmd.AppendTail("-Wl,-all_load");
 		break;
+	case TARGET_KERNEL_WINDOWS:
+		break;
 	default:
 		cmd.AppendTail("-Wl,--whole-archive");
 		break;
@@ -178,6 +180,7 @@ void CClangLinker::UsePartialFile( CUtlVector<CUtlString> &cmd, LinkProject_t *p
 	case TARGET_KERNEL_DARWIN:
 	case TARGET_KERNEL_IOS:
 	case TARGET_KERNEL_IOS_SIMULATOR:
+	case TARGET_KERNEL_WINDOWS:
 		break;
 	default:
 		cmd.AppendTail("-Wl,--no-whole-archive");
@@ -205,6 +208,8 @@ void CClangLinker::LinkLibraryObject( CUtlVector<CUtlString> &cmd, const char *s
 	if (!V_strncmp(szFileName.GetFileExtension(), "a",1))
 		szFileName.RemoveTail(2);
 	if (!V_strncmp(szFileName.GetFileExtension(), "dll",3))
+		szFileName.RemoveTail(4);
+	if (!V_strncmp(szFileName.GetFileExtension(), "lib",3))
 		szFileName.RemoveTail(4);
 	if (!V_strncmp(szFileName.GetFileExtension(), "wasm", 4))
 	{
