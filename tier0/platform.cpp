@@ -258,6 +258,9 @@ static ssize_t s_iExecutablePathSize = readlink("/proc/self/exe", s_szExecutable
 static uint32_t pathSize = MAX_PATH;
 static int pathResult = _NSGetExecutablePath(s_szExecutablePath, &pathSize);
 #endif
+#ifdef __WIN32__
+static uint32_t pathSize = GetModuleFileNameA(NULL, s_szExecutablePath, MAX_PATH);
+#endif
 
 PLATFORM_INTERFACE const char *Plat_GetExecutablePath( void )
 {

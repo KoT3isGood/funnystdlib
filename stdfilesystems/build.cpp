@@ -27,6 +27,12 @@ DECLARE_BUILD_STAGE(filesystem_std)
 		 GET_PROJECT_LIBRARY(tier0, "tier0"),
 	};
 	ldProject.objects.AppendTail({GET_PROJECT_LIBRARY(tier1, "tier1")});
+
+	if (ldProject.m_target.kernel & TARGET_KERNEL_WINDOWS_DEVICES)
+	{
+		ldProject.libraryDirectories.AppendTail("../external");
+		ldProject.libraries.AppendTail("pthread");
+	}
 	szOutputProject = linker->Link(&ldProject);
 
 	ADD_OUTPUT_OBJECT("fs", szOutputProject);

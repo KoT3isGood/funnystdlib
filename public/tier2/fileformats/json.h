@@ -64,6 +64,10 @@ public:
 	virtual IJSONValue *GetValue( const char *szName ) = 0;
 	virtual void SetValue( const char *szName, IJSONValue *pValue ) = 0;
 
+	virtual uint32_t GetCount() = 0;
+	virtual const char *GetParameterName( uint32_t i ) = 0;
+	virtual IJSONValue *GetParameter( uint32_t i ) = 0;
+
 	virtual void CopyTo( IJSONObject *pObject ) = 0;
 	virtual void Free() = 0;
 };

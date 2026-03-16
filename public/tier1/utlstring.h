@@ -169,6 +169,8 @@ inline CUtlString CUtlString::GetFileExtension()
 			break;			
 		if (*pLast=='/')
 			return NULL;
+		if (*pLast=='\\')
+			return NULL;
 		pLast--;
 	}
 
@@ -183,7 +185,7 @@ inline CUtlString CUtlString::GetDirectory()
 		return NULL;
 	size_t iNumDeleted = 0;
 	char *pLast = &m_data[GetLenght()-1];
-	if ( *pLast == '/' )
+	if ( *pLast == '/' || *pLast == '\\' )
 	{
 		pLast--;
 		iNumDeleted++;
@@ -191,7 +193,7 @@ inline CUtlString CUtlString::GetDirectory()
 	CUtlString szDirectory = GetString();
 	while (pLast != m_data.GetData())
 	{
-		if (*pLast=='/')
+		if ( *pLast=='/' || *pLast == '\\')
 		{
 			iNumDeleted++;
 			break;
@@ -217,6 +219,10 @@ inline bool CUtlString::BIsAbsolute()
 		return false;
 #ifdef POSIX
 	if (m_data[0] == '/')
+		return true;
+#endif
+#ifdef __WIN32__ 
+	if (m_data[1] == ':')
 		return true;
 #endif
 	return false;

@@ -1,5 +1,6 @@
 #include "tier2/fileformats/json.h"
 #include "tier2/tokenizer.h"
+#include "errno.h"
 
 abstract_class CJSONArray: public IJSONArray 
 {
@@ -173,6 +174,10 @@ public:
 	virtual IJSONValue *GetValue( const char *szName ) override;
 	virtual void SetValue( const char *szName, IJSONValue *pValue ) override;
 
+	virtual uint32_t GetCount() override;
+	virtual const char *GetParameterName( uint32_t i ) override;
+	virtual IJSONValue *GetParameter( uint32_t i ) override;
+
 	virtual void CopyTo( IJSONObject *pObject ) override;
 	virtual void Free() override;
 
@@ -218,6 +223,21 @@ void CJSONObject::SetValue( const char *szName, IJSONValue *pValue )
 	if ( pValue == NULL )
 		return;
 	m_params.AppendTail({szName, pValue});
+}
+
+uint32_t CJSONObject::GetCount()
+{
+	return m_params.GetSize();
+}
+
+const char *CJSONObject::GetParameterName( uint32_t i )
+{
+	return m_params[i].m_szName;
+}
+
+IJSONValue *CJSONObject::GetParameter( uint32_t i )
+{
+	return m_params[i].m_pValue;
 }
 
 
@@ -291,10 +311,16 @@ void CJSONManager::FreeValue( IJSONValue *pValue )
 	delete (CJSONValue*)pValue;
 }
 
+#define CHECK_EOF() ((pToken == pEnding))
+	
+
 #define NEXT_TOKEN() \
 pToken++; \
-if (pToken == pEnding) \
-	goto eof \
+if (CHECK_EOF()) \
+	goto eof; \
+
+#define NEXT_TOKEN_MAY_BE_LAST() \
+pToken++; \
 
 bool CJSONManager::ExpectedToken( Token_t &token, const char *szValue )
 {
@@ -344,15 +370,18 @@ IJSONObject *CJSONManager::ParseObject( Token_t *&pToken, const Token_t *pEnding
 		pValue = ParseValue(pToken, pEnding);
 		pObject->SetValue(szParamName, pValue);
 
-		if ( !ExpectedToken(*pToken, ",") )
+		if ( ExpectedToken(*pToken, ",") )
 		{
-			if ( !ExpectedToken(*pToken, "}") )
-			{
-				goto not_comma;
-			}
+			NEXT_TOKEN();
+			continue;
+		}
+
+		if ( ExpectedToken(*pToken, "}") )
+		{
+			NEXT_TOKEN_MAY_BE_LAST();
 			return pObject;
 		}
-		NEXT_TOKEN();
+		goto not_comma;
 	}
 	return pObject;
 not_comma:
@@ -367,7 +396,7 @@ not_quoted:
 	return NULL;
 
 eof:
-	V_printf("EOF\n");
+	V_printf("EOF in ParseObject\n");
 	return NULL;
 }
 
@@ -380,6 +409,7 @@ IJSONArray *CJSONManager::ParseArray( Token_t *&pToken, const Token_t *pEnding  
 
 	if ( !ExpectedToken(*(pToken), "[") )
 		return NULL;
+
 	NEXT_TOKEN();
 	pObject = CreateArray();
 
@@ -395,53 +425,101 @@ IJSONArray *CJSONManager::ParseArray( Token_t *&pToken, const Token_t *pEnding  
 		pValue = ParseValue(pToken, pEnding);
 		values.AppendTail(pValue);
 
-		if ( !ExpectedToken(*pToken, ",") )
+		if ( ExpectedToken(*pToken, ",") )
 		{
-			if ( !ExpectedToken(*pToken, "]") )
-			{
-				goto not_comma;
-			}
-
+			NEXT_TOKEN();
+			continue;
+		}
+		if ( ExpectedToken(*pToken, "]") )
+		{
+			NEXT_TOKEN_MAY_BE_LAST();
 			pObject->SetArray(values.GetSize(), values.GetData());
 			return pObject;
 		}
-		NEXT_TOKEN();
+
+		goto not_comma;
 	}
 	return pObject;
 not_comma:
-	V_printf("%i: comma (,) or } was expected but got %s\n", pToken->m_iLine, pToken->m_szValue.GetString());
+	V_printf("%i: comma (,) or ] was expected but got %s\n", pToken->m_iLine, pToken->m_szValue.GetString());
 	return NULL;
 
 eof:
-	V_printf("EOF\n");
+	V_printf("EOF in ParseArray\n");
 	pObject->SetArray(values.GetSize(), values.GetData());
 	return pObject;
 }
 
+static void JSONReadNumber( CUtlString szValue, uint64_t *pullNumber, bool *pbValid )
+{
+	uint64_t ullValue = 0;
+	for ( uint32_t u = 0; u < szValue.GetLenght(); u++)
+	{
+		if (!V_isdigit(szValue.GetString()[u]))
+		{
+			*pbValid = false;
+		}
+		ullValue *= 10;
+		ullValue += szValue.GetString()[u]-'0';
+	}
+	*pbValid = true;
+	*pullNumber = ullValue;
+}
+
 IJSONValue *CJSONManager::ParseValue( Token_t *&pToken, const Token_t *pEnding )
 {
+	if (CHECK_EOF())
+		return NULL;
 	IJSONObject *pObject = ParseObject(pToken, pEnding);
-	IJSONArray *pArray = ParseArray(pToken, pEnding);
-	IJSONValue *pValue = CreateValue();
 	if (pObject)
 	{
+		IJSONValue *pValue = CreateValue();
 		pValue->SetObjectValue(pObject);
 		return pValue;
 	}
+	IJSONArray *pArray = ParseArray(pToken, pEnding);
 	if (pArray)
 	{
+		IJSONValue *pValue = CreateValue();
 		pValue->SetArrayValue(pArray);
 		return pValue;
 	}
 	if ( GetQuotedToken(*pToken) != NULL )
 	{
+		IJSONValue *pValue = CreateValue();
 		pValue->SetStringValue(pToken->m_szValue);
 		NEXT_TOKEN();
 		return pValue;
 	}
+	{
+		float fValue = 0;
+		bool bIsMinus = 0;
+		if (pToken->m_szValue == "-")
+		{
+			bIsMinus = true;
+			NEXT_TOKEN();
+		}
+		uint64_t ullValue = 0;
+		bool bValid = false;
+		JSONReadNumber(pToken->m_szValue, &ullValue, &bValid);
+		NEXT_TOKEN();
+
+		if ( !bValid )
+		{
+			return NULL;
+		}
+		fValue = ullValue;
+
+		if ( bIsMinus )
+			fValue *= -1;
+
+		IJSONValue *pValue = CreateValue();
+		pValue->SetNumberValue(fValue);
+		return pValue;
+	}
 	return NULL;
 eof:
-	V_printf("EOF\n");
+	V_printf("EOF in ParseValue\n");
 	return NULL;
 }
 
