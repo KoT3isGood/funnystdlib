@@ -120,6 +120,9 @@ protected:
 	virtual void EnableDebugSymbols( CUtlVector<CUtlString> &cmd ) = 0;
 	virtual void EnablePIE( CUtlVector<CUtlString> &cmd ) = 0;
 	virtual void EnablePIC( CUtlVector<CUtlString> &cmd ) = 0;
+
+	virtual void SetStdC( CUtlVector<CUtlString> &cmd, ECVersion ) = 0;
+	virtual void SetStdCPP( CUtlVector<CUtlString> &cmd, ECPPVersion ) = 0;
 	
 };
 

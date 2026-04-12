@@ -210,6 +210,8 @@ const char *Target_t::StringFromABI( ETargetABI abi )
 		return "gnu";
 	if ( abi == TARGET_ABI_MUSL )
 		return "musl";
+	if ( abi == TARGET_ABI_MSVC )
+		return "msvc";
 	return NULL;
 }
 

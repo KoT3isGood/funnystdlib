@@ -48,7 +48,7 @@ protected:
 const char *CMSVCLinker::GetCompilerExecutable( LinkProject_t *pProject )
 {
 	IINISection *pSection = NULL;
-	const char *szLinker = "link";
+	const char *szLinker = "link.exe";
 	if (!g_pConfig)
 		return szLinker;
 
@@ -70,14 +70,20 @@ void CMSVCLinker::SetTarget( CUtlVector<CUtlString> &cmd, LinkProject_t *pProjec
 		return;
 	switch (pProject->m_eWindowsSubsystem)
 	{
+	case WINDOWS_SUBSYSTEM_WINDOWS:
+		cmd.AppendTail("/subsystem:windows"); break;
+	case WINDOWS_SUBSYSTEM_CONSOLE:
+		cmd.AppendTail("/subsystem:console"); break;
 	case WINDOWS_SUBSYSTEM_NATIVE:
-		cmd.AppendTail("/subsystem:native");
+		cmd.AppendTail("/subsystem:native"); break;
 	default:
 		break;
 	}
 	switch (pProject->linkType)
 	{
 	case ELINK_DYNAMIC_LIBRARY:
+		cmd.AppendTail("/DLL");
+		break;
 	case ELINK_STATIC_LIBRARY:
 	case ELINK_EXECUTABLE:
 		break;
@@ -95,6 +101,7 @@ void CMSVCLinker::SetSysroot( CUtlVector<CUtlString> &cmd, LinkProject_t *pProje
 
 void CMSVCLinker::SetOutputFile( CUtlVector<CUtlString> &cmd, const char *szName )
 {
+	cmd.AppendTail(CUtlString("/OUT:%s", szName));
 
 }
 

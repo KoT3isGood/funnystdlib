@@ -22,18 +22,26 @@ CUtlVector<CUtlString> ICCompiler::BuildCommandLine( CProject_t *pProject, const
 {
 
 	CUtlVector<CUtlString> cmd;
+	CUtlString ext = CUtlString(szFileName).GetFileExtension();
 
+	SetOutputFile(cmd, szOutputFileName);
 	EnableDebugSymbols(cmd);
 	if (pProject->bFPIC)
 		EnablePIC(cmd);
 	if (pProject->bFPIE)
 		EnablePIE(cmd);
 	SetTarget(cmd, pProject);
-	SetOutputFile(cmd, szOutputFileName);
 	SetSysroot(cmd, pProject, NULL);
 	CompileFile(cmd, szFileName);
+	if (ext == "cpp")
+		SetStdCPP(cmd, pProject->cppVersion);
+	if (ext == "c")
+		SetStdC(cmd, pProject->cVersion);
 	for (auto &macro: pProject->macros)
-		Macro(cmd, macro.szName, macro.szValue.GetString());
+		if (macro.szValue)
+			Macro(cmd, macro.szName, macro.szValue.GetString());
+		else
+			Macro(cmd, macro.szName);
 	for (auto &dir: pProject->includeDirectories)
 		IncludeDirectory(cmd, dir);
 

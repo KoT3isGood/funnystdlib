@@ -50,6 +50,9 @@ protected:
 	virtual void EnablePIC( CUtlVector<CUtlString> &cmd ) override;
 
 	virtual void SetSysroot( CUtlVector<CUtlString> &cmd, CProject_t *pProject, const char *szSysroot ) override;
+
+	virtual void SetStdC( CUtlVector<CUtlString> &cmd, ECVersion ) override;
+	virtual void SetStdCPP( CUtlVector<CUtlString> &cmd, ECPPVersion ) override;
 };
 
 const char *CClangCompiler::GetOutputObjectFormat()
@@ -155,6 +158,17 @@ void CClangCompiler::SetSysroot( CUtlVector<CUtlString> &cmd, CProject_t *pProje
 		cmd.AppendTail(szSysroot);
 	}
 }
+
+void CClangCompiler::SetStdC( CUtlVector<CUtlString> &cmd, ECVersion )
+{
+
+}
+
+void CClangCompiler::SetStdCPP( CUtlVector<CUtlString> &cmd, ECPPVersion )
+{
+
+}
+
 
 
 

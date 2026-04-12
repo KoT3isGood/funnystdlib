@@ -14,15 +14,11 @@
 #include "libgen.h"
 #include "ctype.h"
 
-struct ClangFile_t
-{
-	CUtlString m_szName;
-	CUtlVector<CUtlString> m_szArguments;
-};
 
 class CMSVCCompiler : public ICCompiler
 {
 public:
+	virtual LinkProject_t Compile( CProject_t *pProject ) override;
 
 	virtual void GenerateLinterData() override;
 protected:
@@ -48,11 +44,14 @@ protected:
 	virtual void EnableDebugSymbols( CUtlVector<CUtlString> &cmd ) override;
 	virtual void EnablePIE( CUtlVector<CUtlString> &cmd ) override;
 	virtual void EnablePIC( CUtlVector<CUtlString> &cmd ) override;
+
+	virtual void SetStdC( CUtlVector<CUtlString> &cmd, ECVersion ) override;
+	virtual void SetStdCPP( CUtlVector<CUtlString> &cmd, ECPPVersion ) override;
 };
 
 const char *CMSVCCompiler::GetOutputObjectFormat()
 {
-	return ".o";
+	return ".obj";
 }
 
 CUtlVector<CUtlString> CMSVCCompiler::BuildCommandLine( CProject_t *pProject, const char *szFileName, const char *szOutputFileName )
@@ -95,6 +94,7 @@ void CMSVCCompiler::IncludeFile( CUtlVector<CUtlString> &cmd, const char *szName
 
 void CMSVCCompiler::Macro( CUtlVector<CUtlString> &cmd, const char *szName )
 {
+	cmd.AppendTail(CUtlString("/D%s", (char*)szName));
 }
 
 void CMSVCCompiler::Macro( CUtlVector<CUtlString> &cmd, const char *szName, const char *szValue )
@@ -108,7 +108,8 @@ void CMSVCCompiler::EnableDebugSymbols( CUtlVector<CUtlString> &cmd )
 
 void CMSVCCompiler::SetTarget( CUtlVector<CUtlString> &cmd, CProject_t *pProject )
 {
-
+	cmd.AppendTail("/utf-8");
+	cmd.AppendTail("/EHsc");
 }
 
 void CMSVCCompiler::SetSysroot( CUtlVector<CUtlString> &cmd, CProject_t *pProject , const char *szSysroot )
@@ -122,8 +123,7 @@ void CMSVCCompiler::CompileFile( CUtlVector<CUtlString> &cmd, const char *szName
 }
 void CMSVCCompiler::SetOutputFile( CUtlVector<CUtlString> &cmd, const char *szName )
 {
-	cmd.AppendTail("/Fo");
-	cmd.AppendTail(szName);
+	cmd.AppendTail(CUtlString("/Fo%s",szName));
 }
 void CMSVCCompiler::EnablePIE( CUtlVector<CUtlString> &cmd )
 {
@@ -131,6 +131,21 @@ void CMSVCCompiler::EnablePIE( CUtlVector<CUtlString> &cmd )
 
 void CMSVCCompiler::EnablePIC( CUtlVector<CUtlString> &cmd )
 {
+}
+
+void CMSVCCompiler::SetStdC( CUtlVector<CUtlString> &cmd, ECVersion )
+{
+}
+
+void CMSVCCompiler::SetStdCPP( CUtlVector<CUtlString> &cmd, ECPPVersion v )
+{
+	switch (v)
+	{
+	case CPPVERSION_17: cmd.AppendTail("/std:c++17"); break;
+	case CPPVERSION_20: cmd.AppendTail("/std:c++20"); break;
+	case CPPVERSION_23: cmd.AppendTail("/std:c++23"); break;
+	default: break;
+	}
 }
 
 
@@ -161,3 +176,63 @@ void CMSVCCompiler::GenerateLinterData()
 	*/
 };
 
+struct ClangFile_t
+{
+	CUtlString m_szName;
+	CUtlString m_szDir;
+	CUtlVector<CUtlString> m_szArguments;
+};
+
+LinkProject_t CMSVCCompiler::Compile( CProject_t *pProject )
+{
+	if (pProject->m_szName == 0)
+	{
+		Plat_FatalErrorFunc("m_szName must be present\n");
+	}
+
+	LinkProject_t proj = {};
+	proj.m_szName = pProject->m_szName;
+	proj.m_target = pProject->m_target;
+	proj.m_androidmanifest = pProject->m_androidmanifest;
+	unsigned int hash = pProject->GenerateProjectHash();
+
+	// Get output directories
+	for (auto &file: pProject->files)
+	{
+		CUtlString szOutputFile = GetOutputObjectName(pProject, hash, file);
+		CUtlString szOutputDir = szOutputFile;
+		szOutputDir = dirname(szOutputDir);
+		filesystem2->MakeDirectory(szOutputDir);
+	}
+
+	// Run CC
+	for (auto &file: pProject->files)
+	{
+		
+		bool bAreDependenciesUpdated = false;
+		CUtlString szOutputFile = GetOutputObjectName(pProject, hash, file);
+		CUtlVector<CUtlString> args;
+		
+		args = BuildCommandLine(pProject, file, szOutputFile);
+
+		if (!filesystem2->ShouldRecompile(file, szOutputFile))
+			goto skipcompile;
+		else
+			V_printf("  CC       %s\n", file.GetString());
+
+		runner->Run(GetCompilerExecutable(pProject), args);
+skipcompile:
+		proj.objects.AppendTail((Object_t){szOutputFile});
+
+		extern CUtlVector<ClangFile_t> g_clangFiles;
+		ClangFile_t cfile = {};
+		cfile.m_szName = file;
+		cfile.m_szDir = Plat_GetWorkingDir();
+		cfile.m_szArguments = args;
+		cfile.m_szArguments.AppendHead(GetCompilerExecutable(pProject));
+
+		g_clangFiles.AppendTail(cfile);
+	}
+	runner->Wait();	
+	return proj;
+}
