@@ -91,12 +91,12 @@ Target_t Target_t::HostTarget()
 ETargetCPU cpu = TARGET_CPU_UNDEFINED;
 #if defined(__x86_64__)
 	cpu = TARGET_CPU_AMD64;
-#endif
-#if defined(__i386__)
+#elif defined(__i386__)
 	cpu = TARGET_CPU_80386;
-#endif
-#if defined(__aarch64__)
+#elif defined(__aarch64__)
 	cpu = TARGET_CPU_AARCH64;
+#else
+	error("Your system sadly is not in the target, you can fix it")
 #endif
 // POSIX doesn't know about these
 // use uname to get them
