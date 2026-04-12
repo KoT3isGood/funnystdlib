@@ -95,6 +95,9 @@ ETargetCPU cpu = TARGET_CPU_UNDEFINED;
 #if defined(__i386__)
 	cpu = TARGET_CPU_80386;
 #endif
+#if defined(__aarch64__)
+	cpu = TARGET_CPU_AARCH64;
+#endif
 // POSIX doesn't know about these
 // use uname to get them
 #if defined(__i386__) && defined(POSIX)

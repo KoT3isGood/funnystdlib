@@ -18,6 +18,7 @@ enum ETargetKernel
 {
 	TARGET_KERNEL_UNDEFINED,
 	TARGET_KERNEL_UNKNOWN = 1,
+	TARGET_KERNEL_DEFAULT,
 
 	TARGET_KERNEL_WINDOWS_DEVICES = TARGET_WINDOWS_MASK,
 	TARGET_KERNEL_WINDOWS,
@@ -42,13 +43,22 @@ enum ETargetKernel
 enum ETargetCPU
 {
 	TARGET_CPU_UNDEFINED,
+
 	TARGET_CPU_80386,
 	TARGET_CPU_80486,
 	TARGET_CPU_80586,
 	TARGET_CPU_80686,
 	TARGET_CPU_AMD64,
+
+	TARGET_CPU_ARM,
 	TARGET_CPU_AARCH64,
+	TARGET_CPU_ARM64 = TARGET_CPU_AARCH64,
+	TARGET_CPU_ARMV7,
+	TARGET_CPU_ARMV8,
+	TARGET_CPU_ARMV9,
+
 	TARGET_CPU_WASM32,
+	TARGET_CPU_WASM64,
 };
 enum ETargetABI
 {
@@ -87,6 +97,14 @@ struct Target_t
 	static ETargetKernel KernelFromString( const char *szName );
 	static ETargetABI ABIFromString( const char *szName );
 };
+
+inline Target_t NewTarget( ETargetKernel k, ETargetCPU c, ETargetABI abi, ETargetOptimization o )
+{
+	return {k,c,abi,o};
+}
+
+#define DEFAULT_TARGET_INTERFACE_VERSION "DefaultTarget001"
+#define DEFAULT_TARGET_ENABLED_INTERFACE_VERSION "DefaultTargetEnabled001"
 
 enum EShaderTarget
 {
