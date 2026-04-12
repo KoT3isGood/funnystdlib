@@ -25,6 +25,7 @@
 #endif
 
 #ifdef POSIX
+#include "limits.h"
 #define MAX_PATH PATH_MAX
 #endif
 
