@@ -62,7 +62,6 @@ CUtlVector<CUtlString> CRustCompiler::BuildCommandLine( RustProject_t *pProject,
 	case k_ERustEdition_2024: cmd.AppendTail("2024"); break;
 	case k_ERustEdition_Future: cmd.AppendTail("latest"); break;
 	}
-	cmd.AppendTail("--emit=obj");
 	cmd.AppendTail("--crate-type=staticlib");
 	cmd.AppendTail("-o");
 	cmd.AppendTail(szOutputFileName);
@@ -86,8 +85,8 @@ CUtlVector<CUtlString> CRustCompiler::BuildCommandLine( RustProject_t *pProject,
 const char *CRustCompiler::GetOutputObjectFormat( RustProject_t *pProject )
 {
 	if (pProject->m_target.abi == TARGET_ABI_MSVC)
-		return ".obj";
-	return ".o";
+		return ".lib";
+	return ".a";
 }
 
 CUtlString CRustCompiler::GetOutputObjectName( RustProject_t *pProject, unsigned int hash, CUtlString szFileName )
