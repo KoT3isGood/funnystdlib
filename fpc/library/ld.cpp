@@ -137,6 +137,7 @@ CUtlVector<CUtlString> ILinker::BuildLinkCommandLine( LinkProject_t *pProject, c
 	{
 		LinkFrameworkPath(cmd, o);
 	};
+	SetOtherParameters(cmd, pProject);
 	return cmd;
 
 }

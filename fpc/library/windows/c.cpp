@@ -59,6 +59,7 @@ CUtlVector<CUtlString> CMSVCCompiler::BuildCommandLine( CProject_t *pProject, co
 	CUtlVector<CUtlString> cmd;
 	cmd = ICCompiler::BuildCommandLine(pProject, szFileName, szOutputFileName);
 	cmd.AppendHead("/c");
+	cmd.AppendTail("/nologo");
 	return cmd;
 }
 

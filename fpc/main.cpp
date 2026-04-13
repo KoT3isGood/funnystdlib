@@ -16,6 +16,7 @@
 #include "signal.h"
 #include "libgen.h"
 #include "builder.h"
+#include "rust.h"
 
 CUtlString owndir;
 static char **pszBuildDir;
@@ -61,6 +62,11 @@ int build()
 	*/
 
 	ccompiler->GenerateLinterData();
+
+	CreateInterfaceFn pLibFPCFactory = Sys_GetFactory("fpc");
+	CRustCompiler *rust = (CRustCompiler*)pLibFPCFactory(RUST_COMPILER_INTERFACE_VERSION, NULL);
+	if (rust)
+		rust->GenerateLinterData();
 
 	return 0;
 };

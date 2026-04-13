@@ -43,6 +43,8 @@ protected:
 
 	virtual void LinkFramework( CUtlVector<CUtlString> &cmd, const char *szName ) override;
 	virtual void LinkFrameworkPath( CUtlVector<CUtlString> &cmd, const char *szName ) override;
+
+	virtual void SetOtherParameters( CUtlVector<CUtlString> &cmd, LinkProject_t *pProject ) override;
 };
 
 const char *CMSVCLinker::GetCompilerExecutable( LinkProject_t *pProject )
@@ -60,7 +62,7 @@ const char *CMSVCLinker::GetCompilerExecutable( LinkProject_t *pProject )
 
 	szLinker = pSection->GetStringValue("link");
 	if (szLinker == NULL)
-		return "link";
+		return "link.exe";
 	return szLinker;
 }
 
@@ -135,6 +137,7 @@ void CMSVCLinker::UsePartialFile( CUtlVector<CUtlString> &cmd, LinkProject_t *pP
 }
 
 
+
 void CMSVCLinker::LinkFile( CUtlVector<CUtlString> &cmd, const char *szName )
 {
 	cmd.AppendTail(szName);
@@ -163,6 +166,11 @@ void CMSVCLinker::LinkFramework( CUtlVector<CUtlString> &cmd, const char *szName
 void CMSVCLinker::LinkFrameworkPath( CUtlVector<CUtlString> &cmd, const char *szName )
 {
 
+}
+
+void CMSVCLinker::SetOtherParameters( CUtlVector<CUtlString> &cmd, LinkProject_t *pProject )
+{
+	cmd.AppendTail("/NOLOGO");
 }
 
 

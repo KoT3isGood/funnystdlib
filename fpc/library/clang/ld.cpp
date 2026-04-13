@@ -45,6 +45,8 @@ protected:
 
 	virtual void LinkFramework( CUtlVector<CUtlString> &cmd, const char *szName ) override;
 	virtual void LinkFrameworkPath( CUtlVector<CUtlString> &cmd, const char *szName ) override;
+
+	virtual void SetOtherParameters( CUtlVector<CUtlString> &cmd, LinkProject_t *pProject ) override;
 };
 
 
@@ -245,6 +247,10 @@ void CClangLinker::LinkFrameworkPath( CUtlVector<CUtlString> &cmd, const char *s
 	cmd.AppendTail(szName);
 }
 
+
+void CClangLinker::SetOtherParameters( CUtlVector<CUtlString> &cmd, LinkProject_t *pProject )
+{
+}
 
 EXPOSE_INTERFACE(CClangLinker, ILinker, CLANG_LINKER_INTERFACE_NAME);
 /*

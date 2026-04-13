@@ -133,6 +133,8 @@ protected:
 	virtual void LinkFramework( CUtlVector<CUtlString> &cmd, const char *szName ) = 0;
 	virtual void LinkFrameworkPath( CUtlVector<CUtlString> &cmd, const char *szName ) = 0;
 
+	virtual void SetOtherParameters( CUtlVector<CUtlString> &cmd, LinkProject_t *pProject ) = 0;
+
 };
 
 extern ILinker *linker;

@@ -32,6 +32,7 @@ CUtlVector<CUtlString> g_libFpcFiles = {
 	"library/c.cpp",
 	"library/ld.cpp",
 	"library/swift.cpp",
+	"library/rust.cpp",
 
 	"library/android/apktool.cpp",
 	"library/apple/appletool.cpp",
