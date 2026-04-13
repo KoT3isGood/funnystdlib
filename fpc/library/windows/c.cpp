@@ -113,8 +113,32 @@ void CMSVCCompiler::SetTarget( CUtlVector<CUtlString> &cmd, CProject_t *pProject
 	cmd.AppendTail("/EHsc");
 }
 
-void CMSVCCompiler::SetSysroot( CUtlVector<CUtlString> &cmd, CProject_t *pProject , const char *szSysroot )
+void CMSVCCompiler::SetSysroot( CUtlVector<CUtlString> &cmd, CProject_t *pProject , const char *szName )
 {
+	if (szName != NULL)
+	{
+		cmd.AppendTail(CUtlString("/winsysroot:%s", szName));
+		return;
+	}
+
+	if (!g_pConfig)
+		return;
+
+
+	IINISection *pSection = g_pConfig->GetSection(pProject->m_target.GetTriplet());
+	if (!pSection)
+		return;
+
+	const char *szSysroot = pSection->GetStringValue("xwin");
+	if (szSysroot)
+	{
+		cmd.AppendTail(CUtlString("/I%s/crt/include", szSysroot));
+		cmd.AppendTail(CUtlString("/I%s/sdk/include/cppwinrt", szSysroot));
+		cmd.AppendTail(CUtlString("/I%s/sdk/include/shared", szSysroot));
+		cmd.AppendTail(CUtlString("/I%s/sdk/include/ucrt", szSysroot));
+		cmd.AppendTail(CUtlString("/I%s/sdk/include/um", szSysroot));
+		cmd.AppendTail(CUtlString("/I%s/sdk/include/winrt", szSysroot));
+	}
 
 }
 

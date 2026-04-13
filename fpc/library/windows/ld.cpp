@@ -96,8 +96,31 @@ void CMSVCLinker::SetTarget( CUtlVector<CUtlString> &cmd, LinkProject_t *pProjec
 	}
 }
 
-void CMSVCLinker::SetSysroot( CUtlVector<CUtlString> &cmd, LinkProject_t *pProject , const char *szSysroot )
-{
+void CMSVCLinker::SetSysroot( CUtlVector<CUtlString> &cmd, LinkProject_t *pProject , const char *szName )
+{	
+	if (szName != NULL)
+	{
+		cmd.AppendTail(CUtlString("/libpath:%s/crt/lib/%s", szName, Target_t::StringFromCPU(pProject->m_target.cpu)));
+		cmd.AppendTail(CUtlString("/libpath:%s/sdk/lib/um/%s", szName, Target_t::StringFromCPU(pProject->m_target.cpu)));
+		cmd.AppendTail(CUtlString("/libpath:%s/sdk/lib/ucrt/%s", szName, Target_t::StringFromCPU(pProject->m_target.cpu)));
+		return;
+	}
+
+	if (!g_pConfig)
+		return;
+
+
+	IINISection *pSection = g_pConfig->GetSection(pProject->m_target.GetTriplet());
+	if (!pSection)
+		return;
+
+	const char *szSysroot = pSection->GetStringValue("xwin");
+	if (szSysroot)
+	{
+		cmd.AppendTail(CUtlString("/libpath:%s/crt/lib/%s", szSysroot, Target_t::StringFromCPU(pProject->m_target.cpu)));
+		cmd.AppendTail(CUtlString("/libpath:%s/sdk/lib/um/%s", szSysroot, Target_t::StringFromCPU(pProject->m_target.cpu)));
+		cmd.AppendTail(CUtlString("/libpath:%s/sdk/lib/ucrt/%s", szSysroot, Target_t::StringFromCPU(pProject->m_target.cpu)));
+	}
 
 }
 
