@@ -111,6 +111,23 @@ void CMSVCCompiler::SetTarget( CUtlVector<CUtlString> &cmd, CProject_t *pProject
 {
 	cmd.AppendTail("/utf-8");
 	cmd.AppendTail("/EHsc");
+
+	if (!g_pConfig)
+		return;
+
+
+	IINISection *pSection = g_pConfig->GetSection(pProject->m_target.GetTriplet());
+	if (!pSection)
+		return;
+
+	const char *szBool = pSection->GetStringValue("is_clang_cl");
+	if (!szBool)
+		return;
+	if (V_strcmp(szBool, "true"))
+		return;
+	cmd.AppendTail("-target");
+	cmd.AppendTail(pProject->m_target.GetTriplet());
+
 }
 
 void CMSVCCompiler::SetSysroot( CUtlVector<CUtlString> &cmd, CProject_t *pProject , const char *szName )

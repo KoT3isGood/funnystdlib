@@ -1,5 +1,6 @@
 #include "rust.h"
 #include "tier2/fileformats/json.h"
+#include "config.h"
 
 struct RustCrate_t
 {
@@ -7,6 +8,9 @@ struct RustCrate_t
 	ERustEdition m_eEdition;
 };
 static CUtlVector<RustCrate_t> s_crates;
+
+COMPILER_VALUE(rust, rustc, "rustc");
+
 LinkProject_t CRustCompiler::Compile( RustProject_t *pProject )
 {
 	if (pProject->m_szName == 0)

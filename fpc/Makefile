@@ -105,7 +105,7 @@ REAL_TARGET := --sysroot $(SYSROOT)
 endif
 
 
-CCFLAGS := $(REAL_TARGET) -g -I../public -Ipublic -fPIC
+CCFLAGS := $(REAL_TARGET) -g -I../public -Ipublic -fPIC -DFPC_BOOTSTRAP
 
 ifeq ($(OS),Windows_NT)
 MKDIR = mkdir

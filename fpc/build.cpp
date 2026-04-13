@@ -18,6 +18,8 @@ CUtlVector<CUtlString> g_fpcFiles = {
 	"library/helper.cpp",
 	"library/target.cpp",
 	"library/builder.cpp",
+
+	"library/config.cpp",
 };
 
 CUtlVector<CUtlString> g_libFpcFiles = {	
@@ -28,6 +30,8 @@ CUtlVector<CUtlString> g_libFpcFiles = {
 	"library/runner.cpp",
 	"library/winerunner.cpp",
 	"library/deploy.cpp",
+	
+	"library/config.cpp",
 	
 	"library/c.cpp",
 	"library/ld.cpp",

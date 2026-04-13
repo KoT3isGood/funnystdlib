@@ -17,6 +17,7 @@
 #include "libgen.h"
 #include "builder.h"
 #include "rust.h"
+#include "library/config.h"
 
 CUtlString owndir;
 static char **pszBuildDir;
@@ -27,6 +28,12 @@ void query()
 	{
 		V_printf("%s", Target_t::HostTarget().GetTriplet().GetString());
 	}
+#ifndef FPC_BOOTSTRAP
+	if (CommandLine()->CheckParam("compiler"))
+	{
+		//QueryCompilerRegistries();
+	}
+#endif
 }
 
 int build()

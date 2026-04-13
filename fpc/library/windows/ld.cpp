@@ -94,6 +94,26 @@ void CMSVCLinker::SetTarget( CUtlVector<CUtlString> &cmd, LinkProject_t *pProjec
 		cmd.AppendTail(CUtlString("/entry:%s", pProject->szEntry));
 		break;
 	}
+	
+	IINISection *pSection = g_pConfig->GetSection(pProject->m_target.GetTriplet());
+	if (!pSection)
+		return;
+
+	const char *szBool = pSection->GetStringValue("is_lld_link");
+	if (!szBool)
+		return;
+	if (V_strcmp(szBool, "true"))
+		return;
+	switch(pProject->m_target.cpu)
+	{
+	case TARGET_CPU_AMD64:
+		cmd.AppendTail("/MACHINE:X64");
+		break;
+	case TARGET_CPU_AARCH64:
+		cmd.AppendTail("/MACHINE:ARM64");
+		break;
+	default:
+	}
 }
 
 void CMSVCLinker::SetSysroot( CUtlVector<CUtlString> &cmd, LinkProject_t *pProject , const char *szName )
