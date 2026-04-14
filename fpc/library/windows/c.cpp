@@ -14,6 +14,12 @@
 #include "libgen.h"
 #include "ctype.h"
 
+#include "../config.h"
+
+COMPILER_LANGUAGE(msvc, 0, "C")
+COMPILER_LANGUAGE(msvc, 1, "C++")
+COMPILER_VALUE(msvc, cl, "cl.exe", "msvc C/C++ compiler");
+COMPILER_VALUE(msvc, cl_type, "native", "MSVC compiler family: native, clang-cl");
 
 class CMSVCCompiler : public ICCompiler
 {

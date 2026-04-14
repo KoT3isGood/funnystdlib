@@ -31,7 +31,7 @@ TIER2_OBJS := $(TIER2_FILES:.cpp=.o)
 
 FILESYSTEM_FILES := ../stdfilesystems/filesystem_libc.cpp
 
-LIBFPC_FILES := library/helper.cpp library/target.cpp library/builder.cpp library/runner.cpp library/c.cpp library/ld.cpp library/clang/c.cpp library/clang/ld.cpp
+LIBFPC_FILES := library/helper.cpp library/target.cpp library/config.cpp library/builder.cpp library/runner.cpp library/c.cpp library/ld.cpp library/clang/c.cpp library/clang/ld.cpp
 
 FPC_FILES := main.cpp library/helper.cpp library/target.cpp library/builder.cpp
 

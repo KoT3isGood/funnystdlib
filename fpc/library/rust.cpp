@@ -9,7 +9,8 @@ struct RustCrate_t
 };
 static CUtlVector<RustCrate_t> s_crates;
 
-COMPILER_VALUE(rust, rustc, "rustc");
+COMPILER_LANGUAGE(rust, 0, "rust")
+COMPILER_VALUE(rust, rustc, "rustc", "rustc executable");
 
 LinkProject_t CRustCompiler::Compile( RustProject_t *pProject )
 {
@@ -72,6 +73,10 @@ CUtlVector<CUtlString> CRustCompiler::BuildCommandLine( RustProject_t *pProject,
 	cmd.AppendTail(szFileName);
 	cmd.AppendTail("--target");
 	cmd.AppendTail(pProject->m_target.GetTriplet());
+	if (pProject->m_target.optimization == TARGET_DEBUG)
+	{
+		cmd.AppendTail("-g");
+	}
 
 	for ( auto &c: pProject->m_codegen )
 	{

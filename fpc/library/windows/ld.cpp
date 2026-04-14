@@ -7,6 +7,10 @@
 #include "tier1/utlstring.h"
 #include "tier2/fileformats/ini.h"
 #include "winerunner.h"
+#include "../config.h"
+COMPILER_VALUE(msvc, link, "link.exe", "msvc linker");
+COMPILER_VALUE(msvc, link_type, "native", "Cross-compiler family: native, lld-link");
+COMPILER_LANGUAGE(msvc, vlinker, "linker")
 
 class CMSVCLinker : public ILinker
 {
@@ -113,6 +117,7 @@ void CMSVCLinker::SetTarget( CUtlVector<CUtlString> &cmd, LinkProject_t *pProjec
 		cmd.AppendTail("/MACHINE:ARM64");
 		break;
 	default:
+		break;
 	}
 }
 

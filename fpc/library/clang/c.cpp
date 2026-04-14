@@ -20,6 +20,7 @@ struct ClangFile_t
 	CUtlVector<CUtlString> m_szArguments;
 };
 
+
 class CClangCompiler : public ICCompiler
 {
 public:

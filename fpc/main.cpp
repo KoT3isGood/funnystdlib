@@ -22,18 +22,45 @@
 CUtlString owndir;
 static char **pszBuildDir;
 
+#ifdef FPC_BOOTSTRAP
+#define FPC_LITE 1
+#else
+#define FPC_LITE 0
+#endif
+
+#define COMMAND_CHECK_FULL if (FPC_LITE == 1) {V_printf("This command cannot be run in bootstrap. Most likely you are running .make/fpc instead of proper version\n"); return;}
+
+
 void query()
 {
 	if (CommandLine()->CheckParam("triplet"))
 	{
 		V_printf("%s", Target_t::HostTarget().GetTriplet().GetString());
 	}
-#ifndef FPC_BOOTSTRAP
 	if (CommandLine()->CheckParam("compiler"))
 	{
-		//QueryCompilerRegistries();
+		COMMAND_CHECK_FULL;
+
+		const char *szCompiler = CommandLine()->ParamValue("compiler");
+
+		CreateInterfaceFn pLibFPCFactory = Sys_GetFactory("fpc");
+		IConfigManager *mgr = (IConfigManager*)pLibFPCFactory(CONFIG_MANAGER_INTERFACE_VERSION, NULL);
+		if (!mgr)
+		{
+			V_printf(CONFIG_MANAGER_INTERFACE_VERSION " not found\n");
+			return;
+		}
+
+		if (szCompiler)
+		{
+			mgr->QueryCompilerValues(szCompiler);
+		}
+		else
+		{
+			mgr->QueryCompilerRegistries();
+		}
+
 	}
-#endif
 }
 
 int build()
@@ -171,6 +198,8 @@ int main(int c, char **v)
 	IINIFile **ppConfig = (IINIFile**)pLibFPCFactory(LIBFPC_CONFIG_INTERFACE_VERSION, NULL);
 	*ppConfig = g_pConfig;
 
+
+
 	CommandLine()->CreateCommandLine(c, v);
 	Plat_InitRandom();
 
@@ -182,6 +211,8 @@ int main(int c, char **v)
 		return 0;
 	}
 
+	IConfigManager *mgr = (IConfigManager*)pLibFPCFactory(CONFIG_MANAGER_INTERFACE_VERSION, NULL);
+	mgr->Init(g_pConfig);
 	if (CommandLine()->CheckParam("build"))
 		build();
 	if (CommandLine()->CheckParam("query"))

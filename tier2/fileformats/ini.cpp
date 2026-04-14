@@ -6,23 +6,7 @@
 #include "tier0/lib.h"
 #include "tier2/ifilesystem.h"
 
-enum ESectionType
-{
-	SECTIONTYPE_STRING,
-	SECTIONTYPE_BOOLEAN,
-	SECTIONTYPE_FLOAT,
-};
 
-
-struct SectionData_t
-{
-	ESectionType m_eSectionType;
-	CUtlString m_szKey;
-	
-	bool m_bData;
-	float m_fData;
-	CUtlString m_szData;
-};
 
 abstract_class CINISection: public IINISection
 {
@@ -31,8 +15,9 @@ public:
 	virtual int GetIntValue( const char *szKeyName ) override;
 	virtual const char *GetStringValue( const char *szKeyName ) override;
 	virtual CUtlString GetUTLStringValue( const char *szKeyName ) override;
+	virtual CUtlVector<IniValueData_t*> GetValues() override {};
 
-	CUtlVector<SectionData_t*> m_values;
+	CUtlVector<IniValueData_t*> m_values;
 	CUtlString m_szSectionName;
 };
 
@@ -70,6 +55,7 @@ class CINIFile: public IINIFile
 {
 public:
 	virtual IINISection *GetSection( const char *szSectionName ) override;
+	virtual CUtlVector<IINISection*> GetSections() override {};
 
 	CUtlVector<CINISection*> m_sections;
 };
@@ -122,7 +108,7 @@ IINIFile *CINIManager::ReadString( const char *psz )
 	bool bIsSectionName;
 
 	CINISection *pCurrentSection = 0;
-	SectionData_t *pCurrentSectionData = 0;
+	IniValueData_t *pCurrentSectionData = 0;
 	size_t i = 0;
 
 	char c;
@@ -274,8 +260,8 @@ IINIFile *CINIManager::ReadString( const char *psz )
 			return pFile;
 		}
 
-		pCurrentSectionData = new SectionData_t;
-		pCurrentSectionData->m_eSectionType = SECTIONTYPE_STRING;
+		pCurrentSectionData = new IniValueData_t;
+		pCurrentSectionData->m_eType = INITYPE_STRING;
 		pCurrentSectionData->m_szKey = tokens[i];
 
 		i++;
