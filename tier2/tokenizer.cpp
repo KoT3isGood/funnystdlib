@@ -89,8 +89,6 @@ CUtlVector<Token_t> Tokenize( const char *psz, fnIsAlphabetSymbol fnIsAlphabetSy
 				case '"':
 					// end string
 					bIsQuoted = false;
-					if (szStringValue == 0)
-						continue;
 					tokens.AppendTail({szStringValue, true, nCurrentLine});
 					szStringValue = 0;
 					continue;

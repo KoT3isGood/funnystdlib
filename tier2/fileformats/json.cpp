@@ -484,7 +484,7 @@ IJSONValue *CJSONManager::ParseValue( Token_t *&pToken, const Token_t *pEnding )
 		pValue->SetArrayValue(pArray);
 		return pValue;
 	}
-	if ( GetQuotedToken(*pToken) != NULL )
+	if ( pToken->m_bIsQuoted )
 	{
 		IJSONValue *pValue = CreateValue();
 		pValue->SetStringValue(pToken->m_szValue);

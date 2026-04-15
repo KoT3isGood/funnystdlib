@@ -56,6 +56,7 @@ public:
 	// Leaks memory
 	// Should be cleaned by the user
 	virtual const char *ReadString( IFileHandle *pFile ) = 0;
+	virtual size_t PrintF( IFileHandle *pFile, const char *szFormat, ... ) = 0;
 	
 	// Directory stuff
 	virtual IDirectoryHandle *OpenDir( const char *szDirName ) = 0;

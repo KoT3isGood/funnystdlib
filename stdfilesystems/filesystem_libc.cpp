@@ -3,6 +3,7 @@
 #include "tier0/lib.h"
 #include "errno.h"
 #include "dirent.h"
+#include "stdarg.h"
 
 class CLIBCFileHandle : public IFileHandle
 {
@@ -136,6 +137,18 @@ public:
 
 		return szData;
 	};
+
+	virtual size_t PrintF( IFileHandle *pFile, const char *szFormat, ... ) override 
+	{
+		CLIBCFileHandle *pHandle = (CLIBCFileHandle*)pFile;
+		if (!pHandle)
+			return 0;
+		va_list list;
+		va_start(list, szFormat);
+		V_vfprintf(pHandle->m_pFile, szFormat, list);
+		va_end(list);
+		return 0;
+	}
 	
 	virtual IDirectoryHandle *OpenDir( const char *szDirName ) override
 	{
