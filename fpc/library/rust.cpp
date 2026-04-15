@@ -48,14 +48,15 @@ LinkProject_t CRustCompiler::Compile( RustProject_t *pProject )
 		args = BuildCommandLine(pProject, pProject->m_szRoot, szOutputFile);
 		runner->Run(GetCompilerExecutable(pProject), args);
 		runner->Wait();	
-		s_crates.AppendTail({
-				pProject->m_szName,
-				pProject->m_szRoot, 
-				pProject->m_eLink == k_ERustLink_Proc_Macro ? true : false, 
-				pProject->m_eEdition, 
-				pProject->m_externs});
 	}
 	proj.objects.AppendTail((Object_t){szOutputFile});
+
+	s_crates.AppendTail({
+			pProject->m_szName,
+			pProject->m_szRoot, 
+			pProject->m_eLink == k_ERustLink_Proc_Macro ? true : false, 
+			pProject->m_eEdition, 
+			pProject->m_externs});
 	
 
 	return proj;
@@ -184,6 +185,7 @@ void CRustCompiler::GenerateLinterData()
 		IJSONArray *pDeps = JSONManager()->CreateArray();
 		IJSONValue *pVIsProcMacro = JSONManager()->CreateValue();
 		
+		CUtlVector<IJSONValue*> deps = {};
 		for ( auto e: c.m_externs )
 		{
 
@@ -210,8 +212,10 @@ void CRustCompiler::GenerateLinterData()
 			pDep->SetValue("name", pVName);
 			pDep->SetValue("crate", pVIndex);
 			pVDep->SetObjectValue(pDep);
+			deps.AppendTail(pVDep);
 
 		}
+		pDeps->SetArray(deps.GetSize(), deps.GetData());
 
 
 		switch(c.m_eEdition)
