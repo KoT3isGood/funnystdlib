@@ -18,10 +18,11 @@ enum EJSONParameterType
 	JSON_PARAMETER_OBJECT,
 };
 
-enum EJSONParameterNotes
+enum EJSONFlag
 {
-	JSON_PARAMETER_NOTE_NONE = 0,
-	JSON_PARAMETER_NOTE_BINARY,
+	k_EJSON_None = 0,
+	k_EJSON_Integer = 1,
+	k_EJSON_BinaryAsHex = 2,
 };
 
 abstract_class IJSONArray
@@ -40,7 +41,6 @@ abstract_class IJSONValue
 {
 public:
 	virtual EJSONParameterType GetType( void ) = 0;
-	virtual 
 	virtual const char *GetStringValue() = 0;
 	virtual float GetNumberValue() = 0;
 	virtual bool GetBooleanValue() = 0;
@@ -56,6 +56,9 @@ public:
 
 	virtual void CopyTo( IJSONValue *pObject ) = 0;
 	virtual void Free() = 0;
+
+	virtual void SetFlag( EJSONFlag eFlag ) = 0;
+	virtual EJSONFlag GetFlag() = 0;
 };
 
 abstract_class IJSONObject

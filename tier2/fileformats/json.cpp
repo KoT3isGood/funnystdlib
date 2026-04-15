@@ -46,7 +46,7 @@ void CJSONArray::Free()
 	m_values = {};
 }
 
-abstract_class CJSONValue: public IJSONValue
+class CJSONValue: public IJSONValue
 {
 public:
 	virtual EJSONParameterType GetType( void ) override;
@@ -66,12 +66,18 @@ public:
 	virtual void CopyTo( IJSONValue *pObject ) override;
 	virtual void Free() override;
 
+	virtual void SetFlag( EJSONFlag eFlag ) override;
+	virtual EJSONFlag GetFlag() override;
+
 	EJSONParameterType m_eType = JSON_PARAMETER_NULL;
 	CUtlString m_szString;
 	float m_fValue;
 	bool m_bValue;
 	IJSONArray *m_pArray;
 	IJSONObject *m_pObject;
+
+
+	EJSONFlag m_eFlag = k_EJSON_None;
 };
 
 EJSONParameterType CJSONValue::GetType( void )
@@ -140,6 +146,7 @@ void CJSONValue::SetBooleanValue( bool bValue )
 {
 	MakeNULL();
 	m_eType = JSON_PARAMETER_BOOLEAN;
+	m_fValue = bValue;
 }
 
 void CJSONValue::SetArrayValue( IJSONArray *pValue )
@@ -155,6 +162,17 @@ void CJSONValue::SetObjectValue( IJSONObject *pValue )
 	m_eType = JSON_PARAMETER_OBJECT;
 	m_pObject = pValue;
 }
+
+void CJSONValue::SetFlag( EJSONFlag eFlag )
+{
+	m_eFlag = eFlag;
+}
+
+EJSONFlag CJSONValue::GetFlag()
+{
+	return m_eFlag;
+}
+
 
 
 void CJSONValue::CopyTo( IJSONValue *pObject )
@@ -588,6 +606,8 @@ CUtlString CJSONManager::RealWriteString( IJSONValue *pValue, uint32_t uOffset )
 			return "true";
 		return "false";
 	case JSON_PARAMETER_NUMBER:
+		if (pValue->GetFlag() == k_EJSON_Integer)
+			return CUtlString("%i", (int)pValue->GetNumberValue());
 		return CUtlString("%f", pValue->GetNumberValue());
 	case JSON_PARAMETER_STRING:
 		return GetAsJsonString(pValue->GetStringValue());
