@@ -50,10 +50,7 @@ LinkProject_t CRustCompiler::Compile( RustProject_t *pProject )
 		runner->Wait();	
 	}
 	proj.objects.AppendTail((Object_t){szOutputFile});
-<<<<<<< HEAD
 
-=======
->>>>>>> cf88683 (added json flags)
 	s_crates.AppendTail({
 			pProject->m_szName,
 			pProject->m_szRoot, 
@@ -187,12 +184,10 @@ void CRustCompiler::GenerateLinterData()
 		IJSONValue *pVDeps = JSONManager()->CreateValue();
 		IJSONArray *pDeps = JSONManager()->CreateArray();
 		IJSONValue *pVIsProcMacro = JSONManager()->CreateValue();
-		V_printf("%s\n",c.m_szName.GetString());
 		
 		CUtlVector<IJSONValue*> deps = {};
 		for ( auto e: c.m_externs )
 		{
-			V_printf("%s\n",c.m_szName.GetString());
 
 			int index = -1;
 			for ( int i = 0; i < s_crates.GetSize(); i++)
@@ -214,7 +209,6 @@ void CRustCompiler::GenerateLinterData()
 
 			pVName->SetStringValue(e.szName);
 			pVIndex->SetNumberValue(index);
-			pVIndex->SetFlag(k_EJSON_Integer);
 			pDep->SetValue("name", pVName);
 			pDep->SetValue("crate", pVIndex);
 			pVDep->SetObjectValue(pDep);
