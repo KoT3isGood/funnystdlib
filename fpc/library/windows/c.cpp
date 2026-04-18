@@ -133,6 +133,15 @@ void CMSVCCompiler::SetTarget( CUtlVector<CUtlString> &cmd, CProject_t *pProject
 		return;
 	cmd.AppendTail("-target");
 	cmd.AppendTail(pProject->m_target.GetTriplet());
+	switch (pProject->m_target.eWindowsCRT)
+	{
+	case k_EWindowsCRT_Static:
+		cmd.AppendTail("/MT");
+		break;
+	case k_EWindowsCRT_Dynamic:
+		cmd.AppendTail("/MD");
+		break;
+	}
 
 }
 

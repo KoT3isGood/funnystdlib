@@ -75,6 +75,14 @@ enum ETargetOptimization
 	TARGET_RELEASE_SIZE
 };
 
+enum EWindowsCRT
+{
+	// MT
+	k_EWindowsCRT_Static,
+	// MD
+	k_EWindowsCRT_Dynamic,
+};
+
 struct Target_t
 {
 	ETargetKernel kernel;
@@ -82,6 +90,11 @@ struct Target_t
 	ETargetABI abi;
 	ETargetOptimization optimization;
 	const char *szSysroot = CommandLine()->ParamValue("-sysroot");
+
+	union
+	{
+		EWindowsCRT eWindowsCRT;
+	};
 
 	CUtlString GetTriplet();
 	const char *GetExecutableFileFormat();

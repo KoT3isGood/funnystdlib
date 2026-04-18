@@ -8,7 +8,8 @@ struct RustCrate_t
 	CUtlString m_szRoot;
 	bool m_bIsProcMacro;
 	ERustEdition m_eEdition;
-	CUtlVector<ExternRustCrate_t> m_externs;
+	CUtlVector<RustValue_t> m_externs;
+	CUtlVector<CUtlString> m_cfgs;
 };
 static CUtlVector<RustCrate_t> s_crates;
 
@@ -51,12 +52,21 @@ LinkProject_t CRustCompiler::Compile( RustProject_t *pProject )
 	}
 	proj.objects.AppendTail((Object_t){szOutputFile});
 
+	CUtlVector<CUtlString> cfgs = {};
+	for ( auto c: pProject->m_cfg)
+	{
+		if (c.szValue)
+			cfgs.AppendTail(CUtlString("%s=\"%s\"", c.szName, c.szValue).GetString());
+		else
+			cfgs.AppendTail(c.szName);
+	}
 	s_crates.AppendTail({
 			pProject->m_szName,
 			pProject->m_szRoot, 
 			pProject->m_eLink == k_ERustLink_Proc_Macro ? true : false, 
 			pProject->m_eEdition, 
-			pProject->m_externs});
+			pProject->m_externs, 
+			cfgs});
 	
 
 	return proj;
@@ -119,6 +129,14 @@ CUtlVector<CUtlString> CRustCompiler::BuildCommandLine( RustProject_t *pProject,
 	{
 		cmd.AppendTail("--extern");
 		cmd.AppendTail(CUtlString("%s=%s", e.szName.GetString(), e.szPath.GetString()).GetString());
+	}
+	for ( auto &c: pProject->m_cfg )
+	{
+		cmd.AppendTail("--cfg");
+		if (c.szValue)
+			cmd.AppendTail(CUtlString("%s=\"%s\"", c.szName, c.szValue).GetString());
+		else
+			cmd.AppendTail(c.szName);
 	}
 
 
@@ -183,9 +201,12 @@ void CRustCompiler::GenerateLinterData()
 		IJSONValue *pVEdition = JSONManager()->CreateValue();
 		IJSONValue *pVDeps = JSONManager()->CreateValue();
 		IJSONArray *pDeps = JSONManager()->CreateArray();
+		IJSONValue *pVCfg = JSONManager()->CreateValue();
+		IJSONArray *pCfg = JSONManager()->CreateArray();
 		IJSONValue *pVIsProcMacro = JSONManager()->CreateValue();
 		
 		CUtlVector<IJSONValue*> deps = {};
+		CUtlVector<IJSONValue*> cfgs = {};
 		for ( auto e: c.m_externs )
 		{
 
@@ -215,7 +236,17 @@ void CRustCompiler::GenerateLinterData()
 			deps.AppendTail(pVDep);
 
 		}
+		for ( auto e: c.m_cfgs )
+		{
+
+			IJSONValue *pConfig = JSONManager()->CreateValue();
+			pConfig->SetStringValue(e);
+
+			cfgs.AppendTail(pConfig);
+
+		}
 		pDeps->SetArray(deps.GetSize(), deps.GetData());
+		pCfg->SetArray(cfgs.GetSize(), cfgs.GetData());
 
 
 		switch(c.m_eEdition)
@@ -229,11 +260,13 @@ void CRustCompiler::GenerateLinterData()
 		}
 		pVRoot->SetStringValue(c.m_szRoot.GetAbsolute());	
 		pVDeps->SetArrayValue(pDeps);
+		pVCfg->SetArrayValue(pCfg);
 		pVIsProcMacro->SetBooleanValue(c.m_bIsProcMacro);
 			
 		pObject->SetValue("root_module", pVRoot);
 		pObject->SetValue("edition", pVEdition);
 		pObject->SetValue("deps", pVDeps);
+		pObject->SetValue("cfg", pVCfg);
 		pObject->SetValue("is_proc_macro", pVIsProcMacro);
 		pVObject->SetObjectValue(pObject);
 		jsonValues.AppendTail(pVObject);

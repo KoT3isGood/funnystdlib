@@ -25,13 +25,13 @@ enum ERustLink
 	k_ERustLink_Proc_Macro,
 };
 
-struct RustCodegen_t
+struct RustValueC_t
 {
 	const char *szName;
 	const char *szValue;
 };
 
-struct ExternRustCrate_t
+struct RustValue_t
 {
 	CUtlString szName;
 	CUtlString szPath;
@@ -44,9 +44,10 @@ struct RustProject_t: public CPUProject_t
 	const char *m_szCrateName;
 	ERustEdition m_eEdition;
 	ERustLink m_eLink;
-	CUtlVector<RustCodegen_t> m_codegen;
+	CUtlVector<RustValueC_t> m_cfg;
+	CUtlVector<RustValueC_t> m_codegen;
+	CUtlVector<RustValue_t> m_externs;
 	CUtlVector<CUtlString> m_libraryDirectories;
-	CUtlVector<ExternRustCrate_t> m_externs;
 };
 
 class CRustCompiler
