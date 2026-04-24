@@ -169,5 +169,20 @@ bool CPOSIXFileSystem2::ShouldRecompile(const char *szSource, const char *szOutp
 };
 
 
+static CUtlVector<CUtlString> *s_pLoadFilesPaths;
+void LoadFilesRecursiveCallback( const char *szPath )
+{
+	s_pLoadFilesPaths->AppendTail(szPath);
+}
+
+void LoadFilesRecursive( CUtlVector<CUtlString> &szPaths, const char *szDir )
+{
+
+	// TODO: Locks
+	s_pLoadFilesPaths = &szPaths;
+	Plat_ListDirRecursive(szDir, LoadFilesRecursiveCallback, NULL);
+}
+
+
 IINIFile *g_pConfig;
 EXPOSE_INTERFACE_GLOBALVAR(IINIFile, IINIFile, LIBFPC_CONFIG_INTERFACE_VERSION, g_pConfig);

@@ -86,6 +86,12 @@ public:
 
 extern IFileSystem2 *filesystem2;
 
+//-----------------------------------------------------------------------------
+// Pushes all the files from directory into array
+// Maybe could be promoted to filesystem2?
+//-----------------------------------------------------------------------------
+void LoadFilesRecursive( CUtlVector<CUtlString> &szPaths, const char *szDir );
+
 struct StageOutput_t
 {
 	const char *m_szName;
