@@ -31,6 +31,7 @@ public:
 	virtual const char *GetStringValue( const char *szKeyName ) = 0;
 	virtual CUtlString GetUTLStringValue( const char *szKeyName ) = 0;
 	virtual CUtlVector<IniValueData_t*> GetValues() = 0;
+	virtual const char *GetName() = 0;
 };
 
 abstract_class IINIFile

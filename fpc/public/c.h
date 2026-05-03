@@ -101,7 +101,7 @@ protected:
 	virtual CUtlVector<CUtlString> BuildCommandLine( CProject_t *pProject, const char *szFileName, const char *szOutputFileName );
 	
 	// Returns executable which should the OS run
-	virtual const char *GetCompilerExecutable( CProject_t *pProject ) = 0;
+	virtual CUtlString GetCompilerExecutable( CProject_t *pProject ) = 0;
 
 	// returns object file format, eg .obj or .o
 	virtual const char *GetOutputObjectFormat() = 0;

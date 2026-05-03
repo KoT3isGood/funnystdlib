@@ -32,7 +32,7 @@ protected:
 	virtual CUtlVector<CUtlString> BuildCommandLine( CProject_t *pProject, const char *szFileName, const char *szOutputFileName ) override;
 	
 	// Returns executable which should the OS run
-	virtual const char *GetCompilerExecutable( CProject_t *pProject ) override;
+	virtual CUtlString GetCompilerExecutable( CProject_t *pProject ) override;
 
 	// returns object file format, eg .obj or .o
 	virtual const char *GetOutputObjectFormat() override;
@@ -70,23 +70,18 @@ CUtlVector<CUtlString> CMSVCCompiler::BuildCommandLine( CProject_t *pProject, co
 }
 
 
-const char *CMSVCCompiler::GetCompilerExecutable( CProject_t *pProject )
+CUtlString CMSVCCompiler::GetCompilerExecutable( CProject_t *pProject )
 {
-	IINISection *pSection = NULL;
-	const char *szLinker = "cl.exe";
-	if (!g_pConfig)
-		return szLinker;
 
-
-	pSection = g_pConfig->GetSection(pProject->m_target.GetTriplet());
-	if (!pSection)
-		return szLinker;
-
-
-	szLinker = pSection->GetStringValue("cl");
-	if (szLinker == NULL)
-		return "cl.exe";
-	return szLinker;
+	CreateInterfaceFn pLibFPCFactory = Sys_GetFactory("fpc");
+	IConfigManager *mgr = (IConfigManager*)pLibFPCFactory(CONFIG_MANAGER_INTERFACE_VERSION, NULL);
+	if (mgr)
+	{
+		CUtlString sz = mgr->GetProperty("msvc", "cl", pProject->m_target);
+		if (sz)
+			return sz;
+	}
+	return "cl.exe";
 }
 
 
@@ -147,6 +142,7 @@ void CMSVCCompiler::SetTarget( CUtlVector<CUtlString> &cmd, CProject_t *pProject
 
 void CMSVCCompiler::SetSysroot( CUtlVector<CUtlString> &cmd, CProject_t *pProject , const char *szName )
 {
+
 	if (szName != NULL)
 	{
 		cmd.AppendTail(CUtlString("/winsysroot:%s", szName));

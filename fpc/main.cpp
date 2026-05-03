@@ -170,23 +170,16 @@ int main(int c, char **v)
 	*pszBuildDir = szBuildcppDir;
 	runner = (IRunner*)pLibFPCFactory(RUNNER_INTERFACE_NAME, NULL);
 	winerunner = (IWineRunner*)pLibFPCFactory(WINE_RUNNER_INTERFACE_NAME, NULL);
-#ifdef __WIN32__
-	ccompiler = (ICCompiler*)pLibFPCFactory(MSVC_C_COMPILER_INTERFACE_NAME, NULL);
-	linker = (ILinker*)pLibFPCFactory(MSVC_LINKER_INTERFACE_NAME, NULL);
-#else
 	ccompiler = (ICCompiler*)pLibFPCFactory(CLANG_C_COMPILER_INTERFACE_NAME, NULL);
 	linker = (ILinker*)pLibFPCFactory(CLANG_LINKER_INTERFACE_NAME, NULL);
-#endif
-	
-
-
-	pLibFPCFactory(LIBFPC_INIT_INTERFACE_VERSION, NULL);
-
 	
 	CreateInterfaceFn pFilesystemFactory = Sys_GetFactory("filesystem_std");
 
 	filesystem = (IFileSystem*)pFilesystemFactory(FILESYSTEM_INTERFACE_VERSION, NULL);
 	filesystem->Init();
+
+	CommandLine()->CreateCommandLine(c, v);
+	Plat_InitRandom();
 
 	IFileHandle *pFile;
 	const char *szData;
@@ -198,10 +191,13 @@ int main(int c, char **v)
 	IINIFile **ppConfig = (IINIFile**)pLibFPCFactory(LIBFPC_CONFIG_INTERFACE_VERSION, NULL);
 	*ppConfig = g_pConfig;
 
+	IConfigManager *mgr = (IConfigManager*)pLibFPCFactory(CONFIG_MANAGER_INTERFACE_VERSION, NULL);
+	mgr->Init(g_pConfig);
+
+	pLibFPCFactory(LIBFPC_INIT_INTERFACE_VERSION, NULL);
 
 
-	CommandLine()->CreateCommandLine(c, v);
-	Plat_InitRandom();
+
 
 	if (CommandLine()->CheckParam("-v") || CommandLine()->CheckParam("--version"))
 	{
@@ -211,8 +207,6 @@ int main(int c, char **v)
 		return 0;
 	}
 
-	IConfigManager *mgr = (IConfigManager*)pLibFPCFactory(CONFIG_MANAGER_INTERFACE_VERSION, NULL);
-	mgr->Init(g_pConfig);
 	if (CommandLine()->CheckParam("build"))
 		build();
 	if (CommandLine()->CheckParam("query"))

@@ -108,6 +108,19 @@ struct Target_t
 	static ETargetCPU CPUFromString( const char *szName );
 	static ETargetKernel KernelFromString( const char *szName );
 	static ETargetABI ABIFromString( const char *szName );
+	static Target_t FromTriplet( const char *szTriplet );
+
+	inline bool Matches( Target_t &t )
+	{
+		if (t.kernel != kernel)
+			return false;
+		if (t.cpu != cpu)
+			return false;
+		if (t.abi != abi)
+			return false;
+		return true;
+
+	}
 };
 
 inline Target_t NewTarget( ETargetKernel k, ETargetCPU c, ETargetABI abi, ETargetOptimization o )

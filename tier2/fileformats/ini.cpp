@@ -15,7 +15,9 @@ public:
 	virtual int GetIntValue( const char *szKeyName ) override;
 	virtual const char *GetStringValue( const char *szKeyName ) override;
 	virtual CUtlString GetUTLStringValue( const char *szKeyName ) override;
-	virtual CUtlVector<IniValueData_t*> GetValues() override {};
+
+	virtual CUtlVector<IniValueData_t*> GetValues() override { return m_values; };
+	virtual const char *GetName() override { return m_szSectionName; };
 
 	CUtlVector<IniValueData_t*> m_values;
 	CUtlString m_szSectionName;
@@ -55,16 +57,16 @@ class CINIFile: public IINIFile
 {
 public:
 	virtual IINISection *GetSection( const char *szSectionName ) override;
-	virtual CUtlVector<IINISection*> GetSections() override {};
+	virtual CUtlVector<IINISection*> GetSections() override { return m_sections; };
 
-	CUtlVector<CINISection*> m_sections;
+	CUtlVector<IINISection*> m_sections;
 };
 
 IINISection *CINIFile::GetSection( const char *szSectionName )
 {
 	for ( auto &section: m_sections )
 	{
-		if ( section->m_szSectionName == szSectionName )
+		if ( ((CINISection*)section)->m_szSectionName == szSectionName )
 			return (IINISection*)section;
 	}
 	return 0;

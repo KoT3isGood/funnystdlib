@@ -26,10 +26,16 @@ CUtlVector<CUtlString> ICCompiler::BuildCommandLine( CProject_t *pProject, const
 
 	SetOutputFile(cmd, szOutputFileName);
 	EnableDebugSymbols(cmd);
-	if (pProject->bFPIC)
-		EnablePIC(cmd);
-	if (pProject->bFPIE)
-		EnablePIE(cmd);
+	if (pProject->m_target.abi == TARGET_ABI_MSVC)
+	{
+	}
+	else
+	{
+		if (pProject->bFPIC)
+			EnablePIC(cmd);
+		if (pProject->bFPIE)
+			EnablePIE(cmd);
+	}
 	SetTarget(cmd, pProject);
 	SetSysroot(cmd, pProject, NULL);
 	CompileFile(cmd, szFileName);

@@ -287,6 +287,33 @@ ETargetABI Target_t::ABIFromString( const char *szName )
 		return TARGET_ABI_GNU;
 	else if ( szUtlName == "musl" )
 		return TARGET_ABI_MUSL;
+	else if ( szUtlName == "msvc" )
+		return TARGET_ABI_MSVC;
 	return TARGET_ABI_UNDEFINED;
 }
 
+
+Target_t Target_t::FromTriplet( const char *szTriplet )
+{
+	CUtlString sz = szTriplet;
+	char *parts[4];
+	int i = 0;
+
+	char *token = V_strtok((char*)sz, "-");
+	while (token && i < 4) {
+		parts[i++] = token;
+		token = V_strtok(NULL, "-");
+	}
+
+	if (i >= 3) {
+		char *a = parts[0];
+		char *bc1 = parts[1];
+		char *bc2 = parts[2];
+		char *d = (i == 4) ? parts[3] : NULL;
+		if (d)
+			return NewTarget(KernelFromString(CUtlString("%s-%s", bc1, bc2)), CPUFromString(a), ABIFromString(d), TARGET_DEBUG);
+		else
+			return NewTarget(KernelFromString(CUtlString("%s-%s", bc1, bc2)), CPUFromString(a), TARGET_ABI_DEFAULT, TARGET_DEBUG);
+	}
+	return (Target_t){};
+}

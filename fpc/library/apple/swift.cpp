@@ -129,6 +129,7 @@ void CSwiftCompiler::SetSysroot( CUtlVector<CUtlString> &cmd, SwiftProject_t *pP
 		cmd.AppendTail("--sysroot");
 		cmd.AppendTail(szSysroot);
 	}
+
 }
 
 EXPOSE_INTERFACE(CSwiftCompiler, ISwiftCompiler, SWIFT_COMPILER_INTERFACE_VERSION)

@@ -20,10 +20,13 @@ CUtlVector<CUtlString> ISwiftCompiler::BuildCommandLine( SwiftProject_t *pProjec
 	CUtlVector<CUtlString> cmd;
 
 	EnableDebugSymbols(cmd);
-	if (pProject->bFPIC)
-		EnablePIC(cmd);
-	if (pProject->bFPIE)
-		EnablePIE(cmd);
+	if (pProject->m_target.abi == TARGET_ABI_MSVC)
+	{
+		if (pProject->bFPIC)
+			EnablePIC(cmd);
+		if (pProject->bFPIE)
+			EnablePIE(cmd);
+	}
 	SetTarget(cmd, pProject);
 	SetOutputFile(cmd, szOutputFileName);
 	SetSysroot(cmd, pProject, NULL);

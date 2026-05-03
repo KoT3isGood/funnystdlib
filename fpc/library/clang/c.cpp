@@ -13,6 +13,15 @@
 #include "libgen.h"
 #include "ctype.h"
 
+#include "../config.h"
+
+COMPILER_LANGUAGE(clang, c,		"C")
+COMPILER_LANGUAGE(clang, cpp,		"C++")
+COMPILER_LANGUAGE(clang, objc,		"Objective-C")
+COMPILER_LANGUAGE(clang, objcpp,	"Objective-C++")
+COMPILER_VALUE(clang, cc, "clang", "compiler executable");
+COMPILER_VALUE(clang, sysroot, NULL, "system root, can be used for the value");
+
 struct ClangFile_t
 {
 	CUtlString m_szName;
@@ -32,7 +41,7 @@ protected:
 	virtual CUtlVector<CUtlString> BuildCommandLine( CProject_t *pProject, const char *szFileName, const char *szOutputFileName ) override;
 	
 	// Returns executable which should the OS run
-	virtual const char *GetCompilerExecutable( CProject_t *pProject ) override;
+	virtual CUtlString GetCompilerExecutable( CProject_t *pProject ) override;
 
 	// returns object file format, eg .obj or .o
 	virtual const char *GetOutputObjectFormat() override;
@@ -70,7 +79,7 @@ CUtlVector<CUtlString> CClangCompiler::BuildCommandLine( CProject_t *pProject, c
 }
 
 
-const char *CClangCompiler::GetCompilerExecutable( CProject_t *pProject )
+CUtlString CClangCompiler::GetCompilerExecutable( CProject_t *pProject )
 {
 	return "clang";
 }
@@ -137,6 +146,7 @@ void CClangCompiler::EnablePIC( CUtlVector<CUtlString> &cmd )
 }
 void CClangCompiler::SetSysroot( CUtlVector<CUtlString> &cmd, CProject_t *pProject, const char *szName )
 {
+	
 	if (szName != NULL)
 	{
 		cmd.AppendTail("--sysroot");
@@ -144,15 +154,12 @@ void CClangCompiler::SetSysroot( CUtlVector<CUtlString> &cmd, CProject_t *pProje
 		return;
 	}
 
-	if (!g_pConfig)
+	CreateInterfaceFn pLibFPCFactory = Sys_GetFactory("fpc");
+	IConfigManager *mgr = (IConfigManager*)pLibFPCFactory(CONFIG_MANAGER_INTERFACE_VERSION, NULL);
+	if (!mgr)
 		return;
 
-
-	IINISection *pSection = g_pConfig->GetSection(pProject->m_target.GetTriplet());
-	if (!pSection)
-		return;
-
-	const char *szSysroot = pSection->GetStringValue("sysroot");
+	CUtlString szSysroot = mgr->GetProperty("clang", "sysroot", pProject->m_target);
 	if (szSysroot)
 	{
 		cmd.AppendTail("--sysroot");

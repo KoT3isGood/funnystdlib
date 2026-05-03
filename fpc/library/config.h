@@ -40,6 +40,7 @@ public:
 	virtual void QueryCompilerRegistries() = 0;
 	virtual void QueryCompilerValues( const char *szName ) = 0;
 	virtual CUtlString GetProperty( const char *szCompiler, const char *szName, Target_t target) = 0;
+	virtual void QueryDefaultCompilerInterface( const char *szCompiler ) = 0;
 };
 
 
