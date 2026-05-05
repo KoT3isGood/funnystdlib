@@ -164,7 +164,7 @@ void CClangLinker::UseFullFile( CUtlVector<CUtlString> &cmd, LinkProject_t *pPro
 	case TARGET_KERNEL_DARWIN:
 	case TARGET_KERNEL_IOS:
 	case TARGET_KERNEL_IOS_SIMULATOR:
-		cmd.AppendTail("-Wl,-all_load");
+		//cmd.AppendTail("-Wl,-all_load");
 		break;
 	case TARGET_KERNEL_WINDOWS:
 		break;

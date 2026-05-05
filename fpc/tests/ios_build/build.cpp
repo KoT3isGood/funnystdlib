@@ -29,7 +29,10 @@ DECLARE_BUILD_STAGE(ios_build)
 	manifest.SetPackageName("FPC Testing facility");
 	manifest.SetPackageID("com.example.testfpc");
 	manifest.SetPackageExecutable(szOutput);
-	CUtlString szIpa = AppleTool()->BuildPackage( manifest, manifest.BuildManifest() );
+	CUtlString szManifest = manifest.BuildManifest();
+	filesystem2->CopyFile(szManifest, "app.entitlements");
+	
+	CUtlString szIpa = AppleTool()->BuildPackage( manifest, szManifest );
 
 	return 0;
 }

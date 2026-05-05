@@ -117,6 +117,11 @@ ETargetCPU cpu = TARGET_CPU_UNDEFINED;
 #endif
 #ifdef FPC_ABI
 	abi = ABIFromString(FPC_ABI);
+#else
+#if defined(__linux__)
+	abi = TARGET_ABI_GNU;
+#endif
+
 #endif
 
 
@@ -289,7 +294,7 @@ ETargetABI Target_t::ABIFromString( const char *szName )
 		return TARGET_ABI_MUSL;
 	else if ( szUtlName == "msvc" )
 		return TARGET_ABI_MSVC;
-	return TARGET_ABI_UNDEFINED;
+	return TARGET_ABI_DEFAULT;
 }
 
 

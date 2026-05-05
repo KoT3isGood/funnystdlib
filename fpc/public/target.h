@@ -119,7 +119,6 @@ struct Target_t
 		if (t.abi != abi)
 			return false;
 		return true;
-
 	}
 };
 
