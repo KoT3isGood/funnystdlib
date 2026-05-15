@@ -220,6 +220,7 @@ const char *Target_t::StringFromABI( ETargetABI abi )
 		return "musl";
 	if ( abi == TARGET_ABI_MSVC )
 		return "msvc";
+	V_printf("%i\n", abi);
 	return NULL;
 }
 
@@ -294,7 +295,7 @@ ETargetABI Target_t::ABIFromString( const char *szName )
 		return TARGET_ABI_MUSL;
 	else if ( szUtlName == "msvc" )
 		return TARGET_ABI_MSVC;
-	return TARGET_ABI_DEFAULT;
+	return Target_t::HostTarget().abi;
 }
 
 
