@@ -22,20 +22,24 @@ DECLARE_BUILD_STAGE(filesystem_std)
 	compileProject.bFPIC = true;
 	ldProject = ccompiler->Compile(&compileProject);
 
-	ldProject.linkType = ELINK_DYNAMIC_LIBRARY;
 	ldProject.libraryObjects = {
 		 GET_PROJECT_LIBRARY(tier0, "tier0"),
 	};
-	ldProject.objects.AppendTail({GET_PROJECT_LIBRARY(tier1, "tier1")});
+	ldProject.linkType = ELINK_STATIC_LIBRARY;
+	szOutputProject = linker->Link(&ldProject);
+	ADD_OUTPUT_OBJECT("libfs", szOutputProject);
 
 	if (ldProject.m_target.kernel & TARGET_KERNEL_WINDOWS_DEVICES)
 	{
 		ldProject.libraryDirectories.AppendTail("../external");
 		ldProject.libraries.AppendTail("pthread");
 	}
+	ldProject.linkType = ELINK_DYNAMIC_LIBRARY;
+	ldProject.objects.AppendTail({GET_PROJECT_LIBRARY(tier1, "tier1")});
 	szOutputProject = linker->Link(&ldProject);
 
 	ADD_OUTPUT_OBJECT("fs", szOutputProject);
+
 
 	return 0;
 };

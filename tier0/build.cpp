@@ -32,6 +32,9 @@ DECLARE_BUILD_STAGE(tier0)
 
 	ADD_OUTPUT_OBJECT("tier0", szOutputProject);
 
+	ldProject.linkType = ELINK_STATIC_LIBRARY;
+	szOutputProject = linker->Link(&ldProject);
+	ADD_OUTPUT_OBJECT("libtier0", szOutputProject);
 
 	return 0;
 };
