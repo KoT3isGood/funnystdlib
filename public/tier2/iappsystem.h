@@ -19,7 +19,7 @@ abstract_class IAppSystem2
 public:
 	virtual void Init() = 0;
 	virtual void Shutdown() = 0;
-	virtual void ConnectInterface( void *pIface, const char *szName );
+	virtual void ConnectInterface( void *pIface, const char *szName ) = 0;
 };
 
 #endif
