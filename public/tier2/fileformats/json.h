@@ -37,30 +37,6 @@ public:
 	virtual void Free() = 0;
 };
 
-abstract_class IJSONValue
-{
-public:
-	virtual EJSONParameterType GetType( void ) = 0;
-	virtual const char *GetStringValue() = 0;
-	virtual float GetNumberValue() = 0;
-	virtual bool GetBooleanValue() = 0;
-	virtual IJSONArray *GetArray() = 0;
-	virtual IJSONObject *GetObject() = 0;
-
-	virtual void MakeNULL() = 0;	
-	virtual void SetStringValue( const char *szString ) = 0;	
-	virtual void SetNumberValue( float fValue ) = 0;	
-	virtual void SetBooleanValue( bool bValue ) = 0;
-	virtual void SetArrayValue( IJSONArray *pValue ) = 0;	
-	virtual void SetObjectValue( IJSONObject *pValue ) = 0;
-
-	virtual void CopyTo( IJSONValue *pObject ) = 0;
-	virtual void Free() = 0;
-
-	virtual void SetFlag( EJSONFlag eFlag ) = 0;
-	virtual EJSONFlag GetFlag() = 0;
-};
-
 abstract_class IJSONObject
 {
 public:
@@ -74,6 +50,37 @@ public:
 	virtual void CopyTo( IJSONObject *pObject ) = 0;
 	virtual void Free() = 0;
 };
+
+abstract_class IJSONValue
+{
+public:
+	virtual EJSONParameterType GetType( void ) = 0;
+	virtual const char *GetStringValue() = 0;
+	virtual double GetNumberValue() = 0;
+	virtual bool GetBooleanValue() = 0;
+	virtual IJSONArray *GetArray() = 0;
+	virtual IJSONObject *GetObject() = 0;
+
+	virtual void MakeNULL() = 0;	
+	virtual void SetStringValue( const char *szString ) = 0;	
+	virtual void SetNumberValue( double fValue ) = 0;	
+	virtual void SetBooleanValue( bool bValue ) = 0;
+	virtual void SetArrayValue( IJSONArray *pValue ) = 0;	
+	virtual void SetObjectValue( IJSONObject *pValue ) = 0;
+
+	virtual void CopyTo( IJSONValue *pObject ) = 0;
+	virtual void Free() = 0;
+
+	virtual void SetFlag( EJSONFlag eFlag ) = 0;
+	virtual EJSONFlag GetFlag() = 0;
+
+	inline IJSONValue *operator[](const char *szName) { return GetObject()->GetValue(szName);};
+	inline IJSONValue *operator[](uint32_t idx) { return GetArray()->GetParameter(idx);};
+	inline operator const char *() { return GetStringValue(); };
+	inline operator double() { return GetNumberValue(); };
+	inline operator bool() { return GetBooleanValue(); };
+};
+
 
 abstract_class IJSONManager
 {

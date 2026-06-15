@@ -51,14 +51,14 @@ class CJSONValue: public IJSONValue
 public:
 	virtual EJSONParameterType GetType( void ) override;
 	virtual const char *GetStringValue() override;
-	virtual float GetNumberValue() override;
+	virtual double GetNumberValue() override;
 	virtual bool GetBooleanValue() override;
 	virtual IJSONArray *GetArray() override;
 	virtual IJSONObject *GetObject() override;
 
 	virtual void MakeNULL() override;	
 	virtual void SetStringValue( const char *szString ) override;	
-	virtual void SetNumberValue( float fValue ) override;	
+	virtual void SetNumberValue( double fValue ) override;
 	virtual void SetBooleanValue( bool bValue ) override;
 	virtual void SetArrayValue( IJSONArray *pValue ) override;	
 	virtual void SetObjectValue( IJSONObject *pValue ) override;
@@ -71,7 +71,7 @@ public:
 
 	EJSONParameterType m_eType = JSON_PARAMETER_NULL;
 	CUtlString m_szString;
-	float m_fValue;
+	double m_fValue;
 	bool m_bValue;
 	IJSONArray *m_pArray;
 	IJSONObject *m_pObject;
@@ -90,7 +90,7 @@ const char * CJSONValue::GetStringValue()
 	return m_szString;
 }
 
-float  CJSONValue::GetNumberValue()
+double CJSONValue::GetNumberValue()
 {
 	return m_fValue;
 }
@@ -135,7 +135,7 @@ void CJSONValue::SetStringValue( const char *szString )
 	m_szString = szString;
 }
 	
-void CJSONValue::SetNumberValue( float fValue )
+void CJSONValue::SetNumberValue( double fValue )
 {
 	MakeNULL();
 	m_eType = JSON_PARAMETER_NUMBER;
@@ -510,31 +510,34 @@ IJSONValue *CJSONManager::ParseValue( Token_t *&pToken, const Token_t *pEnding )
 		return pValue;
 	}
 	{
-		float fValue = 0;
-		bool bIsMinus = 0;
+		double fValue = 0;
+		CUtlString szValue = "";
+
 		if (pToken->m_szValue == "-")
 		{
-			bIsMinus = true;
+			NEXT_TOKEN();
+			szValue.AppendTail("-");
+		}
+		szValue.AppendTail(pToken->m_szValue);
+		NEXT_TOKEN();
+		if (pToken->m_szValue == ".")
+		{
+			szValue.AppendTail(".");
+			NEXT_TOKEN();
+			szValue.AppendTail(pToken->m_szValue);
 			NEXT_TOKEN();
 		}
-		uint64_t ullValue = 0;
-		bool bValid = false;
-		JSONReadNumber(pToken->m_szValue, &ullValue, &bValid);
-		NEXT_TOKEN();
 
-		if ( !bValid )
-		{
-			return NULL;
-		}
-		fValue = ullValue;
-
-		if ( bIsMinus )
-			fValue *= -1;
+		char *pEndptr = NULL;
+		fValue = strtod(szValue.GetString(), &pEndptr);
 
 		IJSONValue *pValue = CreateValue();
 		pValue->SetNumberValue(fValue);
 		return pValue;
 	}
+	return NULL;
+invalid_number:
+	V_printf("invalid number\n");
 	return NULL;
 eof:
 	V_printf("EOF in ParseValue\n");
