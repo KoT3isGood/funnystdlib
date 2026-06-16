@@ -90,7 +90,6 @@ DECLARE_BUILD_STAGE(libfpc)
 	compileProject.files = g_libFpcFiles;
 	compileProject.includeDirectories = g_IncludeDirectories;
 	compileProject.bFPIC = true;
-	V_printf("ABIIIII %i\n", compileProject.m_target.abi);
 	compileProject.macros = {
 		{"FPC_ARCH", CUtlString("\"%s\"",Target_t::StringFromCPU(compileProject.m_target.cpu))},
 		{"FPC_OS", CUtlString("\"%s\"",Target_t::StringFromKernel(compileProject.m_target.kernel))},

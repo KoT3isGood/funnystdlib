@@ -93,10 +93,12 @@ struct Target_t
 
 	union
 	{
+		uint32_t uAndroidVersion;
 		EWindowsCRT eWindowsCRT;
 	};
 
 	CUtlString GetTriplet();
+	CUtlString GetTripletWithVersion();
 	const char *GetExecutableFileFormat();
 	const char *GetStaticLibraryFileFormat();
 	const char *GetDynamicLibraryFileFormat();

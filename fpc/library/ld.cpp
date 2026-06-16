@@ -40,8 +40,6 @@ CUtlString ILinker::Link( LinkProject_t *pProject )
 		Plat_FatalErrorFunc("m_szName must be present\n");
 	}
 	LinkProject_t stLinkProject = *pProject;
-	if (pProject->m_target.kernel == TARGET_KERNEL_ANDROID)
-		stLinkProject.linkType = ELINK_DYNAMIC_LIBRARY;
 
 	unsigned int hash = pProject->GenerateProjectHash();
 	CUtlString szOutputFile = GetOutputObjectName(&stLinkProject, hash, NULL);

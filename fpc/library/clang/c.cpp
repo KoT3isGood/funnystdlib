@@ -81,6 +81,14 @@ CUtlVector<CUtlString> CClangCompiler::BuildCommandLine( CProject_t *pProject, c
 
 CUtlString CClangCompiler::GetCompilerExecutable( CProject_t *pProject )
 {
+	CreateInterfaceFn pLibFPCFactory = Sys_GetFactory("fpc");
+	IConfigManager *mgr = (IConfigManager*)pLibFPCFactory(CONFIG_MANAGER_INTERFACE_VERSION, NULL);
+	if (!mgr)
+		return "clang";
+
+	CUtlString szcc = mgr->GetProperty("clang", "cc", pProject->m_target);
+	if (szcc)
+		return szcc;
 	return "clang";
 }
 
@@ -113,7 +121,7 @@ void CClangCompiler::EnableDebugSymbols( CUtlVector<CUtlString> &cmd )
 void CClangCompiler::SetTarget( CUtlVector<CUtlString> &cmd, CProject_t *pProject )
 {
 	cmd.AppendTail("-target");
-	cmd.AppendTail(pProject->m_target.GetTriplet());
+	cmd.AppendTail(pProject->m_target.GetTripletWithVersion());
 	switch ( pProject->m_target.optimization )
 	{
 	case TARGET_RELEASE_SPEED:

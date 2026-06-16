@@ -29,6 +29,14 @@ CUtlString Target_t::GetTriplet()
 
 	return triplet;
 }
+CUtlString Target_t::GetTripletWithVersion()
+{
+	CUtlString szTriplet = GetTriplet();
+	if (kernel == TARGET_KERNEL_ANDROID)
+		szTriplet.AppendTail(CUtlString("%u", uAndroidVersion));
+	return szTriplet;
+
+}
 
 const char *Target_t::GetExecutableFileFormat()
 {
@@ -142,7 +150,12 @@ Target_t Target_t::DefaultTarget()
 	CUtlString szOS = CommandLine()->ParamValue("-os");
 	CUtlString szArch = CommandLine()->ParamValue("-arch");
 	CUtlString szAbi = CommandLine()->ParamValue("-abi");
+	CUtlString szVersion = CommandLine()->ParamValue("-osversion");
+	const char *szTriplet = CommandLine()->ParamValue("-target");
 	bool bRelease = CommandLine()->CheckParam("--release");
+	if (szTriplet)
+		return FromTriplet(szTriplet);
+
 
 	ETargetKernel kernel = KernelFromString(szOS);
 	ETargetCPU cpu = CPUFromString(szArch);
@@ -158,12 +171,23 @@ Target_t Target_t::DefaultTarget()
 		optimization = TARGET_RELEASE_SPEED;
 
 	
-	return {
+	Target_t t =  {
 		.kernel = kernel,
 		.cpu = cpu,
 		.abi = abi,
 		.optimization = optimization,
 	};
+	if (szVersion)
+	{
+		if (kernel == TARGET_KERNEL_ANDROID)
+		{
+			uint32_t v = 1;
+			/* bad? maybe but i don't care */
+			sscanf(szVersion.GetString(), "%u", &v);
+			t.uAndroidVersion = v;
+		}
+	}
+	return t;
 }
 const char *Target_t::StringFromCPU( ETargetCPU cpu )
 {

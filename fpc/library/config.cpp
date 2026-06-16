@@ -83,7 +83,6 @@ void CConfigManager::Init( IINIFile *cfg )
 	for ( auto &a: cfg->GetSections())
 	{
 		Target_t t = Target_t::FromTriplet(a->GetName());
-		V_printf("%s\n", t.GetTriplet().GetString());
 		for ( auto &v: a->GetValues())
 		{
 			s_propertyOverrides.AppendTail((CompilerProperty_t){v->m_szKey, NULL, v->m_szData, t});
