@@ -57,6 +57,11 @@
 #define LINUX 
 #endif
 
+#if defined(__ANDROID__)
+#define POSIX
+#define LINUX 
+#endif
+
 #if defined(__APPLE__) && defined(__MACH__)
 #include "TargetConditionals.h"
 #define POSIX
