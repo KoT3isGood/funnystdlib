@@ -168,7 +168,7 @@ void CClangCompiler::SetSysroot( CUtlVector<CUtlString> &cmd, CProject_t *pProje
 		return;
 
 	CUtlString szSysroot = mgr->GetProperty("clang", "sysroot", pProject->m_target);
-	if (szSysroot)
+	if (szSysroot != NULL)
 	{
 		cmd.AppendTail("--sysroot");
 		cmd.AppendTail(szSysroot);

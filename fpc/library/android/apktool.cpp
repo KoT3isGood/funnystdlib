@@ -48,6 +48,11 @@ void AndroidManifest_t::AddUserLibrary( CUtlString szPath )
 
 }
 
+void AndroidManifest_t::AddObject( CUtlString szUserDir )
+{
+	m_szUserDirs.AppendTail(szUserDir);
+}
+
 CUtlString AndroidManifest_t::BuildManifest()
 {
 	CPUProject_t project = {};
@@ -117,10 +122,12 @@ CUtlString CAPKTool::BuildPackage( AndroidManifest_t manifest, CUtlString szMani
 	runner->Wait();
 
 	args = {
+		"-r",
 		"-u",
 		CUtlString("%s.unaligned.apk", manifest.m_szPackageID.GetString()),
-		"lib/x86_64/libnative-app.so",
 	};
+	for ( auto &s: manifest.m_szUserDirs)
+		args.AppendTail(s);
 	runner->Run("zip",szManifestDir, args);
 	runner->Wait();
 	

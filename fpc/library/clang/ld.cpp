@@ -168,7 +168,9 @@ void CClangLinker::UseFullFile( CUtlVector<CUtlString> &cmd, LinkProject_t *pPro
 		//cmd.AppendTail("-Wl,-all_load");
 		break;
 	case TARGET_KERNEL_WINDOWS:
+		break;
 	case TARGET_KERNEL_ANDROID:
+		cmd.AppendTail("-Wl,--whole-archive");
 		break;
 	default:
 		cmd.AppendTail("-Wl,--whole-archive");
@@ -185,7 +187,9 @@ void CClangLinker::UsePartialFile( CUtlVector<CUtlString> &cmd, LinkProject_t *p
 	case TARGET_KERNEL_IOS:
 	case TARGET_KERNEL_IOS_SIMULATOR:
 	case TARGET_KERNEL_WINDOWS:
+		break;
 	case TARGET_KERNEL_ANDROID:
+		cmd.AppendTail("-Wl,--no-whole-archive");
 		break;
 	default:
 		cmd.AppendTail("-Wl,--no-whole-archive");

@@ -22,6 +22,10 @@ public:
 
 	void AddUserFeature( CUtlString szName, bool bIsRequired, uint64_t nVersion );
 	void AddUserLibrary( CUtlString szPath );
+
+	void AddObject( CUtlString szUserDir );
+
+
 	CUtlString BuildManifest();
 
 	CUtlString m_szPackageName;
@@ -31,6 +35,8 @@ public:
 
 	uint64_t m_nTargetVersion;
 	uint64_t m_nMinVersion;
+
+	CUtlVector<CUtlString> m_szUserDirs;
 };
 
 abstract_class IAPKTool
